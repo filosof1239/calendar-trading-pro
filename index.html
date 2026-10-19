@@ -679,8 +679,8 @@
         // Init
         renderCalendar();
     </script>
-    if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js')
+   if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/calendar-trading-pro/sw.js')
         .then(() => console.log('Service Worker зареєстровано'))
         .catch((err) => console.log('Помилка реєстрації SW:', err));
 }
