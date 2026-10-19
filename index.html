@@ -680,13 +680,24 @@
         renderCalendar();
     </script>
 
-    <!-- Правильна реєстрація сервіс-воркера -->
+<!-- Надійна реєстрація сервіс-воркера -->
     <script>
-     if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/calendar-trading-pro/sw.js')
-        .then(() => console.log('Service Worker зареєстровано'))
-        .catch((err) => console.log('Помилка реєстрації SW:', err));
-}
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                // Визначаємо шлях автоматично: якщо в URL є назва репозиторію, використовуємо повний шлях, інакше відносний
+                const swUrl = window.location.pathname.includes('calendar-trading-pro') 
+                    ? '/calendar-trading-pro/sw.js' 
+                    : './sw.js';
+
+                navigator.serviceWorker.register(swUrl)
+                    .then(registration => {
+                        console.log('✅ ServiceWorker успішно зареєстровано з областю:', registration.scope);
+                    })
+                    .catch(error => {
+                        console.error('❌ Помилка реєстрації ServiceWorker:', error);
+                    });
+            });
+        }
     </script>
 </body>
 </html>
