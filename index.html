@@ -118,23 +118,93 @@
             <!-- Швидке введення та бекап -->
             <div class="space-y-6">
                 <div class="bg-slate-900 border border-slate-800 p-4 sm:p-6 rounded-2xl shadow-xl">
-                    <h2 class="text-base sm:text-lg font-semibold mb-4 text-blue-400" data-i18n="recordDay">➕ Log Day</h2>
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-base sm:text-lg font-semibold text-blue-400" data-i18n="recordDay">➕ Log Day</h2>
+                        <div class="flex bg-slate-950 border border-slate-800 rounded p-0.5 text-[10px]">
+                            <button id="simpleModeBtn" type="button" class="px-2 py-0.5 rounded bg-blue-600 text-white font-medium">Simple</button>
+                            <button id="detailedModeBtn" type="button" class="px-2 py-0.5 rounded text-slate-400 font-medium hover:text-white">Detailed</button>
+                        </div>
+                    </div>
+
                     <form id="tradeForm" class="space-y-3 sm:space-y-4">
                         <div>
                             <label class="block text-xs text-slate-400 mb-1" data-i18n="date">Date</label>
                             <input type="date" id="tradeDate" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs sm:text-sm focus:outline-none focus:border-blue-500">
                         </div>
-                        <div>
-                            <label class="block text-xs text-slate-400 mb-1"><span data-i18n="netPnl">Net P&L</span> (<span class="currSymbol">$</span>)</label>
-                            <input type="number" step="0.01" id="tradePnl" placeholder="e.g. 55.78 or -15.00" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs sm:text-sm focus:outline-none focus:border-blue-500" required>
+
+                        <!-- Простий режим -->
+                        <div id="simpleFieldsContainer" class="space-y-3">
+                            <div>
+                                <label class="block text-xs text-slate-400 mb-1"><span data-i18n="netPnl">Net P&L</span> (<span class="currSymbol">$</span>)</label>
+                                <input type="number" step="0.01" id="tradePnl" placeholder="e.g. 55.78 or -15.00" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs sm:text-sm focus:outline-none focus:border-blue-500">
+                            </div>
+                            <div>
+                                <label class="block text-xs text-slate-400 mb-1" data-i18n="tradesCount">Trades Count</label>
+                                <input type="number" id="tradeCount" value="1" min="1" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs sm:text-sm focus:outline-none focus:border-blue-500">
+                            </div>
                         </div>
-                        <div>
-                            <label class="block text-xs text-slate-400 mb-1" data-i18n="tradesCount">Trades Count</label>
-                            <input type="number" id="tradeCount" value="2" min="1" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs sm:text-sm focus:outline-none focus:border-blue-500" required>
+
+                        <!-- Розширений деталізований режим -->
+                        <div id="detailedFieldsContainer" class="hidden space-y-2 border-t border-slate-800 pt-3">
+                            <div class="flex gap-2">
+                                <select id="formType" class="bg-slate-950 border border-slate-700 rounded p-1.5 text-xs text-blue-400 font-bold focus:outline-none w-1/2">
+                                    <option value="Long">Long</option>
+                                    <option value="Short">Short</option>
+                                </select>
+                                <input type="text" id="formSymbol" list="commonSymbols" value="XAUUSD" class="w-1/2 bg-slate-950 border border-slate-700 rounded p-1.5 text-xs text-slate-100 font-medium focus:outline-none" placeholder="Symbol">
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="block text-[10px] text-slate-400 mb-0.5">Lots</label>
+                                    <input type="number" step="0.01" id="formLots" value="0.01" class="w-full bg-slate-950 border border-slate-700 rounded p-1.5 text-xs text-slate-100">
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] text-slate-400 mb-0.5">Leverage</label>
+                                    <select id="formLev" class="w-full bg-slate-950 border border-slate-700 rounded p-1.5 text-xs text-slate-300">
+                                        <option value="1:1">1:1</option>
+                                        <option value="1:100">1:100</option>
+                                        <option value="1:500" selected>1:500</option>
+                                        <option value="1:1000">1:1000</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="block text-[10px] text-slate-400 mb-0.5">Open Price</label>
+                                    <input type="number" step="any" id="formOpen" class="w-full bg-slate-950 border border-slate-700 rounded p-1.5 text-xs text-slate-100">
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] text-slate-400 mb-0.5">Close Price</label>
+                                    <input type="number" step="any" id="formClose" class="w-full bg-slate-950 border border-slate-700 rounded p-1.5 text-xs text-slate-100">
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="block text-[10px] text-slate-400 mb-0.5">Stop Loss</label>
+                                    <input type="number" step="any" id="formSL" class="w-full bg-slate-950 border border-slate-700 rounded p-1.5 text-xs text-slate-100">
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] text-slate-400 mb-0.5">Take Profit</label>
+                                    <input type="number" step="any" id="formTP" class="w-full bg-slate-950 border border-slate-700 rounded p-1.5 text-xs text-slate-100">
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-3 pt-1">
+                                <label class="flex items-center gap-1.5 text-[11px] text-rose-400 font-medium cursor-pointer">
+                                    <input type="checkbox" id="formSlHit" class="rounded bg-slate-950 border-slate-700 focus:ring-0"> Closed by SL
+                                </label>
+                                <label class="flex items-center gap-1.5 text-[11px] text-emerald-400 font-medium cursor-pointer">
+                                    <input type="checkbox" id="formTpHit" class="rounded bg-slate-950 border-slate-700 focus:ring-0"> Closed by TP
+                                </label>
+                            </div>
                         </div>
+
                         <div>
                             <label class="block text-xs text-slate-400 mb-1" data-i18n="notePsychology">Note / Psychology</label>
-                            <textarea id="tradeNote" rows="3" placeholder="e.g. Followed strategy" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-xs text-white focus:outline-none focus:border-blue-500"></textarea>
+                            <textarea id="tradeNote" rows="2" placeholder="e.g. Followed strategy" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-xs text-white focus:outline-none focus:border-blue-500"></textarea>
                         </div>
                         <button type="submit" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-medium py-2.5 rounded-lg transition-colors text-xs sm:text-sm shadow-md" data-i18n="saveDay">
                             Save Day
@@ -227,7 +297,7 @@
         </div>
     </div>
 
-    <!-- Модальне вікно: Історія всіх угод (Trades History) -->
+    <!-- Модальне вікно: Історія угод -->
     <div id="tradesHistoryModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden z-50 flex items-center justify-center p-2 sm:p-4">
         <div class="bg-slate-900 border border-slate-800 w-full max-w-3xl rounded-2xl p-4 sm:p-6 shadow-2xl relative max-h-[90vh] flex flex-col">
             <button id="closeTradesHistoryModal" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl font-bold">&times;</button>
@@ -235,7 +305,7 @@
                 📜 <span data-i18n="tradesHistoryTitle">Trades History (Newest First)</span>
             </h3>
             <div id="allTradesListContainer" class="space-y-3 overflow-y-auto pr-1 flex-1">
-                <!-- Угоди генеруються динамічно -->
+                <!-- Угоди генеруються через JS -->
             </div>
         </div>
     </div>
@@ -319,7 +389,6 @@
             changeLanguage(e.target.value);
         });
 
-        // Управління валютою
         let currentCurrency = localStorage.getItem('currentCurrency') || '$';
         const currencySelect = document.getElementById('currencySelect');
         currencySelect.value = currentCurrency;
@@ -354,7 +423,53 @@
         let currentViewMode = 'month';
         let currentWeekBaseDate = new Date(2026, 9, 1);
         let activeWeekDatesList = [];
-        
+        let logFormMode = 'simple';
+
+        const simpleModeBtn = document.getElementById('simpleModeBtn');
+        const detailedModeBtn = document.getElementById('detailedModeBtn');
+        const simpleFieldsContainer = document.getElementById('simpleFieldsContainer');
+        const detailedFieldsContainer = document.getElementById('detailedFieldsContainer');
+
+        simpleModeBtn.addEventListener('click', () => {
+            logFormMode = 'simple';
+            simpleModeBtn.className = "px-2 py-0.5 rounded bg-blue-600 text-white font-medium";
+            detailedModeBtn.className = "px-2 py-0.5 rounded text-slate-400 font-medium hover:text-white";
+            simpleFieldsContainer.classList.remove('hidden');
+            detailedFieldsContainer.classList.add('hidden');
+        });
+
+        detailedModeBtn.addEventListener('click', () => {
+            logFormMode = 'detailed';
+            detailedModeBtn.className = "px-2 py-0.5 rounded bg-blue-600 text-white font-medium";
+            simpleModeBtn.className = "px-2 py-0.5 rounded text-slate-400 font-medium hover:text-white";
+            detailedFieldsContainer.classList.remove('hidden');
+            simpleFieldsContainer.classList.add('hidden');
+        });
+
+        const formTpHit = document.getElementById('formTpHit');
+        const formSlHit = document.getElementById('formSlHit');
+        const formTP = document.getElementById('formTP');
+        const formSL = document.getElementById('formSL');
+        const formClose = document.getElementById('formClose');
+
+        formTpHit.addEventListener('change', () => {
+            if (formTpHit.checked) {
+                formSlHit.checked = false;
+                if (formTP.value !== '') {
+                    formClose.value = formTP.value;
+                }
+            }
+        });
+
+        formSlHit.addEventListener('change', () => {
+            if (formSlHit.checked) {
+                formTpHit.checked = false;
+                if (formSL.value !== '') {
+                    formClose.value = formSL.value;
+                }
+            }
+        });
+
         const viewMonthBtn = document.getElementById('viewMonthBtn');
         const viewWeekBtn = document.getElementById('viewWeekBtn');
         const weekNavContainer = document.getElementById('weekNavContainer');
@@ -488,7 +603,7 @@
                 cell.innerHTML = `
                     <div class="flex items-center justify-between text-xs sm:text-sm font-medium text-slate-300 border-b border-slate-900 pb-1 mb-1">
                         <span class="font-bold text-blue-400">${weekDayName} <span class="text-slate-400 font-normal">(${day} ${monthName})</span></span>
-                        ${dayData && dayData.tradeCount ? `<span class="bg-slate-800 px-2 py-0.5 rounded text-xs text-slate-300 shrink-0">${dayData.tradeCount} trades</span>` : '<span class="text-slate-600 text-xs">0 trades</span>'}
+                        ${dayData && dayData.tradesCount ? `<span class="bg-slate-800 px-2 py-0.5 rounded text-xs text-slate-300 shrink-0">${dayData.tradesCount} trades</span>` : '<span class="text-slate-600 text-xs">0 trades</span>'}
                     </div>
                     <div class="flex items-center justify-between my-auto">
                         <span class="text-xs text-slate-400 uppercase tracking-wider">P&L:</span>
@@ -502,7 +617,7 @@
                 cell.innerHTML = `
                     <div class="flex items-center justify-between text-[11px] font-medium text-slate-300">
                         <span class="font-semibold">${day}</span>
-                        ${dayData && dayData.tradeCount ? `<span class="bg-slate-800 px-1 py-0.2 rounded text-[9px] text-slate-300 shrink-0">${dayData.tradeCount}t</span>` : ''}
+                        ${dayData && dayData.tradesCount ? `<span class="bg-slate-800 px-1 py-0.2 rounded text-[9px] text-slate-300 shrink-0">${dayData.tradesCount}t</span>` : ''}
                     </div>
                     <div class="text-center font-bold my-0.5 truncate">${pnlHtml}</div>
                     <div class="text-[9px] text-slate-400 truncate bg-slate-900/40 px-1 py-0.5 rounded">${dayData && dayData.note ? dayData.note : ''}</div>
@@ -571,8 +686,6 @@
         document.getElementById('tradeForm').addEventListener('submit', (e) => {
             e.preventDefault();
             const date = document.getElementById('tradeDate').value;
-            const pnl = parseFloat(document.getElementById('tradePnl').value);
-            const tradesCount = parseInt(document.getElementById('tradeCount').value) || 1;
             const note = document.getElementById('tradeNote').value;
 
             if (!date) return;
@@ -580,12 +693,51 @@
             const [y, m, d] = date.split('-').map(Number);
             currentWeekBaseDate = new Date(y, m - 1, d);
 
-            tradingData[date] = {
-                pnl: pnl,
-                tradesCount: tradesCount,
-                note: note,
-                trades: [{ pnl: pnl, note: note }]
-            };
+            if (logFormMode === 'simple') {
+                const pnl = parseFloat(document.getElementById('tradePnl').value) || 0;
+                const tradesCount = parseInt(document.getElementById('tradeCount').value) || 1;
+                tradingData[date] = {
+                    pnl: pnl,
+                    tradesCount: tradesCount,
+                    note: note,
+                    trades: [{ pnl: pnl, note: note }]
+                };
+            } else {
+                const type = document.getElementById('formType').value;
+                const symbol = document.getElementById('formSymbol').value || 'XAUUSD';
+                const leverage = document.getElementById('formLev').value;
+                const lots = parseFloat(document.getElementById('formLots').value) || 0.01;
+                const openPrice = parseFloat(document.getElementById('formOpen').value) || 0;
+                let closePrice = parseFloat(document.getElementById('formClose').value) || 0;
+                const stopLoss = parseFloat(document.getElementById('formSL').value) || 0;
+                const takeProfit = parseFloat(document.getElementById('formTP').value) || 0;
+                const isSlHit = document.getElementById('formSlHit').checked;
+                const isTpHit = document.getElementById('formTpHit').checked;
+
+                if (isTpHit && takeProfit > 0) closePrice = takeProfit;
+                if (isSlHit && stopLoss > 0) closePrice = stopLoss;
+
+                let pnl = 0;
+                if (openPrice > 0 && closePrice > 0) {
+                    let diff = (type === 'Long') ? (closePrice - openPrice) : (openPrice - closePrice);
+                    pnl = diff * lots * 100;
+                }
+
+                let existingDay = tradingData[date] || { pnl: 0, tradesCount: 0, note: note, trades: [] };
+                let existingTrades = existingDay.trades || [];
+                existingTrades.push({
+                    type, symbol, leverage, lots, openPrice, closePrice, stopLoss, takeProfit, isSlHit, isTpHit, comm: 0, pnl
+                });
+
+                let totalPnl = existingTrades.reduce((acc, tr) => acc + (tr.pnl || 0), 0);
+
+                tradingData[date] = {
+                    pnl: totalPnl,
+                    tradesCount: existingTrades.length,
+                    note: note || existingDay.note,
+                    trades: existingTrades
+                };
+            }
 
             localStorage.setItem('tradingData', JSON.stringify(tradingData));
             renderCalendar();
@@ -728,7 +880,7 @@
             const calcPnl = () => {
                 const l = parseFloat(row.querySelector('.modal-trade-lots').value) || 0;
                 const o = parseFloat(row.querySelector('.modal-trade-open').value) || 0;
-                const c = parseFloat(row.querySelector('.modal-trade-close').value) || 0;
+                let c = parseFloat(row.querySelector('.modal-trade-close').value) || 0;
                 const cm = parseFloat(row.querySelector('.modal-trade-comm').value) || 0;
                 const t = row.querySelector('.modal-trade-type').value;
 
@@ -740,6 +892,32 @@
                     pnlLabel.className = `text-xs font-bold modal-trade-pnl-label ${rawPnl >= 0 ? 'text-emerald-400' : 'text-rose-400'}`;
                 }
             };
+
+            const tpHitCheck = row.querySelector('.modal-trade-tp-hit');
+            const slHitCheck = row.querySelector('.modal-trade-sl-hit');
+            const closeInput = row.querySelector('.modal-trade-close');
+            const tpInput = row.querySelector('.modal-trade-tp');
+            const slInput = row.querySelector('.modal-trade-sl');
+
+            tpHitCheck.addEventListener('change', () => {
+                if (tpHitCheck.checked) {
+                    slHitCheck.checked = false;
+                    if (tpInput.value !== '') {
+                        closeInput.value = tpInput.value;
+                        calcPnl();
+                    }
+                }
+            });
+
+            slHitCheck.addEventListener('change', () => {
+                if (slHitCheck.checked) {
+                    tpHitCheck.checked = false;
+                    if (slInput.value !== '') {
+                        closeInput.value = slInput.value;
+                        calcPnl();
+                    }
+                }
+            });
 
             row.querySelectorAll('input').forEach(input => input.addEventListener('input', calcPnl));
             row.querySelector('.modal-trade-type').addEventListener('change', calcPnl);
@@ -759,13 +937,16 @@
                 const leverage = r.querySelector('.modal-trade-lev').value;
                 const lots = parseFloat(r.querySelector('.modal-trade-lots').value) || 0;
                 const openPrice = parseFloat(r.querySelector('.modal-trade-open').value) || 0;
-                const closePrice = parseFloat(r.querySelector('.modal-trade-close').value) || 0;
+                let closePrice = parseFloat(r.querySelector('.modal-trade-close').value) || 0;
                 const stopLoss = parseFloat(r.querySelector('.modal-trade-sl').value) || 0;
                 const takeProfit = parseFloat(r.querySelector('.modal-trade-tp').value) || 0;
                 const isSlHit = r.querySelector('.modal-trade-sl-hit').checked;
                 const isTpHit = r.querySelector('.modal-trade-tp-hit').checked;
                 const comm = parseFloat(r.querySelector('.modal-trade-comm').value) || 0;
-                
+
+                if (isTpHit && takeProfit > 0) closePrice = takeProfit;
+                if (isSlHit && stopLoss > 0) closePrice = stopLoss;
+
                 let p = 0;
                 if (openPrice > 0 && closePrice > 0) {
                     let diff = (type === 'Long') ? (closePrice - openPrice) : (openPrice - closePrice);
@@ -990,7 +1171,6 @@
                 }
             });
 
-            // Сортування: новіші зверху
             allTrades.sort((a, b) => new Date(b.date) - new Date(a.date));
 
             if (allTrades.length === 0) {
@@ -1037,21 +1217,6 @@
         updateCurrencySymbols();
         updateStatsLabels();
         renderCalendar();
-    </script>
-
-    <!-- Реєстрація сервіс-воркера -->
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                const swUrl = window.location.pathname.includes('calendar-trading-pro') 
-                    ? '/calendar-trading-pro/sw.js' 
-                    : './sw.js';
-
-                navigator.serviceWorker.register(swUrl)
-                    .then(registration => console.log('✅ ServiceWorker registered:', registration.scope))
-                    .catch(error => console.error('❌ ServiceWorker error:', error));
-            });
-        }
     </script>
 </body>
 </html>
