@@ -336,15 +336,14 @@
                     }
                 }
 
-                cell.innerHTML = `
-                    <div class="flex justify-between items-center text-xs text-slate-400 font-medium">
-                        <span>${day}</span>
-                        ${dayData && dayData.tradesCount ? `<span class="bg-slate-800 px-1.5 py-0.5 rounded text-[10px] text-slate-300">${dayData.tradesCount}t</span>` : ''}
-                    </div>
-                    <div class="my-auto text-center">${pnlHtml}</div>
-                    <div class="text-[9px] text-slate-500 truncate">${dayData && dayData.note ? dayData.note : ''}</div>
-                `;
-
+               cell.innerHTML = `
+  <div class="flex items-center justify-between text-[11px] font-medium text-slate-300">
+    <span class="font-semibold">${day}</span>
+    ${dayData && dayData.tradeCount ? `<span class="bg-slate-800 px-1 py-0.2 rounded text-[9px] text-slate-400 shrink-0">${dayData.tradeCount}t</span>` : ''}
+  </div>
+  <div class="text-center font-bold text-xs mt-1 truncate">${pnlHtml}</div>
+  <div class="text-[9px] text-slate-500 truncate mt-0.5">${dayData && dayData.note ? dayData.note : ''}</div>
+`;
                 cell.addEventListener('click', () => openDayModal(dateStr));
                 calendarGrid.appendChild(cell);
             }
