@@ -1,4 +1,5 @@
 {
+  "id": "/calendar-trading-pro/",
   "name": "Calendar Trading Pro",
   "short_name": "CalTradePro",
   "description": "Professional multi-language trading calendar & journal with support for 30+ languages.",
@@ -7,10 +8,11 @@
   "background_color": "#020617",
   "theme_color": "#020617",
   "orientation": "portrait",
+  "categories": ["finance", "productivity", "business"],
   "icons": [
     {
       "src": "icon-512.png.png",
-      "sizes": "512x512",
+      "sizes": "192x192 512x512",
       "type": "image/png",
       "purpose": "any maskable"
     }
