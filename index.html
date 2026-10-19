@@ -682,11 +682,11 @@
 
     <!-- Правильна реєстрація сервіс-воркера -->
     <script>
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/calendar-trading-pro/sw.js')
-                .then(() => console.log('Service Worker зареєстровано'))
-                .catch((err) => console.log('Помилка реєстрації SW:', err));
-        }
+     if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/calendar-trading-pro/sw.js')
+        .then(() => console.log('Service Worker зареєстровано'))
+        .catch((err) => console.log('Помилка реєстрації SW:', err));
+}
     </script>
 </body>
 </html>
