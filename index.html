@@ -73,6 +73,13 @@
                     <span class="text-slate-400" data-i18n="balance">Balance ($):</span>
                     <input type="number" id="startBalanceInput" value="1000" class="bg-transparent text-slate-100 font-bold w-20 text-right focus:outline-none">
                 </div>
+                
+                <!-- Перемикач режиму перегляду (Місяць / Тиждень) -->
+                <div class="flex bg-slate-900 border border-slate-700 rounded overflow-hidden">
+                    <button id="viewMonthBtn" class="px-2.5 py-1.5 text-xs font-semibold bg-blue-600 text-white transition-colors" data-i18n="viewMonth">Month</button>
+                    <button id="viewWeekBtn" class="px-2.5 py-1.5 text-xs font-semibold text-slate-400 hover:text-white transition-colors" data-i18n="viewWeek">Week</button>
+                </div>
+
                 <select id="monthSelect" class="bg-slate-900 border border-slate-700 rounded px-3 py-1.5 text-xs sm:text-sm focus:outline-none focus:border-blue-500">
                     <option value="0" data-i18n="m0">January</option>
                     <option value="1" data-i18n="m1">February</option>
@@ -131,7 +138,7 @@
                         </div>
                         <div>
                             <label class="block text-xs text-slate-400 mb-1" data-i18n="notePsychology">Note / Psychology</label>
-                           <textarea id="tradeNote" rows="3" placeholder="e.g. Followed strategy" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-xs text-white focus:outline-none focus:border-blue-500"></textarea>
+                            <textarea id="tradeNote" rows="3" placeholder="e.g. Followed strategy" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-xs text-white focus:outline-none focus:border-blue-500"></textarea>
                         </div>
                         <button type="submit" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-medium py-2.5 rounded-lg transition-colors text-xs sm:text-sm shadow-md" data-i18n="saveDay">
                             Save Day
@@ -156,11 +163,20 @@
 
             <!-- Сітка Календаря -->
             <div class="lg:col-span-2 bg-slate-900 border border-slate-800 p-3 sm:p-6 rounded-2xl shadow-xl">
+                <!-- Панель навігації для тижневого режиму (з'являється лише в режимі тижня) -->
+                <div id="weekNavContainer" class="hidden flex justify-between items-center mb-3 pb-2 border-b border-slate-800">
+                    <button id="prevWeekBtn" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs px-3 py-1.5 rounded-lg transition-colors font-medium">◀ Prev Week</button>
+                    <span id="weekRangeLabel" class="text-xs font-bold text-blue-400">Week Range</span>
+                    <button id="nextWeekBtn" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs px-3 py-1.5 rounded-lg transition-colors font-medium">Next Week ▶</button>
+                </div>
+
                 <div id="weekDaysHeader" class="grid grid-cols-7 gap-1 sm:gap-2 text-center text-[10px] sm:text-xs font-semibold text-slate-400 mb-2 pb-2 border-b border-slate-800">
                     <div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div><div>Sun</div>
                 </div>
-                <div id="calendarGrid" class="grid grid-cols-7 gap-1 sm:gap-2">
-                    <!-- Дні генеруються через JS -->
+                <div class="overflow-x-auto pb-2">
+                    <div id="calendarGrid" class="grid grid-cols-7 gap-1 sm:gap-2 min-w-[420px]">
+                        <!-- Дні генеруються через JS -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -179,7 +195,7 @@
                     </div>
                     <div>
                         <label class="block text-xs text-slate-400 mb-1" data-i18n="notePsychology">Note / Psychology</label>
-                        <input type="text" id="modalNote" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-sm focus:outline-none focus:border-blue-500" placeholder="Notes...">
+                        <textarea id="modalNote" rows="4" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-xs text-white focus:outline-none focus:border-blue-500" placeholder="Notes..."></textarea>
                     </div>
                 </div>
                 <div class="border-t border-slate-800 pt-4">
@@ -226,6 +242,7 @@
                 dayTotalPnl: "Day Total P&L ($)", tradesDetails: "Trades Details:", addTrade: "+ Add Trade",
                 saveChanges: "Save Changes", deleteDay: "Delete Day", equityCurveTitle: "📊 Equity Curve",
                 tfDays: "By Days", tfWeeks: "By Weeks", tfMonths: "By Months",
+                viewMonth: "Month", viewWeek: "Week",
                 weekDays: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
                 m0: "January", m1: "February", m2: "March", m3: "April", m4: "May", m5: "June",
                 m6: "July", m7: "August", m8: "September", m9: "October", m10: "November", m11: "December"
@@ -239,6 +256,7 @@
                 dayTotalPnl: "Загальний P&L дня ($)", tradesDetails: "Деталі угод за день:", addTrade: "+ Додати угоду",
                 saveChanges: "Зберегти зміни", deleteDay: "Видалити день", equityCurveTitle: "📊 Крива балансу (Equity Curve)",
                 tfDays: "По днях", tfWeeks: "По тижнях", tfMonths: "По місяцях",
+                viewMonth: "Місяць", viewWeek: "Тиждень",
                 weekDays: ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Нд"],
                 m0: "Січень", m1: "Лютий", m2: "Березень", m3: "Квітень", m4: "Травень", m5: "Червень",
                 m6: "Липень", m7: "Серпень", m8: "Вересень", m9: "Жовтень", m10: "Листопад", m11: "Грудень"
@@ -252,6 +270,7 @@
                 dayTotalPnl: "Tages P&L ($)", tradesDetails: "Trade-Details:", addTrade: "+ Trade hinzufügen",
                 saveChanges: "Änderungen Speichern", deleteDay: "Tag Löschen", equityCurveTitle: "📊 Equity-Kurve",
                 tfDays: "Nach Tagen", tfWeeks: "Nach Wochen", tfMonths: "Nach Monaten",
+                viewMonth: "Monat", viewWeek: "Woche",
                 weekDays: ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"],
                 m0: "Januar", m1: "Februar", m2: "März", m3: "April", m4: "Mai", m5: "Juni",
                 m6: "Juli", m7: "August", m8: "September", m9: "Oktober", m10: "November", m11: "Dezember"
@@ -294,6 +313,41 @@
         const monthSelect = document.getElementById('monthSelect');
         const yearInput = document.getElementById('yearInput');
         const calendarGrid = document.getElementById('calendarGrid');
+        
+        let currentViewMode = 'month'; // 'month' або 'week'
+        let currentWeekOffset = 0; // Зміщення тижнів для навігації
+        
+        const viewMonthBtn = document.getElementById('viewMonthBtn');
+        const viewWeekBtn = document.getElementById('viewWeekBtn');
+        const weekNavContainer = document.getElementById('weekNavContainer');
+        const weekRangeLabel = document.getElementById('weekRangeLabel');
+
+        viewMonthBtn.addEventListener('click', () => {
+            currentViewMode = 'month';
+            viewMonthBtn.className = "px-2.5 py-1.5 text-xs font-semibold bg-blue-600 text-white transition-colors";
+            viewWeekBtn.className = "px-2.5 py-1.5 text-xs font-semibold text-slate-400 hover:text-white transition-colors";
+            weekNavContainer.classList.add('hidden');
+            renderCalendar();
+        });
+
+        viewWeekBtn.addEventListener('click', () => {
+            currentViewMode = 'week';
+            currentWeekOffset = 0;
+            viewWeekBtn.className = "px-2.5 py-1.5 text-xs font-semibold bg-blue-600 text-white transition-colors";
+            viewMonthBtn.className = "px-2.5 py-1.5 text-xs font-semibold text-slate-400 hover:text-white transition-colors";
+            weekNavContainer.classList.remove('hidden');
+            renderCalendar();
+        });
+
+        document.getElementById('prevWeekBtn').addEventListener('click', () => {
+            currentWeekOffset--;
+            renderCalendar();
+        });
+
+        document.getElementById('nextWeekBtn').addEventListener('click', () => {
+            currentWeekOffset++;
+            renderCalendar();
+        });
 
         const now = new Date();
         monthSelect.value = now.getMonth();
@@ -309,45 +363,81 @@
             const firstDayIndex = (new Date(year, month, 1).getDay() + 6) % 7;
             const totalDays = new Date(year, month + 1, 0).getDate();
 
-            for (let i = 0; i < firstDayIndex; i++) {
-                const emptyCell = document.createElement('div');
-                emptyCell.className = "bg-slate-950/40 border border-slate-900 rounded-xl p-2 min-h-[80px] sm:min-h-[100px] opacity-20";
-                calendarGrid.appendChild(emptyCell);
-            }
+            if (currentViewMode === 'month') {
+                calendarGrid.className = "grid grid-cols-7 gap-1.5 sm:gap-2 min-w-[420px]";
+                for (let i = 0; i < firstDayIndex; i++) {
+                    const emptyCell = document.createElement('div');
+                    emptyCell.className = "bg-slate-950/40 border border-slate-900 rounded-xl p-2 min-h-[80px] sm:min-h-[100px] opacity-20";
+                    calendarGrid.appendChild(emptyCell);
+                }
 
-            for (let day = 1; day <= totalDays; day++) {
-                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-                const dayData = tradingData[dateStr];
-
-                const cell = document.createElement('div');
-                cell.className = "bg-slate-950 border border-slate-800/80 rounded-xl p-2 min-h-[80px] sm:min-h-[100px] flex flex-col justify-between cursor-pointer hover:border-blue-500/50 transition-all shadow-inner relative group";
+                for (let day = 1; day <= totalDays; day++) {
+                    renderDayCell(year, month, day, "min-h-[80px] sm:min-h-[100px]");
+                }
+            } else {
+                // Режим тижня: показуємо розширені великі комірки обраного тижня з можливістю гортання
+                calendarGrid.className = "grid grid-cols-1 sm:grid-cols-7 gap-3 min-w-full";
                 
-                let pnlHtml = `<span class="text-slate-600 text-[10px] sm:text-xs">-</span>`;
-                if (dayData && dayData.pnl !== undefined) {
-                    const pnlVal = parseFloat(dayData.pnl);
-                    if (pnlVal > 0) {
-                        cell.classList.add('bg-emerald-950/20', 'border-emerald-800/40');
-                        pnlHtml = `<span class="text-emerald-400 font-bold text-xs sm:text-sm">+$${pnlVal.toFixed(2)}</span>`;
-                    } else if (pnlVal < 0) {
-                        cell.classList.add('bg-rose-950/20', 'border-rose-800/40');
-                        pnlHtml = `<span class="text-rose-400 font-bold text-xs sm:text-sm">-$${Math.abs(pnlVal).toFixed(2)}</span>`;
-                    } else {
-                        pnlHtml = `<span class="text-slate-400 font-bold text-xs sm:text-sm">$0.00</span>`;
+                const todayDate = now.getDate();
+                let baseDay = (year === now.getFullYear() && month === now.getMonth()) ? todayDate : 1;
+                baseDay += (currentWeekOffset * 7);
+
+                const currDateObj = new Date(year, month, baseDay);
+                const actualYear = currDateObj.getFullYear();
+                const actualMonth = currDateObj.getMonth();
+                const actualDateNum = currDateObj.getDate();
+
+                const dayOfWeek = (currDateObj.getDay() + 6) % 7;
+                const weekStartDay = actualDateNum - dayOfWeek;
+                
+                let weekDates = [];
+                for (let i = 0; i < 7; i++) {
+                    const currentDayNum = weekStartDay + i;
+                    if (currentDayNum >= 1 && currentDayNum <= new Date(actualYear, actualMonth + 1, 0).getDate()) {
+                        weekDates.push(currentDayNum);
+                        renderDayCell(actualYear, actualMonth, currentDayNum, "min-h-[130px] sm:min-h-[160px] p-3 sm:p-4 text-sm");
                     }
                 }
 
-               cell.innerHTML = `
-  <div class="flex items-center justify-between text-[11px] font-medium text-slate-300">
-    <span class="font-semibold">${day}</span>
-    ${dayData && dayData.tradeCount ? `<span class="bg-slate-800 px-1 py-0.2 rounded text-[9px] text-slate-400 shrink-0">${dayData.tradeCount}t</span>` : ''}
-  </div>
-  <div class="text-center font-bold text-xs mt-1 truncate">${pnlHtml}</div>
-  <div class="text-[9px] text-slate-500 truncate mt-0.5">${dayData && dayData.note ? dayData.note : ''}</div>
-`;
-                cell.addEventListener('click', () => openDayModal(dateStr));
-                calendarGrid.appendChild(cell);
+                if (weekDates.length > 0) {
+                    weekRangeLabel.textContent = `${actualYear}-${String(actualMonth + 1).padStart(2, '0')}-${String(weekDates[0]).padStart(2, '0')} ➔ ${String(weekDates[weekDates.length - 1]).padStart(2, '0')}`;
+                }
             }
             updateStats();
+        }
+
+        function renderDayCell(year, month, day, heightClass) {
+            const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+            const dayData = tradingData[dateStr];
+
+            const cell = document.createElement('div');
+            cell.className = `bg-slate-950 border border-slate-800/80 rounded-xl p-2 ${heightClass} flex flex-col justify-between cursor-pointer hover:border-blue-500/50 transition-all shadow-inner relative group overflow-hidden`;
+            
+            let pnlHtml = `<span class="text-slate-600 text-[10px] sm:text-xs">-</span>`;
+            if (dayData && dayData.pnl !== undefined) {
+                const pnlVal = parseFloat(dayData.pnl);
+                if (pnlVal > 0) {
+                    cell.classList.add('bg-emerald-950/20', 'border-emerald-800/40');
+                    pnlHtml = `<span class="text-emerald-400 font-bold text-xs sm:text-lg">+$${pnlVal.toFixed(2)}</span>`;
+                } else if (pnlVal < 0) {
+                    cell.classList.add('bg-rose-950/20', 'border-rose-800/40');
+                    pnlHtml = `<span class="text-rose-400 font-bold text-xs sm:text-lg">-$${Math.abs(pnlVal).toFixed(2)}</span>`;
+                } else {
+                    pnlHtml = `<span class="text-slate-400 font-bold text-xs sm:text-lg">$0.00</span>`;
+                }
+            }
+
+            cell.innerHTML = `
+                <div class="flex items-center justify-between text-xs sm:text-sm font-medium text-slate-300">
+                    <span class="font-semibold">${day}</span>
+                    ${dayData && dayData.tradeCount ? `<span class="bg-slate-800 px-1.5 py-0.5 rounded text-[10px] sm:text-xs text-slate-300 shrink-0">${dayData.tradeCount}t</span>` : ''}
+                </div>
+                <div class="text-center font-bold my-auto truncate">${pnlHtml}</div>
+                <div class="text-[10px] sm:text-xs text-slate-500 truncate">${dayData && dayData.note ? dayData.note : ''}</div>
+            `;
+            
+            cell.addEventListener('click', () => openDayModal(dateStr));
+            calendarGrid.appendChild(cell);
         }
 
         function updateStats() {
@@ -398,8 +488,8 @@
             document.getElementById('tradeNote').value = '';
         });
 
-        monthSelect.addEventListener('change', renderCalendar);
-        yearInput.addEventListener('input', renderCalendar);
+        monthSelect.addEventListener('change', () => { currentWeekOffset = 0; renderCalendar(); });
+        yearInput.addEventListener('input', () => { currentWeekOffset = 0; renderCalendar(); });
 
         // Modal Logic
         let activeDate = null;
@@ -452,8 +542,6 @@
                             <option value="Long" ${type === 'Long' ? 'selected' : ''}>Long</option>
                             <option value="Short" ${type === 'Short' ? 'selected' : ''}>Short</option>
                         </select>
-                        
-                        <!-- Інструмент: можна вибрати зі списку або вписати свою назву -->
                         <input type="text" list="commonSymbols" class="modal-trade-symbol bg-slate-900 border border-slate-700 rounded p-1.5 text-xs text-slate-100 font-medium w-24 focus:outline-none" value="${symbol}" placeholder="Symbol">
                         <datalist id="commonSymbols">
                             <option value="XAUUSD">
@@ -463,8 +551,6 @@
                             <option value="EURUSD">
                             <option value="GBPUSD">
                         </datalist>
-
-                        <!-- Плече до 1:10000 -->
                         <select class="modal-trade-lev bg-slate-900 border border-slate-700 rounded p-1.5 text-xs text-slate-300 focus:outline-none">
                             <option value="1:1" ${leverage === '1:1' ? 'selected' : ''}>1:1</option>
                             <option value="1:10" ${leverage === '1:10' ? 'selected' : ''}>1:10</option>
@@ -679,11 +765,10 @@
         renderCalendar();
     </script>
 
-<!-- Надійна реєстрація сервіс-воркера -->
+    <!-- Надійна реєстрація сервіс-воркера -->
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                // Визначаємо шлях автоматично: якщо в URL є назва репозиторію, використовуємо повний шлях, інакше відносний
                 const swUrl = window.location.pathname.includes('calendar-trading-pro') 
                     ? '/calendar-trading-pro/sw.js' 
                     : './sw.js';
