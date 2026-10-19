@@ -173,8 +173,8 @@
                 <div id="weekDaysHeader" class="grid grid-cols-7 gap-1 sm:gap-2 text-center text-[10px] sm:text-xs font-semibold text-slate-400 mb-2 pb-2 border-b border-slate-800">
                     <div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div><div>Sun</div>
                 </div>
-                <div class="overflow-x-auto pb-2">
-                    <div id="calendarGrid" class="grid grid-cols-7 gap-1 sm:gap-2 min-w-[420px]">
+                <div id="calendarContainer" class="overflow-x-auto pb-2">
+                    <div id="calendarGrid" class="grid grid-cols-7 gap-1.5 sm:gap-2 min-w-[420px]">
                         <!-- Дні генеруються через JS -->
                     </div>
                 </div>
@@ -195,7 +195,6 @@
                     </div>
                     <div>
                         <label class="block text-xs text-slate-400 mb-1" data-i18n="notePsychology">Note / Psychology</label>
-                        <!-- Змінено на textarea з висотою 4 рядки для комфортного написання нотаток -->
                         <textarea id="modalNote" rows="4" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-xs text-white focus:outline-none focus:border-blue-500" placeholder="Notes..."></textarea>
                     </div>
                 </div>
@@ -245,6 +244,7 @@
                 tfDays: "By Days", tfWeeks: "By Weeks", tfMonths: "By Months",
                 viewMonth: "Month", viewWeek: "Week",
                 weekDays: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+                fullWeekDays: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
                 m0: "January", m1: "February", m2: "March", m3: "April", m4: "May", m5: "June",
                 m6: "July", m7: "August", m8: "September", m9: "October", m10: "November", m11: "December"
             },
@@ -259,6 +259,7 @@
                 tfDays: "По днях", tfWeeks: "По тижнях", tfMonths: "По місяцях",
                 viewMonth: "Місяць", viewWeek: "Тиждень",
                 weekDays: ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Нд"],
+                fullWeekDays: ["Понеділок", "Вівторок", "Середа", "Четвер", "П'ятниця", "Субота", "Неділя"],
                 m0: "Січень", m1: "Лютий", m2: "Березень", m3: "Квітень", m4: "Травень", m5: "Червень",
                 m6: "Липень", m7: "Серпень", m8: "Вересень", m9: "Жовтень", m10: "Листопад", m11: "Грудень"
             },
@@ -273,6 +274,7 @@
                 tfDays: "Nach Tagen", tfWeeks: "Nach Wochen", tfMonths: "Nach Monaten",
                 viewMonth: "Monat", viewWeek: "Woche",
                 weekDays: ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"],
+                fullWeekDays: ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"],
                 m0: "Januar", m1: "Februar", m2: "März", m3: "April", m4: "Mai", m5: "Juni",
                 m6: "Juli", m7: "August", m8: "September", m9: "Oktober", m10: "November", m11: "Dezember"
             }
@@ -314,6 +316,7 @@
         const monthSelect = document.getElementById('monthSelect');
         const yearInput = document.getElementById('yearInput');
         const calendarGrid = document.getElementById('calendarGrid');
+        const weekDaysHeader = document.getElementById('weekDaysHeader');
         
         let currentViewMode = 'month'; // 'month' або 'week'
         let currentWeekOffset = 0; // Зміщення тижнів для навігації
@@ -328,6 +331,7 @@
             viewMonthBtn.className = "px-2.5 py-1.5 text-xs font-semibold bg-blue-600 text-white transition-colors";
             viewWeekBtn.className = "px-2.5 py-1.5 text-xs font-semibold text-slate-400 hover:text-white transition-colors";
             weekNavContainer.classList.add('hidden');
+            weekDaysHeader.classList.remove('hidden');
             renderCalendar();
         });
 
@@ -337,6 +341,7 @@
             viewWeekBtn.className = "px-2.5 py-1.5 text-xs font-semibold bg-blue-600 text-white transition-colors";
             viewMonthBtn.className = "px-2.5 py-1.5 text-xs font-semibold text-slate-400 hover:text-white transition-colors";
             weekNavContainer.classList.remove('hidden');
+            weekDaysHeader.classList.add('hidden'); // Приховуємо стандартну шапку днів тижня в рядок
             renderCalendar();
         });
 
@@ -373,11 +378,11 @@
                 }
 
                 for (let day = 1; day <= totalDays; day++) {
-                    renderDayCell(year, month, day, "min-h-[80px] sm:min-h-[100px]");
+                    renderDayCell(year, month, day, "min-h-[80px] sm:min-h-[100px]", false);
                 }
             } else {
-                // Режим тижня: показуємо розширені великі комірки обраного тижня з можливістю гортання
-                calendarGrid.className = "grid grid-cols-1 sm:grid-cols-7 gap-3 min-w-full";
+                // Режим тижня: вертикальна колонка (дні зверху вниз, на всю ширину з великими широкими іконками)
+                calendarGrid.className = "grid grid-cols-1 gap-3 min-w-full";
                 
                 const todayDate = now.getDate();
                 let baseDay = (year === now.getFullYear() && month === now.getMonth()) ? todayDate : 1;
@@ -395,47 +400,68 @@
                 for (let i = 0; i < 7; i++) {
                     const currentDayNum = weekStartDay + i;
                     if (currentDayNum >= 1 && currentDayNum <= new Date(actualYear, actualMonth + 1, 0).getDate()) {
-                        weekDates.push(currentDayNum);
-                        renderDayCell(actualYear, actualMonth, currentDayNum, "min-h-[130px] sm:min-h-[160px] p-3 sm:p-4 text-sm");
+                        weekDates.push({ dayNum: currentDayNum, weekDayIndex: i });
+                        renderDayCell(actualYear, actualMonth, currentDayNum, "min-h-[100px] sm:min-h-[120px] p-4", true, i);
                     }
                 }
 
                 if (weekDates.length > 0) {
-                    weekRangeLabel.textContent = `${actualYear}-${String(actualMonth + 1).padStart(2, '0')}-${String(weekDates[0]).padStart(2, '0')} ➔ ${String(weekDates[weekDates.length - 1]).padStart(2, '0')}`;
+                    weekRangeLabel.textContent = `${actualYear}-${String(actualMonth + 1).padStart(2, '0')}-${String(weekDates[0].dayNum).padStart(2, '0')} ➔ ${String(weekDates[weekDates.length - 1].dayNum).padStart(2, '0')}`;
                 }
             }
             updateStats();
         }
 
-        function renderDayCell(year, month, day, heightClass) {
+        function renderDayCell(year, month, day, heightClass, isVerticalWeek = false, weekDayIndex = 0) {
             const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
             const dayData = tradingData[dateStr];
 
             const cell = document.createElement('div');
-            cell.className = `bg-slate-950 border border-slate-800/80 rounded-xl p-2 ${heightClass} flex flex-col justify-between cursor-pointer hover:border-blue-500/50 transition-all shadow-inner relative group overflow-hidden`;
+            cell.className = `bg-slate-950 border border-slate-800/80 rounded-xl p-3 ${heightClass} flex flex-col justify-between cursor-pointer hover:border-blue-500/50 transition-all shadow-inner relative group overflow-hidden`;
             
-            let pnlHtml = `<span class="text-slate-600 text-[10px] sm:text-xs">-</span>`;
+            let pnlHtml = `<span class="text-slate-600 text-xs">-</span>`;
             if (dayData && dayData.pnl !== undefined) {
                 const pnlVal = parseFloat(dayData.pnl);
                 if (pnlVal > 0) {
                     cell.classList.add('bg-emerald-950/20', 'border-emerald-800/40');
-                    pnlHtml = `<span class="text-emerald-400 font-bold text-xs sm:text-lg">+$${pnlVal.toFixed(2)}</span>`;
+                    pnlHtml = `<span class="text-emerald-400 font-bold text-sm sm:text-lg">+$${pnlVal.toFixed(2)}</span>`;
                 } else if (pnlVal < 0) {
                     cell.classList.add('bg-rose-950/20', 'border-rose-800/40');
-                    pnlHtml = `<span class="text-rose-400 font-bold text-xs sm:text-lg">-$${Math.abs(pnlVal).toFixed(2)}</span>`;
+                    pnlHtml = `<span class="text-rose-400 font-bold text-sm sm:text-lg">-$${Math.abs(pnlVal).toFixed(2)}</span>`;
                 } else {
-                    pnlHtml = `<span class="text-slate-400 font-bold text-xs sm:text-lg">$0.00</span>`;
+                    pnlHtml = `<span class="text-slate-400 font-bold text-sm sm:text-lg">$0.00</span>`;
                 }
             }
 
-            cell.innerHTML = `
-                <div class="flex items-center justify-between text-xs sm:text-sm font-medium text-slate-300">
-                    <span class="font-semibold">${day}</span>
-                    ${dayData && dayData.tradeCount ? `<span class="bg-slate-800 px-1.5 py-0.5 rounded text-[10px] sm:text-xs text-slate-300 shrink-0">${dayData.tradeCount}t</span>` : ''}
-                </div>
-                <div class="text-center font-bold my-auto truncate">${pnlHtml}</div>
-                <div class="text-[10px] sm:text-xs text-slate-500 truncate">${dayData && dayData.note ? dayData.note : ''}</div>
-            `;
+            const t = translations[currentLang] || translations.en;
+            const weekDayName = isVerticalWeek ? (t.fullWeekDays ? t.fullWeekDays[weekDayIndex] : '') : '';
+
+            if (isVerticalWeek) {
+                // Вертикальний широкий макет для тижневого режиму
+                cell.innerHTML = `
+                    <div class="flex items-center justify-between text-xs sm:text-sm font-medium text-slate-300 border-b border-slate-900 pb-1 mb-1">
+                        <span class="font-bold text-blue-400">${weekDayName} <span class="text-slate-400 font-normal">(${day} ${t.m0 ? translations[currentLang][`m${month}`] : ''})</span></span>
+                        ${dayData && dayData.tradeCount ? `<span class="bg-slate-800 px-2 py-0.5 rounded text-xs text-slate-300 shrink-0">${dayData.tradeCount} trades</span>` : '<span class="text-slate-600 text-xs">0 trades</span>'}
+                    </div>
+                    <div class="flex items-center justify-between my-auto">
+                        <span class="text-xs text-slate-400 uppercase tracking-wider">P&L:</span>
+                        <div class="font-bold text-base">${pnlHtml}</div>
+                    </div>
+                    <div class="text-xs text-slate-400 truncate mt-1 bg-slate-900/60 p-1.5 rounded border border-slate-800/50">
+                        <span class="text-slate-500 mr-1">Note:</span>${dayData && dayData.note ? dayData.note : '<span class="italic text-slate-600">No notes</span>'}
+                    </div>
+                `;
+            } else {
+                // Стандартний сітковий макет місяця
+                cell.innerHTML = `
+                    <div class="flex items-center justify-between text-xs sm:text-sm font-medium text-slate-300">
+                        <span class="font-semibold">${day}</span>
+                        ${dayData && dayData.tradeCount ? `<span class="bg-slate-800 px-1.5 py-0.5 rounded text-[10px] sm:text-xs text-slate-300 shrink-0">${dayData.tradeCount}t</span>` : ''}
+                    </div>
+                    <div class="text-center font-bold my-auto truncate">${pnlHtml}</div>
+                    <div class="text-[10px] sm:text-xs text-slate-500 truncate">${dayData && dayData.note ? dayData.note : ''}</div>
+                `;
+            }
             
             cell.addEventListener('click', () => openDayModal(dateStr));
             calendarGrid.appendChild(cell);
