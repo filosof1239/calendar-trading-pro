@@ -404,7 +404,10 @@
         monthSelect.value = now.getMonth();
         yearInput.value = now.getFullYear();
 
-        document.getElementById('tradeDate').valueAsDate = new Date();
+        document.getElementById('tradeDate.valueAsDate') = new Date();
+        // Встановлення поточного дня у форматі YYYY-MM-DD без зсуву часових поясів
+        const pad = (n) => String(n).padStart(2, '0');
+        document.getElementById('tradeDate').value = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
 
         function renderCalendar() {
             calendarGrid.innerHTML = '';
@@ -473,7 +476,6 @@
                     if (isVerticalWeek) {
                         pnlHtml = `<span class="text-emerald-400 font-bold text-sm sm:text-lg">+${pnlVal.toFixed(2)} ${currentCurrency}</span>`;
                     } else {
-                        // У місячному режимі без зайвих символів +/- та валюти, чиста зелена цифра
                         pnlHtml = `<span class="text-emerald-400 font-bold text-[11px] sm:text-xs">${pnlVal.toFixed(2)}</span>`;
                     }
                 } else if (pnlVal < 0) {
@@ -481,8 +483,7 @@
                     if (isVerticalWeek) {
                         pnlHtml = `<span class="text-rose-400 font-bold text-sm sm:text-lg">-${Math.abs(pnlVal).toFixed(2)} ${currentCurrency}</span>`;
                     } else {
-                        // У місячному режимі для мінуса залишаємо мінус та цифру червоним
-                        pnlHtml = `<span class="text-rose-400 font-bold text-[11px] sm:text-xs">-${Math.abs(pnlVal).toFixed(2)}</span>`;
+                        pnlHtml = `<span class="text-rose-400 font-bold text-[11px] sm:text-xs">${Math.abs(pnlVal).toFixed(2)}</span>`;
                     }
                 } else {
                     pnlHtml = `<span class="text-slate-400 font-bold text-[11px] sm:text-xs">0.00</span>`;
@@ -540,7 +541,7 @@
 
             document.getElementById('currentBalance').textContent = `${currentBalance.toFixed(2)} ${currentCurrency}`;
             const pnlEl = document.getElementById('totalPnl');
-            pnlEl.textContent = `${totalPnl >= 0 ? '+' : ''}${totalPnl.toFixed(2)} ${currentCurrency}`;
+            pnlEl.textContent = `${totalPnl >= 0 ? '+' : '-'}${Math.abs(totalPnl).toFixed(2)} ${currentCurrency}`;
             pnlEl.className = `text-lg sm:text-2xl font-bold mt-1 ${totalPnl > 0 ? 'text-emerald-400' : totalPnl < 0 ? 'text-rose-400' : 'text-slate-100'}`;
             
             document.getElementById('winDays').textContent = winDays;
