@@ -126,14 +126,14 @@
             </div>
         </header>
 
-        <!-- Статистика за місяць -->
+        <!-- Статистика за період -->
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4 mb-6 sm:mb-8">
             <div class="bg-slate-900 border border-slate-800 p-3 sm:p-4 rounded-xl shadow-lg text-center sm:text-left">
                 <p class="text-[10px] sm:text-xs text-slate-400 uppercase tracking-wider" data-i18n="currBalance">Current Balance</p>
                 <p id="currentBalance" class="text-lg sm:text-2xl font-bold mt-1 text-blue-400">1000.00</p>
             </div>
             <div class="bg-slate-900 border border-slate-800 p-3 sm:p-4 rounded-xl shadow-lg text-center sm:text-left">
-                <p class="text-[10px] sm:text-xs text-slate-400 uppercase tracking-wider" data-i18n="totalPnl">Total P&L</p>
+                <p class="text-[10px] sm:text-xs text-slate-400 uppercase tracking-wider" id="pnlLabelTitle">Total P&L</p>
                 <p id="totalPnl" class="text-lg sm:text-2xl font-bold mt-1 text-slate-100">0.00</p>
             </div>
             <div class="bg-slate-900 border border-slate-800 p-3 sm:p-4 rounded-xl shadow-lg text-center sm:text-left">
@@ -141,7 +141,7 @@
                 <p class="text-lg sm:text-2xl font-bold mt-1"><span id="winDays" class="text-emerald-400">0</span> / <span id="lossDays" class="text-rose-400">0</span></p>
             </div>
             <div class="bg-slate-900 border border-slate-800 p-3 sm:p-4 rounded-xl shadow-lg text-center sm:text-left">
-                <p class="text-[10px] sm:text-xs text-slate-400 uppercase tracking-wider" data-i18n="winRateDays">Winrate Days</p>
+                <p class="text-[10px] sm:text-xs text-slate-400 uppercase tracking-wider" id="winRateLabelTitle">Winrate Days</p>
                 <p id="winRate" class="text-lg sm:text-2xl font-bold mt-1 text-blue-400">0%</p>
             </div>
         </div>
@@ -263,7 +263,8 @@
         const translations = {
             en: {
                 title: "Calendar Trading Pro", equityCurve: "Equity Curve", balance: "Balance",
-                currBalance: "Current Balance", totalPnl: "Total P&L", winLossDays: "Green / Red Days", winRateDays: "Winrate Days",
+                currBalance: "Current Balance", totalPnl: "Total P&L", monthPnl: "Month P&L", weekPnl: "Week P&L",
+                winLossDays: "Green / Red Days", winRateDays: "Winrate Days", winRateMonth: "Winrate Month", winRateWeek: "Winrate Week",
                 recordDay: "➕ Log Day", date: "Date", netPnl: "Net P&L", tradesCount: "Trades Count",
                 notePsychology: "Note / Psychology", saveDay: "Save Day", syncBackup: "💾 Sync / Backup",
                 exportBackup: "📥 Save Backup File", importBackup: "📤 Restore from File",
@@ -278,7 +279,8 @@
             },
             uk: {
                 title: "Calendar Trading Pro", equityCurve: "Крива балансу", balance: "Баланс",
-                currBalance: "Поточний баланс", totalPnl: "Загальний P&L", winLossDays: "Зел / Черв дні", winRateDays: "Вінрейт днів",
+                currBalance: "Поточний баланс", totalPnl: "Загальний P&L", monthPnl: "P&L місяця", weekPnl: "P&L тижня",
+                winLossDays: "Зел / Черв дні", winRateDays: "Вінрейт днів", winRateMonth: "Вінрейт місяця", winRateWeek: "Вінрейт тижня",
                 recordDay: "➕ Записати день", date: "Дата", netPnl: "Чистий P&L", tradesCount: "Кількість угод",
                 notePsychology: "Нотатка / Психологія", saveDay: "Зберегти день", syncBackup: "💾 Синхронізація / Бекап",
                 exportBackup: "📥 Зберегти файл бекапу", importBackup: "📤 Відновити з файлу",
@@ -293,7 +295,8 @@
             },
             de: {
                 title: "Calendar Trading Pro", equityCurve: "Equity-Kurve", balance: "Kontostand",
-                currBalance: "Aktuelles Guthaben", totalPnl: "Gesamt P&L", winLossDays: "Grüne / Rote Tage", winRateDays: "Trefferquote",
+                currBalance: "Aktuelles Guthaben", totalPnl: "Gesamt P&L", monthPnl: "Monat P&L", weekPnl: "Woche P&L",
+                winLossDays: "Grüne / Rote Tage", winRateDays: "Trefferquote", winRateMonth: "Trefferquote Monat", winRateWeek: "Trefferquote Woche",
                 recordDay: "➕ Tag eintragen", date: "Datum", netPnl: "Netto P&L", tradesCount: "Anzahl Trades",
                 notePsychology: "Notiz / Psychologie", saveDay: "Tag Speichern", syncBackup: "💾 Sync / Backup",
                 exportBackup: "📥 Backup Speichern", importBackup: "📤 Wiederherstellen",
@@ -324,6 +327,7 @@
             const wd = t.weekDays || translations.en.weekDays;
             const headers = document.querySelectorAll('#weekDaysHeader div');
             headers.forEach((div, i) => { if (wd[i]) div.textContent = wd[i]; });
+            updateStatsLabels();
             renderCalendar();
         }
 
@@ -364,7 +368,8 @@
         const weekDaysHeader = document.getElementById('weekDaysHeader');
         
         let currentViewMode = 'month'; // 'month' або 'week'
-        let currentWeekOffset = 0; // Зміщення тижнів для навігації
+        let currentWeekBaseDate = new Date(2026, 9, 1);
+        let activeWeekDatesList = []; // Зберігає дати поточного відображуваного тижня
         
         const viewMonthBtn = document.getElementById('viewMonthBtn');
         const viewWeekBtn = document.getElementById('viewWeekBtn');
@@ -377,26 +382,27 @@
             viewWeekBtn.className = "px-2.5 py-1.5 text-xs font-semibold text-slate-400 hover:text-white transition-colors";
             weekNavContainer.classList.add('hidden');
             weekDaysHeader.classList.remove('hidden');
+            updateStatsLabels();
             renderCalendar();
         });
 
         viewWeekBtn.addEventListener('click', () => {
             currentViewMode = 'week';
-            currentWeekOffset = 0;
             viewWeekBtn.className = "px-2.5 py-1.5 text-xs font-semibold bg-blue-600 text-white transition-colors";
             viewMonthBtn.className = "px-2.5 py-1.5 text-xs font-semibold text-slate-400 hover:text-white transition-colors";
             weekNavContainer.classList.remove('hidden');
             weekDaysHeader.classList.add('hidden');
+            updateStatsLabels();
             renderCalendar();
         });
 
         document.getElementById('prevWeekBtn').addEventListener('click', () => {
-            currentWeekOffset--;
+            currentWeekBaseDate.setDate(currentWeekBaseDate.getDate() - 7);
             renderCalendar();
         });
 
         document.getElementById('nextWeekBtn').addEventListener('click', () => {
-            currentWeekOffset++;
+            currentWeekBaseDate.setDate(currentWeekBaseDate.getDate() + 7);
             renderCalendar();
         });
 
@@ -406,6 +412,17 @@
 
         const pad = (n) => String(n).padStart(2, '0');
         document.getElementById('tradeDate').value = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+
+        function updateStatsLabels() {
+            const t = translations[currentLang] || translations.en;
+            if (currentViewMode === 'month') {
+                document.getElementById('pnlLabelTitle').textContent = t.monthPnl || "Month P&L";
+                document.getElementById('winRateLabelTitle').textContent = t.winRateMonth || "Winrate Month";
+            } else {
+                document.getElementById('pnlLabelTitle').textContent = t.weekPnl || "Week P&L";
+                document.getElementById('winRateLabelTitle').textContent = t.winRateWeek || "Winrate Week";
+            }
+        }
 
         function renderCalendar() {
             calendarGrid.innerHTML = '';
@@ -427,39 +444,30 @@
                     renderDayCell(year, month, day, "min-h-[75px] sm:min-h-[90px]", false);
                 }
             } else {
-                // Режим тижня: вертикальна колонка на всю ширину
                 calendarGrid.className = "grid grid-cols-1 gap-3 min-w-full";
                 
-                const todayDate = now.getDate();
-                let baseDay = (year === now.getFullYear() && month === now.getMonth()) ? todayDate : 1;
-                baseDay += (currentWeekOffset * 7);
-
-                const currDateObj = new Date(year, month, baseDay);
-                const actualYear = currDateObj.getFullYear();
-                const actualMonth = currDateObj.getMonth();
-                const actualDateNum = currDateObj.getDate();
-
+                const currDateObj = new Date(currentWeekBaseDate);
                 const dayOfWeek = (currDateObj.getDay() + 6) % 7;
-                const weekStartDay = actualDateNum - dayOfWeek;
+                const weekStartTimestamp = currDateObj.getTime() - (dayOfWeek * 24 * 60 * 60 * 1000);
                 
-                let weekDates = [];
+                activeWeekDatesList = [];
                 for (let i = 0; i < 7; i++) {
-                    const currentDayNum = weekStartDay + i;
-                    if (currentDayNum >= 1 && currentDayNum <= new Date(actualYear, actualMonth + 1, 0).getDate()) {
-                        weekDates.push({ dayNum: currentDayNum, weekDayIndex: i });
-                        renderDayCell(actualYear, actualMonth, currentDayNum, "min-h-[100px] sm:min-h-[120px] p-4", true, i);
-                    }
+                    const d = new Date(weekStartTimestamp + (i * 24 * 60 * 60 * 1000));
+                    activeWeekDatesList.push(d);
+                    renderDayCell(d.getFullYear(), d.getMonth(), d.getDate(), "min-h-[100px] sm:min-h-[120px] p-4", true, i);
                 }
 
-                if (weekDates.length > 0) {
-                    weekRangeLabel.textContent = `${actualYear}-${String(actualMonth + 1).padStart(2, '0')}-${String(weekDates[0].dayNum).padStart(2, '0')} ➔ ${String(weekDates[weekDates.length - 1].dayNum).padStart(2, '0')}`;
+                if (activeWeekDatesList.length > 0) {
+                    const startD = activeWeekDatesList[0];
+                    const endD = activeWeekDatesList[6];
+                    weekRangeLabel.textContent = `${startD.getFullYear()}-${pad(startD.getMonth() + 1)}-${pad(startD.getDate())} ➔ ${endD.getFullYear()}-${pad(endD.getMonth() + 1)}-${pad(endD.getDate())}`;
                 }
             }
             updateStats();
         }
 
         function renderDayCell(year, month, day, heightClass, isVerticalWeek = false, weekDayIndex = 0) {
-            const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+            const dateStr = `${year}-${pad(month + 1)}-${pad(day)}`;
             const dayData = tradingData[dateStr];
 
             const cell = document.createElement('div');
@@ -492,9 +500,10 @@
             const weekDayName = isVerticalWeek ? (t.fullWeekDays ? t.fullWeekDays[weekDayIndex] : '') : '';
 
             if (isVerticalWeek) {
+                const monthName = t.m0 ? translations[currentLang][`m${month}`] : '';
                 cell.innerHTML = `
                     <div class="flex items-center justify-between text-xs sm:text-sm font-medium text-slate-300 border-b border-slate-900 pb-1 mb-1">
-                        <span class="font-bold text-blue-400">${weekDayName} <span class="text-slate-400 font-normal">(${day} ${t.m0 ? translations[currentLang][`m${month}`] : ''})</span></span>
+                        <span class="font-bold text-blue-400">${weekDayName} <span class="text-slate-400 font-normal">(${day} ${monthName})</span></span>
                         ${dayData && dayData.tradeCount ? `<span class="bg-slate-800 px-2 py-0.5 rounded text-xs text-slate-300 shrink-0">${dayData.tradeCount} trades</span>` : '<span class="text-slate-600 text-xs">0 trades</span>'}
                     </div>
                     <div class="flex items-center justify-between my-auto">
@@ -506,7 +515,6 @@
                     </div>
                 `;
             } else {
-                // Компактний місячний макет
                 cell.innerHTML = `
                     <div class="flex items-center justify-between text-[11px] font-medium text-slate-300">
                         <span class="font-semibold">${day}</span>
@@ -517,7 +525,10 @@
                 `;
             }
             
-            cell.addEventListener('click', () => openDayModal(dateStr));
+            cell.addEventListener('click', () => {
+                currentWeekBaseDate = new Date(year, month, day);
+                openDayModal(dateStr);
+            });
             calendarGrid.appendChild(cell);
         }
 
@@ -526,14 +537,43 @@
             let winDays = 0;
             let lossDays = 0;
 
-            Object.values(tradingData).forEach(d => {
-                const val = parseFloat(d.pnl) || 0;
-                totalPnl += val;
-                if (val > 0) winDays++;
-                else if (val < 0) lossDays++;
-            });
+            const year = parseInt(yearInput.value);
+            const month = parseInt(monthSelect.value);
 
-            const currentBalance = startBalance + totalPnl;
+            if (currentViewMode === 'month') {
+                // Статистика за вибраний місяць
+                const totalDaysInMonth = new Date(year, month + 1, 0).getDate();
+                for (let d = 1; d <= totalDaysInMonth; d++) {
+                    const dateStr = `${year}-${pad(month + 1)}-${pad(d)}`;
+                    const dayData = tradingData[dateStr];
+                    if (dayData && dayData.pnl !== undefined && dayData.pnl !== '') {
+                        const val = parseFloat(dayData.pnl) || 0;
+                        totalPnl += val;
+                        if (val > 0) winDays++;
+                        else if (val < 0) lossDays++;
+                    }
+                }
+            } else {
+                // Статистика за поточний тиждень
+                activeWeekDatesList.forEach(d => {
+                    const dateStr = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+                    const dayData = tradingData[dateStr];
+                    if (dayData && dayData.pnl !== undefined && dayData.pnl !== '') {
+                        const val = parseFloat(dayData.pnl) || 0;
+                        totalPnl += val;
+                        if (val > 0) winDays++;
+                        else if (val < 0) lossDays++;
+                    }
+                });
+            }
+
+            // Розрахунок загального балансу по всій базі угод для правильного відображення в балансі
+            let globalTotalPnl = 0;
+            Object.values(tradingData).forEach(d => {
+                globalTotalPnl += parseFloat(d.pnl) || 0;
+            });
+            const currentBalance = startBalance + globalTotalPnl;
+
             const totalLogged = winDays + lossDays;
             const winRate = totalLogged > 0 ? Math.round((winDays / totalLogged) * 100) : 0;
 
@@ -556,6 +596,9 @@
 
             if (!date) return;
 
+            const [y, m, d] = date.split('-').map(Number);
+            currentWeekBaseDate = new Date(y, m - 1, d);
+
             tradingData[date] = {
                 pnl: pnl,
                 tradesCount: tradesCount,
@@ -569,8 +612,14 @@
             document.getElementById('tradeNote').value = '';
         });
 
-        monthSelect.addEventListener('change', () => { currentWeekOffset = 0; renderCalendar(); });
-        yearInput.addEventListener('input', () => { currentWeekOffset = 0; renderCalendar(); });
+        monthSelect.addEventListener('change', () => { 
+            currentWeekBaseDate = new Date(parseInt(yearInput.value), parseInt(monthSelect.value), 1);
+            renderCalendar(); 
+        });
+        yearInput.addEventListener('input', () => { 
+            currentWeekBaseDate = new Date(parseInt(yearInput.value), parseInt(monthSelect.value), 1);
+            renderCalendar(); 
+        });
 
         // Modal Logic
         let activeDate = null;
@@ -581,6 +630,9 @@
 
         function openDayModal(dateStr) {
             activeDate = dateStr;
+            const [y, m, d] = dateStr.split('-').map(Number);
+            currentWeekBaseDate = new Date(y, m - 1, d);
+
             document.getElementById('modalTitle').textContent = `Edit Day: ${dateStr}`;
             const data = tradingData[dateStr] || { pnl: '', note: '', trades: [] };
             modalPnl.value = data.pnl !== undefined ? data.pnl : '';
@@ -844,6 +896,7 @@
 
         // Init
         updateCurrencySymbols();
+        updateStatsLabels();
         renderCalendar();
     </script>
 
