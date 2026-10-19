@@ -22,6 +22,34 @@
                 📈 <span data-i18n="title">Calendar Trading Pro</span>
             </h1>
             <div class="flex flex-wrap gap-2 sm:gap-4 items-center justify-center">
+                <!-- Вибір валюти / крипти -->
+                <select id="currencySelect" class="bg-slate-900 border border-slate-700 rounded px-2.5 py-1.5 text-xs sm:text-sm focus:outline-none focus:border-blue-500 text-emerald-400 font-medium">
+                    <optgroup label="Fiat Currencies">
+                        <option value="$" selected>USD ($)</option>
+                        <option value="€">EUR (€)</option>
+                        <option value="£">GBP (£)</option>
+                        <option value="¥">JPY (¥)</option>
+                        <option value="₣">CHF (₣)</option>
+                        <option value="A$">AUD (A$)</option>
+                        <option value="C$">CAD (C$)</option>
+                        <option value="CN¥">CNY (CN¥)</option>
+                        <option value="kr">SEK (kr)</option>
+                        <option value="NZ$">NZD (NZ$)</option>
+                    </optgroup>
+                    <optgroup label="Cryptocurrencies">
+                        <option value="USDT">USDT</option>
+                        <option value="BTC">BTC</option>
+                        <option value="ETH">ETH</option>
+                        <option value="SOL">SOL</option>
+                        <option value="BNB">BNB</option>
+                        <option value="XRP">XRP</option>
+                        <option value="ADA">ADA</option>
+                        <option value="DOGE">DOGE</option>
+                        <option value="AVAX">AVAX</option>
+                        <option value="DOT">DOT</option>
+                    </optgroup>
+                </select>
+
                 <!-- Вибір європейських мов -->
                 <select id="langSelect" class="bg-slate-900 border border-slate-700 rounded px-2.5 py-1.5 text-xs sm:text-sm focus:outline-none focus:border-blue-500 text-blue-400 font-medium max-h-48 overflow-y-auto">
                     <option value="en" selected>English (English)</option>
@@ -70,7 +98,7 @@
                     📊 <span data-i18n="equityCurve">Equity Curve</span>
                 </button>
                 <div class="flex items-center gap-1 bg-slate-900 border border-slate-700 rounded px-2.5 py-1 text-xs sm:text-sm">
-                    <span class="text-slate-400" data-i18n="balance">Balance ($):</span>
+                    <span class="text-slate-400"><span data-i18n="balance">Balance</span> (<span class="currSymbol">$</span>):</span>
                     <input type="number" id="startBalanceInput" value="1000" class="bg-transparent text-slate-100 font-bold w-20 text-right focus:outline-none">
                 </div>
                 
@@ -102,11 +130,11 @@
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4 mb-6 sm:mb-8">
             <div class="bg-slate-900 border border-slate-800 p-3 sm:p-4 rounded-xl shadow-lg text-center sm:text-left">
                 <p class="text-[10px] sm:text-xs text-slate-400 uppercase tracking-wider" data-i18n="currBalance">Current Balance</p>
-                <p id="currentBalance" class="text-lg sm:text-2xl font-bold mt-1 text-blue-400">$1000.00</p>
+                <p id="currentBalance" class="text-lg sm:text-2xl font-bold mt-1 text-blue-400">1000.00</p>
             </div>
             <div class="bg-slate-900 border border-slate-800 p-3 sm:p-4 rounded-xl shadow-lg text-center sm:text-left">
                 <p class="text-[10px] sm:text-xs text-slate-400 uppercase tracking-wider" data-i18n="totalPnl">Total P&L</p>
-                <p id="totalPnl" class="text-lg sm:text-2xl font-bold mt-1 text-slate-100">$0.00</p>
+                <p id="totalPnl" class="text-lg sm:text-2xl font-bold mt-1 text-slate-100">0.00</p>
             </div>
             <div class="bg-slate-900 border border-slate-800 p-3 sm:p-4 rounded-xl shadow-lg text-center sm:text-left">
                 <p class="text-[10px] sm:text-xs text-slate-400 uppercase tracking-wider" data-i18n="winLossDays">Green / Red Days</p>
@@ -129,7 +157,7 @@
                             <input type="date" id="tradeDate" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs sm:text-sm focus:outline-none focus:border-blue-500">
                         </div>
                         <div>
-                            <label class="block text-xs text-slate-400 mb-1" data-i18n="netPnl">Net P&L ($)</label>
+                            <label class="block text-xs text-slate-400 mb-1"><span data-i18n="netPnl">Net P&L</span> (<span class="currSymbol">$</span>)</label>
                             <input type="number" step="0.01" id="tradePnl" placeholder="e.g. 55.78 or -15.00" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs sm:text-sm focus:outline-none focus:border-blue-500" required>
                         </div>
                         <div>
@@ -190,7 +218,7 @@
             <div class="space-y-4">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-xs text-slate-400 mb-1" data-i18n="dayTotalPnl">Day Total P&L ($)</label>
+                        <label class="block text-xs text-slate-400 mb-1"><span data-i18n="dayTotalPnl">Day Total P&L</span> (<span class="currSymbol">$</span>)</label>
                         <input type="number" step="0.01" id="modalPnl" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-sm focus:outline-none focus:border-blue-500">
                     </div>
                     <div>
@@ -234,12 +262,12 @@
     <script>
         const translations = {
             en: {
-                title: "Calendar Trading Pro", equityCurve: "Equity Curve", balance: "Balance ($):",
+                title: "Calendar Trading Pro", equityCurve: "Equity Curve", balance: "Balance",
                 currBalance: "Current Balance", totalPnl: "Total P&L", winLossDays: "Green / Red Days", winRateDays: "Winrate Days",
-                recordDay: "➕ Log Day", date: "Date", netPnl: "Net P&L ($)", tradesCount: "Trades Count",
+                recordDay: "➕ Log Day", date: "Date", netPnl: "Net P&L", tradesCount: "Trades Count",
                 notePsychology: "Note / Psychology", saveDay: "Save Day", syncBackup: "💾 Sync / Backup",
                 exportBackup: "📥 Save Backup File", importBackup: "📤 Restore from File",
-                dayTotalPnl: "Day Total P&L ($)", tradesDetails: "Trades Details:", addTrade: "+ Add Trade",
+                dayTotalPnl: "Day Total P&L", tradesDetails: "Trades Details:", addTrade: "+ Add Trade",
                 saveChanges: "Save Changes", deleteDay: "Delete Day", equityCurveTitle: "📊 Equity Curve",
                 tfDays: "By Days", tfWeeks: "By Weeks", tfMonths: "By Months",
                 viewMonth: "Month", viewWeek: "Week",
@@ -249,12 +277,12 @@
                 m6: "July", m7: "August", m8: "September", m9: "October", m10: "November", m11: "December"
             },
             uk: {
-                title: "Calendar Trading Pro", equityCurve: "Крива балансу", balance: "Баланс ($):",
+                title: "Calendar Trading Pro", equityCurve: "Крива балансу", balance: "Баланс",
                 currBalance: "Поточний баланс", totalPnl: "Загальний P&L", winLossDays: "Зел / Черв дні", winRateDays: "Вінрейт днів",
-                recordDay: "➕ Записати день", date: "Дата", netPnl: "Чистий P&L ($)", tradesCount: "Кількість угод",
+                recordDay: "➕ Записати день", date: "Дата", netPnl: "Чистий P&L", tradesCount: "Кількість угод",
                 notePsychology: "Нотатка / Психологія", saveDay: "Зберегти день", syncBackup: "💾 Синхронізація / Бекап",
                 exportBackup: "📥 Зберегти файл бекапу", importBackup: "📤 Відновити з файлу",
-                dayTotalPnl: "Загальний P&L дня ($)", tradesDetails: "Деталі угод за день:", addTrade: "+ Додати угоду",
+                dayTotalPnl: "Загальний P&L дня", tradesDetails: "Деталі угод за день:", addTrade: "+ Додати угоду",
                 saveChanges: "Зберегти зміни", deleteDay: "Видалити день", equityCurveTitle: "📊 Крива балансу (Equity Curve)",
                 tfDays: "По днях", tfWeeks: "По тижнях", tfMonths: "По місяцях",
                 viewMonth: "Місяць", viewWeek: "Тиждень",
@@ -264,12 +292,12 @@
                 m6: "Липень", m7: "Серпень", m8: "Вересень", m9: "Жовтень", m10: "Листопад", m11: "Грудень"
             },
             de: {
-                title: "Calendar Trading Pro", equityCurve: "Equity-Kurve", balance: "Kontostand ($):",
+                title: "Calendar Trading Pro", equityCurve: "Equity-Kurve", balance: "Kontostand",
                 currBalance: "Aktuelles Guthaben", totalPnl: "Gesamt P&L", winLossDays: "Grüne / Rote Tage", winRateDays: "Trefferquote",
-                recordDay: "➕ Tag eintragen", date: "Datum", netPnl: "Netto P&L ($)", tradesCount: "Anzahl Trades",
+                recordDay: "➕ Tag eintragen", date: "Datum", netPnl: "Netto P&L", tradesCount: "Anzahl Trades",
                 notePsychology: "Notiz / Psychologie", saveDay: "Tag Speichern", syncBackup: "💾 Sync / Backup",
                 exportBackup: "📥 Backup Speichern", importBackup: "📤 Wiederherstellen",
-                dayTotalPnl: "Tages P&L ($)", tradesDetails: "Trade-Details:", addTrade: "+ Trade hinzufügen",
+                dayTotalPnl: "Tages P&L", tradesDetails: "Trade-Details:", addTrade: "+ Trade hinzufügen",
                 saveChanges: "Änderungen Speichern", deleteDay: "Tag Löschen", equityCurveTitle: "📊 Equity-Kurve",
                 tfDays: "Nach Tagen", tfWeeks: "Nach Wochen", tfMonths: "Nach Monaten",
                 viewMonth: "Monat", viewWeek: "Woche",
@@ -302,6 +330,23 @@
         document.getElementById('langSelect').addEventListener('change', (e) => {
             changeLanguage(e.target.value);
         });
+
+        // Управління валютою / криптою
+        let currentCurrency = localStorage.getItem('currentCurrency') || '$';
+        const currencySelect = document.getElementById('currencySelect');
+        currencySelect.value = currentCurrency;
+
+        function updateCurrencySymbols() {
+            currentCurrency = currencySelect.value;
+            localStorage.setItem('currentCurrency', currentCurrency);
+            document.querySelectorAll('.currSymbol').forEach(el => {
+                el.textContent = currentCurrency;
+            });
+            updateStats();
+            renderCalendar();
+        }
+
+        currencySelect.addEventListener('change', updateCurrencySymbols);
 
         let tradingData = JSON.parse(localStorage.getItem('tradingData') || '{}');
         let startBalance = parseFloat(localStorage.getItem('startBalance') || '1000');
@@ -421,16 +466,26 @@
             cell.className = `bg-slate-950 border border-slate-800/80 rounded-xl p-1.5 sm:p-2 ${baseHeight} flex flex-col justify-between cursor-pointer hover:border-blue-500/50 transition-all shadow-inner relative group overflow-hidden`;
             
             let pnlHtml = `<span class="text-slate-600 text-[10px]">-</span>`;
-            if (dayData && dayData.pnl !== undefined) {
+            if (dayData && dayData.pnl !== undefined && dayData.pnl !== '') {
                 const pnlVal = parseFloat(dayData.pnl);
                 if (pnlVal > 0) {
                     cell.classList.add('bg-emerald-950/20', 'border-emerald-800/40');
-                    pnlHtml = `<span class="text-emerald-400 font-bold text-[11px] sm:text-xs">+$${pnlVal.toFixed(2)}</span>`;
+                    if (isVerticalWeek) {
+                        pnlHtml = `<span class="text-emerald-400 font-bold text-sm sm:text-lg">+${pnlVal.toFixed(2)} ${currentCurrency}</span>`;
+                    } else {
+                        // У місячному режимі без зайвих символів +/- та валюти, чиста зелена цифра
+                        pnlHtml = `<span class="text-emerald-400 font-bold text-[11px] sm:text-xs">${pnlVal.toFixed(2)}</span>`;
+                    }
                 } else if (pnlVal < 0) {
                     cell.classList.add('bg-rose-950/20', 'border-rose-800/40');
-                    pnlHtml = `<span class="text-rose-400 font-bold text-[11px] sm:text-xs">-$${Math.abs(pnlVal).toFixed(2)}</span>`;
+                    if (isVerticalWeek) {
+                        pnlHtml = `<span class="text-rose-400 font-bold text-sm sm:text-lg">-${Math.abs(pnlVal).toFixed(2)} ${currentCurrency}</span>`;
+                    } else {
+                        // У місячному режимі для мінуса залишаємо мінус та цифру червоним
+                        pnlHtml = `<span class="text-rose-400 font-bold text-[11px] sm:text-xs">-${Math.abs(pnlVal).toFixed(2)}</span>`;
+                    }
                 } else {
-                    pnlHtml = `<span class="text-slate-400 font-bold text-[11px] sm:text-xs">$0.00</span>`;
+                    pnlHtml = `<span class="text-slate-400 font-bold text-[11px] sm:text-xs">0.00</span>`;
                 }
             }
 
@@ -452,7 +507,7 @@
                     </div>
                 `;
             } else {
-                // Компактний оптимізований місячний макет з меншим шрифтом та акуратним розподілом простору
+                // Компактний місячний макет
                 cell.innerHTML = `
                     <div class="flex items-center justify-between text-[11px] font-medium text-slate-300">
                         <span class="font-semibold">${day}</span>
@@ -483,9 +538,9 @@
             const totalLogged = winDays + lossDays;
             const winRate = totalLogged > 0 ? Math.round((winDays / totalLogged) * 100) : 0;
 
-            document.getElementById('currentBalance').textContent = `$${currentBalance.toFixed(2)}`;
+            document.getElementById('currentBalance').textContent = `${currentBalance.toFixed(2)} ${currentCurrency}`;
             const pnlEl = document.getElementById('totalPnl');
-            pnlEl.textContent = `${totalPnl >= 0 ? '+' : ''}$${totalPnl.toFixed(2)}`;
+            pnlEl.textContent = `${totalPnl >= 0 ? '+' : ''}${totalPnl.toFixed(2)} ${currentCurrency}`;
             pnlEl.className = `text-lg sm:text-2xl font-bold mt-1 ${totalPnl > 0 ? 'text-emerald-400' : totalPnl < 0 ? 'text-rose-400' : 'text-slate-100'}`;
             
             document.getElementById('winDays').textContent = winDays;
@@ -592,7 +647,7 @@
                         </select>
                     </div>
                     <div class="flex items-center gap-2">
-                        <span class="text-xs font-bold modal-trade-pnl-label ${parseFloat(pnl) >= 0 ? 'text-emerald-400' : 'text-rose-400'}">P&L: ${parseFloat(pnl) >= 0 ? '+' : ''}$${parseFloat(pnl).toFixed(2)}</span>
+                        <span class="text-xs font-bold modal-trade-pnl-label ${parseFloat(pnl) >= 0 ? 'text-emerald-400' : 'text-rose-400'}">P&L: ${parseFloat(pnl) >= 0 ? '+' : ''}${parseFloat(pnl).toFixed(2)} ${currentCurrency}</span>
                         <button type="button" class="text-rose-400 hover:text-rose-300 font-bold px-1.5 text-sm remove-row-btn">&times;</button>
                     </div>
                 </div>
@@ -627,7 +682,7 @@
                     let diff = (t === 'Long') ? (c - o) : (o - c);
                     let rawPnl = diff * l * 100 - cm; 
                     const pnlLabel = row.querySelector('.modal-trade-pnl-label');
-                    pnlLabel.textContent = `P&L: ${rawPnl >= 0 ? '+' : ''}$${rawPnl.toFixed(2)}`;
+                    pnlLabel.textContent = `P&L: ${rawPnl >= 0 ? '+' : ''}${rawPnl.toFixed(2)} ${currentCurrency}`;
                     pnlLabel.className = `text-xs font-bold modal-trade-pnl-label ${rawPnl >= 0 ? 'text-emerald-400' : 'text-rose-400'}`;
                 }
             };
@@ -767,7 +822,7 @@
                 data: {
                     labels: labels.length > 0 ? labels : ['Start'],
                     datasets: [{
-                        label: 'Equity ($)',
+                        label: `Equity (${currentCurrency})`,
                         data: dataPoints.length > 0 ? dataPoints : [startBalance],
                         borderColor: '#3b82f6',
                         backgroundColor: 'rgba(59, 130, 246, 0.1)',
@@ -789,6 +844,7 @@
         }
 
         // Init
+        updateCurrencySymbols();
         renderCalendar();
     </script>
 
