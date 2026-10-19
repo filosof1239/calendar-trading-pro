@@ -351,9 +351,240 @@
             updateStats();
         }
 
+        function updateStats() {
+            let totalPnl = 0;
+            let winDays = 0;
+            let lossDays = 0;
+
+            Object.values(tradingData).forEach(d => {
+                const val = parseFloat(d.pnl) || 0;
+                totalPnl += val;
+                if (val > 0) winDays++;
+                else if (val < 0) lossDays++;
+            });
+
+            const currentBalance = startBalance + totalPnl;
+            const totalLogged = winDays + lossDays;
+            const winRate = totalLogged > 0 ? Math.round((winDays / totalLogged) * 100) : 0;
+
+            document.getElementById('currentBalance').textContent = `$${currentBalance.toFixed(2)}`;
+            const pnlEl = document.getElementById('totalPnl');
+            pnlEl.textContent = `${totalPnl >= 0 ? '+' : ''}$${totalPnl.toFixed(2)}`;
+            pnlEl.className = `text-lg sm:text-2xl font-bold mt-1 ${totalPnl > 0 ? 'text-emerald-400' : totalPnl < 0 ? 'text-rose-400' : 'text-slate-100'}`;
+            
+            document.getElementById('winDays').textContent = winDays;
+            document.getElementById('lossDays').textContent = lossDays;
+            document.getElementById('winRate').textContent = `${winRate}%`;
+        }
+
         document.getElementById('tradeForm').addEventListener('submit', (e) => {
             e.preventDefault();
             const date = document.getElementById('tradeDate').value;
             const pnl = parseFloat(document.getElementById('tradePnl').value);
             const tradesCount = parseInt(document.getElementById('tradeCount').value) || 1;
-            const note =
+            const note = document.getElementById('tradeNote').value;
+
+            if (!date) return;
+
+            tradingData[date] = {
+                pnl: pnl,
+                tradesCount: tradesCount,
+                note: note,
+                trades: [{ pnl: pnl, note: note }]
+            };
+
+            localStorage.setItem('tradingData', JSON.stringify(tradingData));
+            renderCalendar();
+            document.getElementById('tradePnl').value = '';
+            document.getElementById('tradeNote').value = '';
+        });
+
+        monthSelect.addEventListener('change', renderCalendar);
+        yearInput.addEventListener('input', renderCalendar);
+
+        // Modal Logic
+        let activeDate = null;
+        const dayModal = document.getElementById('dayModal');
+        const modalPnl = document.getElementById('modalPnl');
+        const modalNote = document.getElementById('modalNote');
+        const tradesListContainer = document.getElementById('tradesListContainer');
+
+        function openDayModal(dateStr) {
+            activeDate = dateStr;
+            document.getElementById('modalTitle').textContent = `Date: ${dateStr}`;
+            const data = tradingData[dateStr] || { pnl: '', note: '', trades: [] };
+            modalPnl.value = data.pnl !== undefined ? data.pnl : '';
+            modalNote.value = data.note || '';
+            
+            tradesListContainer.innerHTML = '';
+            if (data.trades && data.trades.length > 0) {
+                data.trades.forEach((tr, index) => {
+                    addTradeItemRow(tr.pnl, tr.note);
+                });
+            }
+            dayModal.classList.remove('hidden');
+        }
+
+        document.getElementById('closeModal').addEventListener('click', () => {
+            dayModal.classList.add('hidden');
+        });
+
+        document.getElementById('addTradeItemBtn').addEventListener('click', () => {
+            addTradeItemRow('', '');
+        });
+
+        function addTradeItemRow(pnlVal, noteVal) {
+            const row = document.createElement('div');
+            row.className = "flex gap-2 items-center bg-slate-950 p-2 rounded-lg border border-slate-800 trade-row";
+            row.innerHTML = `
+                <input type="number" step="0.01" placeholder="P&L" class="modal-trade-pnl bg-slate-900 border border-slate-700 rounded p-1.5 text-xs w-28 text-slate-100" value="${pnlVal !== undefined ? pnlVal : ''}">
+                <input type="text" placeholder="Trade note" class="modal-trade-note bg-slate-900 border border-slate-700 rounded p-1.5 text-xs flex-1 text-slate-100" value="${noteVal || ''}">
+                <button type="button" class="text-rose-400 hover:text-rose-300 font-bold px-2 text-sm remove-row-btn">&times;</button>
+            `;
+            row.querySelector('.remove-row-btn').addEventListener('click', () => row.remove());
+            tradesListContainer.appendChild(row);
+        }
+
+        document.getElementById('saveModalBtn').addEventListener('click', () => {
+            if (!activeDate) return;
+            const rows = tradesListContainer.querySelectorAll('.trade-row');
+            let trades = [];
+            let totalPnl = 0;
+
+            rows.forEach(r => {
+                const p = parseFloat(r.querySelector('.modal-trade-pnl').value) || 0;
+                const n = r.querySelector('.modal-trade-note').value;
+                trades.push({ pnl: p, note: n });
+                totalPnl += p;
+            });
+
+            if (rows.length === 0) {
+                totalPnl = parseFloat(modalPnl.value) || 0;
+            }
+
+            tradingData[activeDate] = {
+                pnl: totalPnl,
+                tradesCount: trades.length > 0 ? trades.length : (tradingData[activeDate]?.tradesCount || 1),
+                note: modalNote.value,
+                trades: trades
+            };
+
+            localStorage.setItem('tradingData', JSON.stringify(tradingData));
+            dayModal.classList.add('hidden');
+            renderCalendar();
+        });
+
+        document.getElementById('deleteDayBtn').addEventListener('click', () => {
+            if (!activeDate) return;
+            delete tradingData[activeDate];
+            localStorage.setItem('tradingData', JSON.stringify(tradingData));
+            dayModal.classList.add('hidden');
+            renderCalendar();
+        });
+
+        // Backup / Export / Import
+        document.getElementById('exportBtn').addEventListener('click', () => {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(tradingData));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", "calendar_trading_backup.json");
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+        });
+
+        document.getElementById('importBtn').addEventListener('click', () => {
+            document.getElementById('importFile').click();
+        });
+
+        document.getElementById('importFile').addEventListener('change', (e) => {
+            const fileReader = new FileReader();
+            if (e.target.files[0]) {
+                fileReader.readAsText(e.target.files[0], "UTF-8");
+                fileReader.onload = (event) => {
+                    try {
+                        tradingData = JSON.parse(event.target.result);
+                        localStorage.setItem('tradingData', JSON.stringify(tradingData));
+                        renderCalendar();
+                        alert("Backup restored successfully!");
+                    } catch (err) {
+                        alert("Invalid backup file!");
+                    }
+                };
+            }
+        });
+
+        // Chart Modal logic
+        const chartModal = document.getElementById('chartModal');
+        let equityChartInstance = null;
+
+        document.getElementById('openChartBtn').addEventListener('click', () => {
+            chartModal.classList.remove('hidden');
+            renderEquityChart('days');
+        });
+
+        document.getElementById('closeChartModal').addEventListener('click', () => {
+            chartModal.classList.add('hidden');
+        });
+
+        document.querySelectorAll('.tf-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.tf-btn').forEach(b => {
+                    b.classList.remove('bg-blue-600', 'text-white');
+                    b.classList.add('text-slate-400');
+                });
+                e.target.classList.add('bg-blue-600', 'text-white');
+                e.target.classList.remove('text-slate-400');
+                renderEquityChart(e.target.getAttribute('data-tf'));
+            });
+        });
+
+        function renderEquityChart(timeframe) {
+            const ctx = document.getElementById('equityChart').getContext('2d');
+            const sortedDates = Object.keys(tradingData).sort((a, b) => new Date(a) - new Date(b));
+            
+            let labels = [];
+            let dataPoints = [];
+            let currentEquity = startBalance;
+
+            sortedDates.forEach(dateStr => {
+                currentEquity += parseFloat(tradingData[dateStr].pnl || 0);
+                labels.push(dateStr);
+                dataPoints.push(currentEquity);
+            });
+
+            if (equityChartInstance) {
+                equityChartInstance.destroy();
+            }
+
+            equityChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels.length > 0 ? labels : ['Start'],
+                    datasets: [{
+                        label: 'Equity ($)',
+                        data: dataPoints.length > 0 ? dataPoints : [startBalance],
+                        borderColor: '#3b82f6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { grid: { color: '#1e293b' }, ticks: { color: '#94a3b8' } },
+                        y: { grid: { color: '#1e293b' }, ticks: { color: '#94a3b8' } }
+                    }
+                }
+            });
+        }
+
+        // Init
+        renderCalendar();
+    </script>
+</body>
+</html>
