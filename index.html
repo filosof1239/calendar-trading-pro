@@ -163,7 +163,7 @@
 
             <!-- Сітка Календаря -->
             <div class="lg:col-span-2 bg-slate-900 border border-slate-800 p-3 sm:p-6 rounded-2xl shadow-xl">
-                <!-- Панель навігації для тижневого режиму (з'являється лише в режимі тижня) -->
+                <!-- Панель навігації для тижневого режиму -->
                 <div id="weekNavContainer" class="hidden flex justify-between items-center mb-3 pb-2 border-b border-slate-800">
                     <button id="prevWeekBtn" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs px-3 py-1.5 rounded-lg transition-colors font-medium">◀ Prev Week</button>
                     <span id="weekRangeLabel" class="text-xs font-bold text-blue-400">Week Range</span>
@@ -195,6 +195,7 @@
                     </div>
                     <div>
                         <label class="block text-xs text-slate-400 mb-1" data-i18n="notePsychology">Note / Psychology</label>
+                        <!-- Змінено на textarea з висотою 4 рядки для комфортного написання нотаток -->
                         <textarea id="modalNote" rows="4" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-xs text-white focus:outline-none focus:border-blue-500" placeholder="Notes..."></textarea>
                     </div>
                 </div>
