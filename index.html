@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -8,7 +8,7 @@
     <title>Calendar Trading Pro</title>
     <!-- Підключення Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Підключення бібліотеки Chart.js -->
+    <!-- Підключення бібліотеки Chart.js для побудови графіків -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Підключення маніфесту -->
     <link rel="manifest" href="manifest.json">
@@ -22,12 +22,48 @@
                 📈 <span data-i18n="title">Calendar Trading Pro</span>
             </h1>
             <div class="flex flex-wrap gap-2 sm:gap-4 items-center justify-center">
-                <!-- Вибір мов -->
-                <select id="langSelect" class="bg-slate-900 border border-slate-700 rounded px-2.5 py-1.5 text-xs sm:text-sm focus:outline-none focus:border-blue-500 text-blue-400 font-medium">
-                    <option value="en">English</option>
-                    <option value="uk" selected>Українська</option>
-                    <option value="de">Deutsch</option>
-                    <option value="fr">Français</option>
+                <!-- Вибір європейських мов -->
+                <select id="langSelect" class="bg-slate-900 border border-slate-700 rounded px-2.5 py-1.5 text-xs sm:text-sm focus:outline-none focus:border-blue-500 text-blue-400 font-medium max-h-48 overflow-y-auto">
+                    <option value="en" selected>English (English)</option>
+                    <option value="uk">Українська (Ukrainian)</option>
+                    <option value="sq">Shqip (Albanian)</option>
+                    <option value="hy">Հայերեն (Armenian)</option>
+                    <option value="az">Azərbaycan (Azerbaijani)</option>
+                    <option value="eu">Euskara (Basque)</option>
+                    <option value="be">Беларуская (Belarusian)</option>
+                    <option value="bs">Bosanski (Bosnian)</option>
+                    <option value="bg">Български (Bulgarian)</option>
+                    <option value="hr">Hrvatski (Croatian)</option>
+                    <option value="cs">Čeština (Czech)</option>
+                    <option value="da">Dansk (Danish)</option>
+                    <option value="nl">Nederlands (Dutch)</option>
+                    <option value="et">Eesti (Estonian)</option>
+                    <option value="fi">Suomi (Finnish)</option>
+                    <option value="fr">Français (French)</option>
+                    <option value="ka">ქართული (Georgian)</option>
+                    <option value="de">Deutsch (German)</option>
+                    <option value="el">Ελληνικά (Greek)</option>
+                    <option value="hu">Magyar (Hungarian)</option>
+                    <option value="is">Íslenska (Icelandic)</option>
+                    <option value="ga">Gaeilge (Irish)</option>
+                    <option value="it">Italiano (Italian)</option>
+                    <option value="lv">Latviešu (Latvian)</option>
+                    <option value="lt">Lietuvių (Lithuanian)</option>
+                    <option value="lb">Lëtzebuergesch (Luxembourgish)</option>
+                    <option value="mk">Македонски (Macedonian)</option>
+                    <option value="mt">Malti (Maltese)</option>
+                    <option value="no">Norsk (Norwegian)</option>
+                    <option value="pl">Polski (Polish)</option>
+                    <option value="pt">Português (Portuguese)</option>
+                    <option value="ro">Română (Romanian)</option>
+                    <option value="ru">Русский (Russian)</option>
+                    <option value="sr">Српски (Serbian)</option>
+                    <option value="sk">Slovenčina (Slovak)</option>
+                    <option value="sl">Slovenščina (Slovenian)</option>
+                    <option value="es">Español (Spanish)</option>
+                    <option value="sv">Svenska (Swedish)</option>
+                    <option value="tr">Türkçe (Turkish)</option>
+                    <option value="cy">Cymraeg (Welsh)</option>
                 </select>
 
                 <button id="openChartBtn" class="bg-blue-600/30 hover:bg-blue-600/50 text-blue-300 border border-blue-500/50 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-colors flex items-center gap-1.5">
@@ -38,18 +74,18 @@
                     <input type="number" id="startBalanceInput" value="1000" class="bg-transparent text-slate-100 font-bold w-20 text-right focus:outline-none">
                 </div>
                 <select id="monthSelect" class="bg-slate-900 border border-slate-700 rounded px-3 py-1.5 text-xs sm:text-sm focus:outline-none focus:border-blue-500">
-                    <option value="0">January</option>
-                    <option value="1">February</option>
-                    <option value="2">March</option>
-                    <option value="3">April</option>
-                    <option value="4">May</option>
-                    <option value="5">June</option>
-                    <option value="6">July</option>
-                    <option value="7">August</option>
-                    <option value="8">September</option>
-                    <option value="9" selected>October</option>
-                    <option value="10">November</option>
-                    <option value="11">December</option>
+                    <option value="0" data-i18n="m0">January</option>
+                    <option value="1" data-i18n="m1">February</option>
+                    <option value="2" data-i18n="m2">March</option>
+                    <option value="3" data-i18n="m3">April</option>
+                    <option value="4" data-i18n="m4">May</option>
+                    <option value="5" data-i18n="m5">June</option>
+                    <option value="6" data-i18n="m6">July</option>
+                    <option value="7" data-i18n="m7">August</option>
+                    <option value="8" data-i18n="m8">September</option>
+                    <option value="9" selected data-i18n="m9">October</option>
+                    <option value="10" data-i18n="m10">November</option>
+                    <option value="11" data-i18n="m11">December</option>
                 </select>
                 <input type="number" id="yearInput" value="2026" class="bg-slate-900 border border-slate-700 rounded px-3 py-1.5 text-xs sm:text-sm w-20 text-center focus:outline-none focus:border-blue-500">
             </div>
@@ -57,26 +93,26 @@
 
         <!-- Статистика за місяць -->
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4 mb-6 sm:mb-8">
-            <div class="bg-slate-900 border border-slate-800 p-3 sm:p-4 rounded-xl shadow-lg">
+            <div class="bg-slate-900 border border-slate-800 p-3 sm:p-4 rounded-xl shadow-lg text-center sm:text-left">
                 <p class="text-[10px] sm:text-xs text-slate-400 uppercase tracking-wider" data-i18n="currBalance">Current Balance</p>
                 <p id="currentBalance" class="text-lg sm:text-2xl font-bold mt-1 text-blue-400">$1000.00</p>
             </div>
-            <div class="bg-slate-900 border border-slate-800 p-3 sm:p-4 rounded-xl shadow-lg">
+            <div class="bg-slate-900 border border-slate-800 p-3 sm:p-4 rounded-xl shadow-lg text-center sm:text-left">
                 <p class="text-[10px] sm:text-xs text-slate-400 uppercase tracking-wider" data-i18n="totalPnl">Total P&L</p>
                 <p id="totalPnl" class="text-lg sm:text-2xl font-bold mt-1 text-slate-100">$0.00</p>
             </div>
-            <div class="bg-slate-900 border border-slate-800 p-3 sm:p-4 rounded-xl shadow-lg">
+            <div class="bg-slate-900 border border-slate-800 p-3 sm:p-4 rounded-xl shadow-lg text-center sm:text-left">
                 <p class="text-[10px] sm:text-xs text-slate-400 uppercase tracking-wider" data-i18n="winLossDays">Green / Red Days</p>
                 <p class="text-lg sm:text-2xl font-bold mt-1"><span id="winDays" class="text-emerald-400">0</span> / <span id="lossDays" class="text-rose-400">0</span></p>
             </div>
-            <div class="bg-slate-900 border border-slate-800 p-3 sm:p-4 rounded-xl shadow-lg">
+            <div class="bg-slate-900 border border-slate-800 p-3 sm:p-4 rounded-xl shadow-lg text-center sm:text-left">
                 <p class="text-[10px] sm:text-xs text-slate-400 uppercase tracking-wider" data-i18n="winRateDays">Winrate Days</p>
                 <p id="winRate" class="text-lg sm:text-2xl font-bold mt-1 text-blue-400">0%</p>
             </div>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
-            <!-- Форма -->
+            <!-- Швидке введення та бекап -->
             <div class="space-y-6">
                 <div class="bg-slate-900 border border-slate-800 p-4 sm:p-6 rounded-2xl shadow-xl">
                     <h2 class="text-base sm:text-lg font-semibold mb-4 text-blue-400" data-i18n="recordDay">➕ Log Day</h2>
@@ -87,7 +123,7 @@
                         </div>
                         <div>
                             <label class="block text-xs text-slate-400 mb-1" data-i18n="netPnl">Net P&L ($)</label>
-                            <input type="number" step="0.01" id="tradePnl" placeholder="e.g. 55.78" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs sm:text-sm focus:outline-none focus:border-blue-500" required>
+                            <input type="number" step="0.01" id="tradePnl" placeholder="e.g. 55.78 or -15.00" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs sm:text-sm focus:outline-none focus:border-blue-500" required>
                         </div>
                         <div>
                             <label class="block text-xs text-slate-400 mb-1" data-i18n="tradesCount">Trades Count</label>
@@ -103,28 +139,34 @@
                     </form>
                 </div>
 
-                <!-- Бекап -->
+                <!-- Блок управління бекапом -->
                 <div class="bg-slate-900 border border-slate-800 p-4 sm:p-6 rounded-2xl shadow-xl">
                     <h2 class="text-sm font-semibold mb-3 text-slate-300" data-i18n="syncBackup">💾 Sync / Backup</h2>
                     <div class="space-y-2">
-                        <button id="exportBtn" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium py-2 rounded-lg transition-colors text-xs border border-slate-700" data-i18n="exportBackup">📥 Save Backup File</button>
-                        <button id="importBtn" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium py-2 rounded-lg transition-colors text-xs border border-slate-700" data-i18n="importBackup">📤 Restore from File</button>
+                        <button id="exportBtn" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium py-2 rounded-lg transition-colors text-xs border border-slate-700" data-i18n="exportBackup">
+                            📥 Save Backup File
+                        </button>
+                        <button id="importBtn" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium py-2 rounded-lg transition-colors text-xs border border-slate-700" data-i18n="importBackup">
+                            📤 Restore from File
+                        </button>
                         <input type="file" id="importFile" accept=".json" class="hidden">
                     </div>
                 </div>
             </div>
 
-            <!-- Календар -->
+            <!-- Сітка Календаря -->
             <div class="lg:col-span-2 bg-slate-900 border border-slate-800 p-3 sm:p-6 rounded-2xl shadow-xl">
                 <div id="weekDaysHeader" class="grid grid-cols-7 gap-1 sm:gap-2 text-center text-[10px] sm:text-xs font-semibold text-slate-400 mb-2 pb-2 border-b border-slate-800">
                     <div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div><div>Sun</div>
                 </div>
-                <div id="calendarGrid" class="grid grid-cols-7 gap-1 sm:gap-2"></div>
+                <div id="calendarGrid" class="grid grid-cols-7 gap-1 sm:gap-2">
+                    <!-- Дні генеруються через JS -->
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Модалка редагування дня -->
+    <!-- Модальне вікно редагування дня -->
     <div id="dayModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden z-50 flex items-center justify-center p-2 sm:p-4">
         <div class="bg-slate-900 border border-slate-800 w-full max-w-2xl rounded-2xl p-4 sm:p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
             <button id="closeModal" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl font-bold">&times;</button>
@@ -137,29 +179,36 @@
                     </div>
                     <div>
                         <label class="block text-xs text-slate-400 mb-1" data-i18n="notePsychology">Note / Psychology</label>
-                        <input type="text" id="modalNote" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-sm focus:outline-none focus:border-blue-500">
+                        <input type="text" id="modalNote" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-sm focus:outline-none focus:border-blue-500" placeholder="Notes...">
                     </div>
                 </div>
                 <div class="border-t border-slate-800 pt-4">
                     <div class="flex justify-between items-center mb-3">
                         <span class="text-xs font-semibold text-slate-300 uppercase tracking-wider" data-i18n="tradesDetails">Trades Details:</span>
-                        <button type="button" id="addTradeItemBtn" class="bg-blue-600/30 hover:bg-blue-600/50 text-blue-300 text-xs px-3 py-1.5 rounded-lg transition-colors font-medium">+ Add Trade</button>
+                        <button type="button" id="addTradeItemBtn" class="bg-blue-600/30 hover:bg-blue-600/50 text-blue-300 text-xs px-3 py-1.5 rounded-lg transition-colors font-medium" data-i18n="addTrade">+ Add Trade</button>
                     </div>
                     <div id="tradesListContainer" class="space-y-3 max-h-60 overflow-y-auto pr-1"></div>
                 </div>
                 <div class="flex gap-3 pt-2">
-                    <button id="saveModalBtn" class="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-medium py-2.5 rounded-lg transition-colors text-sm shadow-md">Save Changes</button>
-                    <button id="deleteDayBtn" class="bg-rose-950/50 hover:bg-rose-900/60 border border-rose-700/50 text-rose-300 px-4 py-2.5 rounded-lg transition-colors text-sm">Delete Day</button>
+                    <button id="saveModalBtn" class="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-medium py-2.5 rounded-lg transition-colors text-sm shadow-md" data-i18n="saveChanges">Save Changes</button>
+                    <button id="deleteDayBtn" class="bg-rose-950/50 hover:bg-rose-900/60 border border-rose-700/50 text-rose-300 px-4 py-2.5 rounded-lg transition-colors text-sm" data-i18n="deleteDay">Delete Day</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Модалка графіку -->
+    <!-- Модальне вікно: Крива балансу (Equity Curve) -->
     <div id="chartModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden z-50 flex items-center justify-center p-2 sm:p-4">
-        <div class="bg-slate-900 border border-slate-800 w-full max-w-3xl rounded-2xl p-4 sm:p-6 shadow-2xl relative">
+        <div class="bg-slate-900 border border-slate-800 w-full max-w-3xl rounded-2xl p-4 sm:p-6 shadow-2xl relative max-h-[95vh] overflow-y-auto">
             <button id="closeChartModal" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl font-bold">&times;</button>
-            <h3 class="text-base sm:text-lg font-bold text-blue-400 mb-4" data-i18n="equityCurveTitle">📊 Equity Curve</h3>
+            <div class="flex flex-col sm:flex-row justify-between items-center mb-4 gap-3">
+                <h3 class="text-base sm:text-lg font-bold text-blue-400" data-i18n="equityCurveTitle">📊 Equity Curve</h3>
+                <div class="flex gap-1.5 bg-slate-950 p-1 rounded-xl border border-slate-800">
+                    <button data-tf="days" class="tf-btn px-3 py-1 text-xs rounded-lg font-medium bg-blue-600 text-white transition-colors" data-i18n="tfDays">By Days</button>
+                    <button data-tf="weeks" class="tf-btn px-3 py-1 text-xs rounded-lg font-medium text-slate-400 hover:text-white transition-colors" data-i18n="tfWeeks">By Weeks</button>
+                    <button data-tf="months" class="tf-btn px-3 py-1 text-xs rounded-lg font-medium text-slate-400 hover:text-white transition-colors" data-i18n="tfMonths">By Months</button>
+                </div>
+            </div>
             <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 relative h-72 sm:h-80">
                 <canvas id="equityChart"></canvas>
             </div>
@@ -167,8 +216,352 @@
     </div>
 
     <script>
-        // Базова логіка журналу залишається незмінною, додаток повністю готовий до роботи
-        // (Тут зберігається стандартний скрипт календаря та розрахунків)
+        const translations = {
+            en: {
+                title: "Calendar Trading Pro", equityCurve: "Equity Curve", balance: "Balance ($):",
+                currBalance: "Current Balance", totalPnl: "Total P&L", winLossDays: "Green / Red Days", winRateDays: "Winrate Days",
+                recordDay: "➕ Log Day", date: "Date", netPnl: "Net P&L ($)", tradesCount: "Trades Count",
+                notePsychology: "Note / Psychology", saveDay: "Save Day", syncBackup: "💾 Sync / Backup",
+                exportBackup: "📥 Save Backup File", importBackup: "📤 Restore from File",
+                dayTotalPnl: "Day Total P&L ($)", tradesDetails: "Trades Details:", addTrade: "+ Add Trade",
+                saveChanges: "Save Changes", deleteDay: "Delete Day", equityCurveTitle: "📊 Equity Curve",
+                tfDays: "By Days", tfWeeks: "By Weeks", tfMonths: "By Months",
+                weekDays: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+                m0: "January", m1: "February", m2: "March", m3: "April", m4: "May", m5: "June",
+                m6: "July", m7: "August", m8: "September", m9: "October", m10: "November", m11: "December"
+            },
+            uk: {
+                title: "Calendar Trading Pro", equityCurve: "Крива балансу", balance: "Баланс ($):",
+                currBalance: "Поточний баланс", totalPnl: "Загальний P&L", winLossDays: "Зел / Черв дні", winRateDays: "Вінрейт днів",
+                recordDay: "➕ Записати день", date: "Дата", netPnl: "Чистий P&L ($)", tradesCount: "Кількість угод",
+                notePsychology: "Нотатка / Психологія", saveDay: "Зберегти день", syncBackup: "💾 Синхронізація / Бекап",
+                exportBackup: "📥 Зберегти файл бекапу", importBackup: "📤 Відновити з файлу",
+                dayTotalPnl: "Загальний P&L дня ($)", tradesDetails: "Деталі угод за день:", addTrade: "+ Додати угоду",
+                saveChanges: "Зберегти зміни", deleteDay: "Видалити день", equityCurveTitle: "📊 Крива балансу (Equity Curve)",
+                tfDays: "По днях", tfWeeks: "По тижнях", tfMonths: "По місяцях",
+                weekDays: ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Нд"],
+                m0: "Січень", m1: "Лютий", m2: "Березень", m3: "Квітень", m4: "Травень", m5: "Червень",
+                m6: "Липень", m7: "Серпень", m8: "Вересень", m9: "Жовтень", m10: "Листопад", m11: "Грудень"
+            },
+            de: {
+                title: "Calendar Trading Pro", equityCurve: "Equity-Kurve", balance: "Kontostand ($):",
+                currBalance: "Aktuelles Guthaben", totalPnl: "Gesamt P&L", winLossDays: "Grüne / Rote Tage", winRateDays: "Trefferquote",
+                recordDay: "➕ Tag eintragen", date: "Datum", netPnl: "Netto P&L ($)", tradesCount: "Anzahl Trades",
+                notePsychology: "Notiz / Psychologie", saveDay: "Tag Speichern", syncBackup: "💾 Sync / Backup",
+                exportBackup: "📥 Backup Speichern", importBackup: "📤 Wiederherstellen",
+                dayTotalPnl: "Tages P&L ($)", tradesDetails: "Trade-Details:", addTrade: "+ Trade hinzufügen",
+                saveChanges: "Änderungen Speichern", deleteDay: "Tag Löschen", equityCurveTitle: "📊 Equity-Kurve",
+                tfDays: "Nach Tagen", tfWeeks: "Nach Wochen", tfMonths: "Nach Monaten",
+                weekDays: ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"],
+                m0: "Januar", m1: "Februar", m2: "März", m3: "April", m4: "Mai", m5: "Juni",
+                m6: "Juli", m7: "August", m8: "September", m9: "Oktober", m10: "November", m11: "Dezember"
+            }
+        };
+
+        // Заповнення перекладів для решти мов за замовчуванням (англійська)
+        const supportedLangs = ['sq','hy','az','eu','be','bs','bg','hr','cs','da','nl','et','fi','fr','ka','el','hu','is','ga','it','lv','lt','lb','mk','mt','no','pl','pt','ro','ru','sr','sk','sl','es','sv','tr','cy'];
+        supportedLangs.forEach(lang => {
+            if (!translations[lang]) translations[lang] = translations.en;
+        });
+
+        let currentLang = 'en';
+        function changeLanguage(lang) {
+            currentLang = translations[lang] ? lang : 'en';
+            const t = translations[currentLang];
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (t[key]) el.textContent = t[key];
+            });
+            const wd = t.weekDays || translations.en.weekDays;
+            const headers = document.querySelectorAll('#weekDaysHeader div');
+            headers.forEach((div, i) => { if (wd[i]) div.textContent = wd[i]; });
+            renderCalendar();
+        }
+
+        document.getElementById('langSelect').addEventListener('change', (e) => {
+            changeLanguage(e.target.value);
+        });
+
+        // Основні дані та логіка додатку
+        let tradingData = JSON.parse(localStorage.getItem('tradingData') || '{}');
+        let startBalance = parseFloat(localStorage.getItem('startBalance') || '1000');
+        document.getElementById('startBalanceInput').value = startBalance;
+
+        document.getElementById('startBalanceInput').addEventListener('input', (e) => {
+            startBalance = parseFloat(e.target.value) || 0;
+            localStorage.setItem('startBalance', startBalance);
+            updateStats();
+        });
+
+        const monthSelect = document.getElementById('monthSelect');
+        const yearInput = document.getElementById('yearInput');
+        const calendarGrid = document.getElementById('calendarGrid');
+
+        const now = new Date();
+        monthSelect.value = now.getMonth();
+        yearInput.value = now.getFullYear();
+
+        document.getElementById('tradeDate').valueAsDate = new Date();
+
+        function renderCalendar() {
+            calendarGrid.innerHTML = '';
+            const year = parseInt(yearInput.value);
+            const month = parseInt(monthSelect.value);
+            
+            const firstDayIndex = (new Date(year, month, 1).getDay() + 6) % 7;
+            const totalDays = new Date(year, month + 1, 0).getDate();
+
+            for (let i = 0; i < firstDayIndex; i++) {
+                const emptyCell = document.createElement('div');
+                emptyCell.className = "bg-slate-950/40 border border-slate-900 rounded-xl p-2 min-h-[80px] sm:min-h-[100px] opacity-20";
+                calendarGrid.appendChild(emptyCell);
+            }
+
+            for (let day = 1; day <= totalDays; day++) {
+                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const dayData = tradingData[dateStr];
+
+                const cell = document.createElement('div');
+                cell.className = "bg-slate-950 border border-slate-800/80 rounded-xl p-2 min-h-[80px] sm:min-h-[100px] flex flex-col justify-between cursor-pointer hover:border-blue-500/50 transition-all shadow-inner relative group";
+                
+                let pnlHtml = `<span class="text-slate-600 text-[10px] sm:text-xs">-</span>`;
+                if (dayData && dayData.pnl !== undefined) {
+                    const pnlVal = parseFloat(dayData.pnl);
+                    if (pnlVal > 0) {
+                        cell.classList.add('bg-emerald-950/20', 'border-emerald-800/40');
+                        pnlHtml = `<span class="text-emerald-400 font-bold text-xs sm:text-sm">+$${pnlVal.toFixed(2)}</span>`;
+                    } else if (pnlVal < 0) {
+                        cell.classList.add('bg-rose-950/20', 'border-rose-800/40');
+                        pnlHtml = `<span class="text-rose-400 font-bold text-xs sm:text-sm">-$${Math.abs(pnlVal).toFixed(2)}</span>`;
+                    } else {
+                        pnlHtml = `<span class="text-slate-400 font-bold text-xs sm:text-sm">$0.00</span>`;
+                    }
+                }
+
+                cell.innerHTML = `
+                    <div class="flex justify-between items-center text-xs text-slate-400 font-medium">
+                        <span>${day}</span>
+                        ${dayData && dayData.tradesCount ? `<span class="bg-slate-800 px-1.5 py-0.5 rounded text-[10px] text-slate-300">${dayData.tradesCount}t</span>` : ''}
+                    </div>
+                    <div class="my-auto text-center">${pnlHtml}</div>
+                    <div class="text-[9px] text-slate-500 truncate">${dayData && dayData.note ? dayData.note : ''}</div>
+                `;
+
+                cell.addEventListener('click', () => openDayModal(dateStr));
+                calendarGrid.appendChild(cell);
+            }
+            updateStats();
+        }
+
+        document.getElementById('tradeForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const date = document.getElementById('tradeDate').value;
+            const pnl = parseFloat(document.getElementById('tradePnl').value);
+            const tradesCount = parseInt(document.getElementById('tradeCount').value) || 1;
+            const note = document.getElementById('tradeNote').value;
+
+            if (!date) return;
+            tradingData[date] = { pnl, tradesCount, note, trades: [{pnl, note}] };
+            localStorage.setItem('tradingData', JSON.stringify(tradingData));
+            renderCalendar();
+            document.getElementById('tradePnl').value = '';
+            document.getElementById('tradeNote').value = '';
+        });
+
+        function updateStats() {
+            let totalPnl = 0;
+            let winDays = 0;
+            let lossDays = 0;
+            const year = parseInt(yearInput.value);
+            const month = parseInt(monthSelect.value);
+
+            Object.keys(tradingData).forEach(dateStr => {
+                const d = new Date(dateStr);
+                if (d.getFullYear() === year && d.getMonth() === month) {
+                    const pnl = parseFloat(tradingData[dateStr].pnl || 0);
+                    totalPnl += pnl;
+                    if (pnl > 0) winDays++;
+                    else if (pnl < 0) lossDays++;
+                }
+            });
+
+            const currentBalance = startBalance + totalPnl;
+            document.getElementById('currentBalance').textContent = `$${currentBalance.toFixed(2)}`;
+            
+            const pnlEl = document.getElementById('totalPnl');
+            pnlEl.textContent = `${totalPnl >= 0 ? '+' : ''}$${totalPnl.toFixed(2)}`;
+            pnlEl.className = `text-lg sm:text-2xl font-bold mt-1 ${totalPnl >= 0 ? 'text-emerald-400' : 'text-rose-400'}`;
+
+            document.getElementById('winDays').textContent = winDays;
+            document.getElementById('lossDays').textContent = lossDays;
+
+            const totalDays = winDays + lossDays;
+            const winRate = totalDays > 0 ? ((winDays / totalDays) * 100).toFixed(1) : 0;
+            document.getElementById('winRate').textContent = `${winRate}%`;
+        }
+
+        monthSelect.addEventListener('change', renderCalendar);
+        yearInput.addEventListener('input', renderCalendar);
+
+        // Модалка редагування дня
+        const dayModal = document.getElementById('dayModal');
+        let activeDateStr = null;
+
+        function openDayModal(dateStr) {
+            activeDateStr = dateStr;
+            document.getElementById('modalTitle').textContent = `Edit Day: ${dateStr}`;
+            const data = tradingData[dateStr] || { pnl: 0, note: '', trades: [] };
+            document.getElementById('modalPnl').value = data.pnl !== undefined ? data.pnl : '';
+            document.getElementById('modalNote').value = data.note || '';
+            
+            const container = document.getElementById('tradesListContainer');
+            container.innerHTML = '';
+            if (data.trades && data.trades.length > 0) {
+                data.trades.forEach((tr, idx) => addTradeRow(tr.pnl, tr.note, idx));
+            }
+            dayModal.classList.remove('hidden');
+        }
+
+        document.getElementById('closeModal').addEventListener('click', () => dayModal.classList.add('hidden'));
+
+        document.getElementById('addTradeItemBtn').addEventListener('click', () => {
+            addTradeRow('', '', document.getElementById('tradesListContainer').children.length);
+        });
+
+        function addTradeRow(pnl = '', note = '', index) {
+            const container = document.getElementById('tradesListContainer');
+            const row = document.createElement('div');
+            row.className = "flex gap-2 items-center bg-slate-950 p-2 rounded-lg border border-slate-800 trade-row";
+            row.innerHTML = `
+                <input type="number" step="0.01" placeholder="P&L" value="${pnl}" class="trade-pnl-input w-28 bg-slate-900 border border-slate-700 rounded p-1.5 text-xs text-slate-100 focus:outline-none">
+                <input type="text" placeholder="Trade note..." value="${note}" class="trade-note-input flex-1 bg-slate-900 border border-slate-700 rounded p-1.5 text-xs text-slate-100 focus:outline-none">
+                <button type="button" class="remove-trade text-rose-400 hover:text-rose-300 font-bold px-2">&times;</button>
+            `;
+            row.querySelector('.remove-trade').addEventListener('click', () => row.remove());
+            container.appendChild(row);
+        }
+
+        document.getElementById('saveModalBtn').addEventListener('click', () => {
+            if (!activeDateStr) return;
+            const pnl = parseFloat(document.getElementById('modalPnl').value) || 0;
+            const note = document.getElementById('modalNote').value;
+            
+            const tradeRows = document.querySelectorAll('.trade-row');
+            const trades = [];
+            tradeRows.forEach(row => {
+                trades.push({
+                    pnl: parseFloat(row.querySelector('.trade-pnl-input').value) || 0,
+                    note: row.querySelector('.trade-note-input').value
+                });
+            });
+
+            tradingData[activeDateStr] = { pnl, tradesCount: trades.length > 0 ? trades.length : 1, note, trades };
+            localStorage.setItem('tradingData', JSON.stringify(tradingData));
+            dayModal.classList.add('hidden');
+            renderCalendar();
+        });
+
+        document.getElementById('deleteDayBtn').addEventListener('click', () => {
+            if (activeDateStr && tradingData[activeDateStr]) {
+                delete tradingData[activeDateStr];
+                localStorage.setItem('tradingData', JSON.stringify(tradingData));
+                dayModal.classList.add('hidden');
+                renderCalendar();
+            }
+        });
+
+        // Експорт та імпорт бекапу
+        document.getElementById('exportBtn').addEventListener('click', () => {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(tradingData));
+            const dlAnchorElem = document.createElement('a');
+            dlAnchorElem.setAttribute("href", dataStr);
+            dlAnchorElem.setAttribute("download", "calendar_trading_pro_backup.json");
+            dlAnchorElem.click();
+        });
+
+        document.getElementById('importBtn').addEventListener('click', () => document.getElementById('importFile').click());
+        document.getElementById('importFile').addEventListener('change', (e) => {
+            const fileReader = new FileReader();
+            if (e.target.files[0]) {
+                fileReader.readAsText(e.target.files[0], "UTF-8");
+                fileReader.onload = (event) => {
+                    try {
+                        tradingData = JSON.parse(event.target.result);
+                        localStorage.setItem('tradingData', JSON.stringify(tradingData));
+                        renderCalendar();
+                        alert("Backup restored successfully!");
+                    } catch (err) {
+                        alert("Invalid backup file format.");
+                    }
+                };
+            }
+        });
+
+        // Логіка Графіка Equity Curve
+        let equityChartInstance = null;
+        const chartModal = document.getElementById('chartModal');
+        document.getElementById('openChartBtn').addEventListener('click', () => {
+            chartModal.classList.remove('hidden');
+            renderEquityChart('days');
+        });
+        document.getElementById('closeChartModal').addEventListener('click', () => chartModal.classList.add('hidden'));
+
+        document.querySelectorAll('.tf-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.tf-btn').forEach(b => b.classList.replace('bg-blue-600', 'text-slate-400'));
+                e.target.classList.replace('text-slate-400', 'bg-blue-600');
+                e.target.classList.add('text-white');
+                renderEquityChart(e.target.getAttribute('data-tf'));
+            });
+        });
+
+        function renderEquityChart(tf) {
+            const ctx = document.getElementById('equityChart').getContext('2d');
+            const sortedDates = Object.keys(tradingData).sort();
+            
+            let labels = [];
+            let dataPoints = [];
+            let currentEq = startBalance;
+
+            sortedDates.forEach(date => {
+                currentEq += parseFloat(tradingData[date].pnl || 0);
+                labels.push(date);
+                dataPoints.push(currentEq);
+            });
+
+            if (equityChartInstance) equityChartInstance.destroy();
+
+            equityChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels.length ? labels : ['Start'],
+                    datasets: [{
+                        label: 'Equity ($)',
+                        data: dataPoints.length ? dataPoints : [startBalance],
+                        borderColor: '#3b82f6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        fill: true,
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { grid: { color: '#1e293b' }, ticks: { color: '#94a3b8' } },
+                        y: { grid: { color: '#1e293b' }, ticks: { color: '#94a3b8' } }
+                    },
+                    plugins: { legend: { labels: { color: '#f1f5f9' } } }
+                }
+            });
+        }
+    </script>
+
+    <!-- Підключення Service Worker для автономної роботи (Offline) -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js');
+      }
     </script>
 </body>
 </html>
