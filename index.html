@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -72,25 +72,8 @@
                     <option value="hr">Hrvatski (Croatian)</option>
                     <option value="sk">Slovenčina (Slovak)</option>
                     <option value="sl">Slovenščina (Slovenian)</option>
-                    <option value="et">Eesti (Estonian)</option>
-                    <option value="lv">Latviešu (Latvian)</option>
-                    <option value="lt">Lietuvių (Lithuanian)</option>
-                    <option value="no">Norsk (Norwegian)</option>
-                    <option value="sr">Српски (Serbian)</option>
-                    <option value="sq">Shqip (Albanian)</option>
-                    <option value="hy">Հայերեն (Armenian)</option>
-                    <option value="az">Azərbaycan (Azerbaijani)</option>
-                    <option value="eu">Euskara (Basque)</option>
-                    <option value="be">Беларуская (Belarusian)</option>
-                    <option value="bs">Bosanski (Bosnian)</option>
-                    <option value="ka">ქართული (Georgian)</option>
-                    <option value="ga">Gaeilge (Irish)</option>
-                    <option value="is">Íslenska (Icelandic)</option>
-                    <option value="lb">Lëtzebuergesch (Luxembourgish)</option>
-                    <option value="mk">Македонски (Macedonian)</option>
-                    <option value="mt">Malti (Maltese)</option>
+
                     <option value="tr">Türkçe (Turkish)</option>
-                    <option value="cy">Cymraeg (Welsh)</option>
                     <option value="zh">中文 (Chinese)</option>
                     <option value="ja">日本語 (Japanese)</option>
                 </select>
@@ -139,7 +122,7 @@
                 <p id="currentBalance" class="text-lg sm:text-2xl font-bold mt-1 text-blue-400">1000.00</p>
             </div>
             <div class="bg-slate-900 border border-slate-800 p-3 sm:p-4 rounded-xl shadow-lg text-center sm:text-left">
-                <p class="text-[10px] sm:text-xs text-slate-400 uppercase tracking-wider" id="pnlLabelTitle">Total P&L</p>
+                <p class="text-[10px] sm:text-xs text-slate-400 uppercase tracking-wider" id="pnlLabelTitle" data-i18n="monthPnl">Total P&L</p>
                 <p id="totalPnl" class="text-lg sm:text-2xl font-bold mt-1 text-slate-100">0.00</p>
             </div>
             <div class="bg-slate-900 border border-slate-800 p-3 sm:p-4 rounded-xl shadow-lg text-center sm:text-left">
@@ -147,7 +130,7 @@
                 <p class="text-lg sm:text-2xl font-bold mt-1"><span id="winDays" class="text-emerald-400">0</span> / <span id="lossDays" class="text-rose-400">0</span></p>
             </div>
             <div class="bg-slate-900 border border-slate-800 p-3 sm:p-4 rounded-xl shadow-lg text-center sm:text-left">
-                <p class="text-[10px] sm:text-xs text-slate-400 uppercase tracking-wider" id="winRateLabelTitle">Winrate Days</p>
+                <p class="text-[10px] sm:text-xs text-slate-400 uppercase tracking-wider" id="winRateLabelTitle" data-i18n="winRateMonth">Winrate Days</p>
                 <p id="winRate" class="text-lg sm:text-2xl font-bold mt-1 text-blue-400">0%</p>
             </div>
         </div>
@@ -401,6 +384,312 @@
                 m0: "Januar", m1: "Februar", m2: "März", m3: "April", m4: "Mai", m5: "Juni",
                 m6: "Juli", m7: "August", m8: "September", m9: "Oktober", m10: "November", m11: "Dezember"
             },
+            es: {
+                title: "Calendar Trading Pro", equityCurve: "Curva de Capital", tradesHistory: "Historial de Operaciones", balance: "Balance",
+                currBalance: "Balance Actual", totalPnl: "P&L Total", monthPnl: "P&L Mensual", weekPnl: "P&L Semanal",
+                winLossDays: "Días Verdes / Rojos", winRateDays: "Tasa de Acierto", winRateMonth: "Acierto Mensual", winRateWeek: "Acierto Semanal",
+                recordDay: "➕ Registrar Día", date: "Fecha", netPnl: "P&L Neto", tradesCount: "Nº de Operaciones",
+                notePsychology: "Nota / Psicología", saveDay: "Guardar Día", syncBackup: "💾 Sincro / Backup",
+                exportBackup: "📥 Guardar Copia", importBackup: "📤 Restaurar Copia",
+                dayTotalPnl: "P&L Total del Día", tradesDetails: "Detalles de Operaciones:", addTrade: "+ Añadir Operación",
+                saveChanges: "Guardar Cambios", deleteDay: "Eliminar Día", equityCurveTitle: "📊 Curva de Capital",
+                tradesHistoryTitle: "📜 Historial (Recientes Primero)",
+                tfDays: "Por Días", tfWeeks: "Por Semanas", tfMonths: "Por Meses",
+                viewMonth: "Mes", viewWeek: "Semana",
+                weekDays: ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"],
+                fullWeekDays: ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"],
+                m0: "Enero", m1: "Febrero", m2: "Marzo", m3: "Abril", m4: "Mayo", m5: "Junio",
+                m6: "Julio", m7: "Agosto", m8: "Septiembre", m9: "Octubre", m10: "Noviembre", m11: "Diciembre"
+            },
+            fr: {
+                title: "Calendar Trading Pro", equityCurve: "Courbe de Capital", tradesHistory: "Historique des Trades", balance: "Solde",
+                currBalance: "Solde Actuel", totalPnl: "P&L Total", monthPnl: "P&L Mensuel", weekPnl: "P&L Hebdo",
+                winLossDays: "Jours Verts / Rouges", winRateDays: "Taux de Réussite", winRateMonth: "Réussite Mois", winRateWeek: "Réussite Semaine",
+                recordDay: "➕ Enregistrer Jour", date: "Date", netPnl: "P&L Net", tradesCount: "Nombre de Trades",
+                notePsychology: "Note / Psychologie", saveDay: "Sauvegarder Jour", syncBackup: "💾 Sync / Sauvegarde",
+                exportBackup: "📥 Telecharger Backup", importBackup: "📤 Restaurer Backup",
+                dayTotalPnl: "P&L Total du Jour", tradesDetails: "Détails des Trades:", addTrade: "+ Ajouter Trade",
+                saveChanges: "Sauvegarder Modifications", deleteDay: "Supprimer Jour", equityCurveTitle: "📊 Courbe de Capital",
+                tradesHistoryTitle: "📜 Historique (Plus Récents)",
+                tfDays: "Par Jours", tfWeeks: "Par Semaines", tfMonths: "Par Mois",
+                viewMonth: "Mois", viewWeek: "Semaine",
+                weekDays: ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"],
+                fullWeekDays: ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"],
+                m0: "Janvier", m1: "Février", m2: "Mars", m3: "Avril", m4: "Mai", m5: "Juin",
+                m6: "Juillet", m7: "Août", m8: "Septembre", m9: "Octobre", m10: "Novembre", m11: "Décembre"
+            },
+            it: {
+                title: "Calendar Trading Pro", equityCurve: "Curva di Capitale", tradesHistory: "Storico Operazioni", balance: "Saldo",
+                currBalance: "Saldo Attuale", totalPnl: "P&L Totale", monthPnl: "P&L Mensile", weekPnl: "P&L Settimanale",
+                winLossDays: "Giorni Positivi / Negativi", winRateDays: "Winrate Giorni", winRateMonth: "Winrate Mese", winRateWeek: "Winrate Settimana",
+                recordDay: "➕ Registra Giornata", date: "Data", netPnl: "P&L Netto", tradesCount: "Numero Operazioni",
+                notePsychology: "Nota / Psicologia", saveDay: "Salva Giornata", syncBackup: "💾 Sincronizzazione / Backup",
+                exportBackup: "📥 Salva File Backup", importBackup: "📤 Ripristina Backup",
+                dayTotalPnl: "P&L Totale del Giorno", tradesDetails: "Dettagli Operazioni:", addTrade: "+ Aggiungi Operazione",
+                saveChanges: "Salva Modifiche", deleteDay: "Elimina Giornata", equityCurveTitle: "📊 Curva di Capitale",
+                tradesHistoryTitle: "📜 Storico (Più Recenti In Alto)",
+                tfDays: "Per Giorni", tfWeeks: "Per Settimane", tfMonths: "Per Mesi",
+                viewMonth: "Mese", viewWeek: "Settimana",
+                weekDays: ["Lun", "Mar", "Mer", "Gio", "Ven", "Sab", "Dom"],
+                fullWeekDays: ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato", "Domenica"],
+                m0: "Gennaio", m1: "Febbraio", m2: "Marzo", m3: "Aprile", m4: "Maggio", m5: "Giugno",
+                m6: "Luglio", m7: "Agosto", m8: "Settembre", m9: "Ottobre", m10: "Novembre", m11: "Dicembre"
+            },
+            pl: {
+                title: "Calendar Trading Pro", equityCurve: "Krzywa Kapitału", tradesHistory: "Historia Transakcji", balance: "Saldo",
+                currBalance: "Aktualne Saldo", totalPnl: "Całkowity P&L", monthPnl: "Miesięczny P&L", weekPnl: "Tygodniowy P&L",
+                winLossDays: "Dni Zielone / Czerwone", winRateDays: "Winrate Dni", winRateMonth: "Winrate Miesiąca", winRateWeek: "Winrate Tygodnia",
+                recordDay: "➕ Zapisz Dzień", date: "Data", netPnl: "Czysty P&L", tradesCount: "Liczba Transakcji",
+                notePsychology: "Notatka / Psychologia", saveDay: "Zapisz Dzień", syncBackup: "💾 Synchronizacja / Backup",
+                exportBackup: "📥 Pobierz Backup", importBackup: "📤 Przywróć z Pliku",
+                dayTotalPnl: "Całkowity P&L Dnia", tradesDetails: "Szczegóły Transakcji:", addTrade: "+ Dodaj Transakcję",
+                saveChanges: "Zapisz Zmiany", deleteDay: "Usuń Dzień", equityCurveTitle: "📊 Krzywa Kapitału",
+                tradesHistoryTitle: "📜 Historia Transakcji (Najnowsze)",
+                tfDays: "Wg Dni", tfWeeks: "Wg Tygodni", tfMonths: "Wg Miesięcy",
+                viewMonth: "Miesiąc", viewWeek: "Tydzień",
+                weekDays: ["Pon", "Wt", "Śr", "Czw", "Pt", "Sob", "Niedz"],
+                fullWeekDays: ["Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota", "Niedziela"],
+                m0: "Styczeń", m1: "Luty", m2: "Marzec", m3: "Kwiecień", m4: "Maj", m5: "Czerwiec",
+                m6: "Lipiec", m7: "Sierpień", m8: "Wrzesień", m9: "Październik", m10: "Listopad", m11: "Grudzień"
+            },
+            pt: {
+                title: "Calendar Trading Pro", equityCurve: "Curva de Capital", tradesHistory: "Histórico de Operações", balance: "Saldo",
+                currBalance: "Saldo Atual", totalPnl: "P&L Total", monthPnl: "P&L Mensal", weekPnl: "P&L Semanal",
+                winLossDays: "Dias Verdes / Vermelhos", winRateDays: "Taxa de Acerto", winRateMonth: "Acerto Mensal", winRateWeek: "Acerto Semanal",
+                recordDay: "➕ Registrar Dia", date: "Data", netPnl: "P&L Líquido", tradesCount: "Nº de Operações",
+                notePsychology: "Nota / Psicologia", saveDay: "Salvar Dia", syncBackup: "💾 Sincronização / Backup",
+                exportBackup: "📥 Salvar Backup", importBackup: "📤 Restaurar Backup",
+                dayTotalPnl: "P&L Total do Dia", tradesDetails: "Detalhes das Operações:", addTrade: "+ Adicionar Operação",
+                saveChanges: "Salvar Alterações", deleteDay: "Excluir Dia", equityCurveTitle: "📊 Curva de Capital",
+                tradesHistoryTitle: "📜 Histórico (Mais Recentes)",
+                tfDays: "Por Dias", tfWeeks: "Por Semanas", tfMonths: "Por Meses",
+                viewMonth: "Mês", viewWeek: "Semana",
+                weekDays: ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"],
+                fullWeekDays: ["Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado", "Domingo"],
+                m0: "Janeiro", m1: "Fevereiro", m2: "Março", m3: "Abril", m4: "Maio", m5: "Junho",
+                m6: "Julho", m7: "Agosto", m8: "Setembro", m9: "Outubro", m10: "Novembro", m11: "Dezembro"
+            },
+            nl: {
+                title: "Calendar Trading Pro", equityCurve: "Kapitaalcurve", tradesHistory: "Transactiehistorie", balance: "Saldo",
+                currBalance: "Huidig Saldo", totalPnl: "Totale P&L", monthPnl: "Maand P&L", weekPnl: "Week P&L",
+                winLossDays: "Groene / Rode Dagen", winRateDays: "Winrate Dagen", winRateMonth: "Winrate Maand", winRateWeek: "Winrate Week",
+                recordDay: "➕ Dag Invoeren", date: "Datum", netPnl: "Netto P&L", tradesCount: "Aantal Trades",
+                notePsychology: "Notitie / Psychologie", saveDay: "Dag Opslaan", syncBackup: "💾 Sync / Backup",
+                exportBackup: "📥 Backup Opslaan", importBackup: "📤 Herstellen",
+                dayTotalPnl: "Totale Dag P&L", tradesDetails: "Trade Details:", addTrade: "+ Trade Toevoegen",
+                saveChanges: "Wijzigingen Opslaan", deleteDay: "Dag Verwijderen", equityCurveTitle: "📊 Kapitaalcurve",
+                tradesHistoryTitle: "📜 Transactiehistorie (Nieuwste Eerst)",
+                tfDays: "Per Dag", tfWeeks: "Per Week", tfMonths: "Per Maand",
+                viewMonth: "Maand", viewWeek: "Week",
+                weekDays: ["Ma", "Di", "Wo", "Do", "Vr", "Za", "Zo"],
+                fullWeekDays: ["Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag", "Zondag"],
+                m0: "Januari", m1: "Februari", m2: "Maart", m3: "April", m4: "Mei", m5: "Juni",
+                m6: "Juli", m7: "Augustus", m8: "September", m9: "Oktober", m10: "November", m11: "December"
+            },
+            cs: {
+                title: "Calendar Trading Pro", equityCurve: "Křivka Kapitálu", tradesHistory: "Historie Obchodů", balance: "Zůstatek",
+                currBalance: "Aktuální Zůstatek", totalPnl: "Celkový P&L", monthPnl: "Měsíční P&L", weekPnl: "Týdenní P&L",
+                winLossDays: "Zelené / Červené Dny", winRateDays: "Úspěšnost Dní", winRateMonth: "Měsíční Úspěšnost", winRateWeek: "Týdenní Úspěšnost",
+                recordDay: "➕ Zapsat Den", date: "Datum", netPnl: "Čistý P&L", tradesCount: "Počet Obchodů",
+                notePsychology: "Poznámka / Psychologie", saveDay: "Uložit Den", syncBackup: "💾 Synch / Záloha",
+                exportBackup: "📥 Uložit Zálohu", importBackup: "📤 Obnovit ze Souboru",
+                dayTotalPnl: "Celkový P&L Dne", tradesDetails: "Detail Obchodů:", addTrade: "+ Přidat Obchod",
+                saveChanges: "Uložit Změny", deleteDay: "Smazat Den", equityCurveTitle: "📊 Křivka Kapitálu",
+                tradesHistoryTitle: "📜 Historie Obchodů (Nejnovější)",
+                tfDays: "Po Dnech", tfWeeks: "Po Týdnech", tfMonths: "Po Měsících",
+                viewMonth: "Měsíc", viewWeek: "Týden",
+                weekDays: ["Po", "Út", "St", "Čt", "Pá", "So", "Ne"],
+                fullWeekDays: ["Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek", "Sobota", "Neděle"],
+                m0: "Leden", m1: "Únor", m2: "Březen", m3: "Duben", m4: "Květen", m5: "Červen",
+                m6: "Červenec", m7: "Srpen", m8: "Září", m9: "Říjen", m10: "Listopad", m11: "Prosinec"
+            },
+            el: {
+                title: "Calendar Trading Pro", equityCurve: "Καμπύλη Κεφαλαίου", tradesHistory: "Ιστορικό Συναλλαγών", balance: "Υπόλοιπο",
+                currBalance: "Τρέχον Υπόλοιπο", totalPnl: "Συνολικό P&L", monthPnl: "Μηνιαίο P&L", weekPnl: "Εβδομαδιαίο P&L",
+                winLossDays: "Πράσινες / Κόκκινες Μέρες", winRateDays: "Ποσοστό Επιτυχίας", winRateMonth: "Επιτυχία Μήνα", winRateWeek: "Επιτυχία Εβδομάδας",
+                recordDay: "➕ Καταγραφή Ημέρας", date: "Ημερομηνία", netPnl: "Καθαρό P&L", tradesCount: "Αριθμός Trades",
+                notePsychology: "Σημείωση / Ψυχολογία", saveDay: "Αποθήκευση Ημέρας", syncBackup: "💾 Συγχρονισμός / Backup",
+                exportBackup: "📥 Αποθήκευση Backup", importBackup: "📤 Επαναφορά",
+                dayTotalPnl: "Συνολικό P&L Ημέρας", tradesDetails: "Λεπτομέρειες Trades:", addTrade: "+ Προσθήκη Trade",
+                saveChanges: "Αποθήκευση Αλλαγών", deleteDay: "Διαγραφή Ημέρας", equityCurveTitle: "📊 Καμπύλη Κεφαλαίου",
+                tradesHistoryTitle: "📜 Ιστορικό Συναλλαγών",
+                tfDays: "Ανά Ημέρα", tfWeeks: "Ανά Εβδομάδα", tfMonths: "Ανά Μήνα",
+                viewMonth: "Μήνας", viewWeek: "Εβδομάδα",
+                weekDays: ["Δευ", "Τρι", "Τετ", "Πεμ", "Παρ", "Σαβ", "Κυρ"],
+                fullWeekDays: ["Δευτέρα", "Τρίτη", "Τετάρτη", "Πέμπτη", "Παρασκευή", "Σάββατο", "Κυριακή"],
+                m0: "Ιανουάριος", m1: "Φεβρουάριος", m2: "Μάρτιος", m3: "Απρίλιος", m4: "Μάιος", m5: "Ιούνιος",
+                m6: "Ιούλιος", m7: "Αύγουστος", m8: "Σεπτέμβριος", m9: "Οκτώβριος", m10: "Νοέμβριος", m11: "Δεκέμβριος"
+            },
+            hu: {
+                title: "Calendar Trading Pro", equityCurve: "Egyenleg Görbe", tradesHistory: "Kereskedési Előzmények", balance: "Egyenleg",
+                currBalance: "Jelenlegi Egyenleg", totalPnl: "Összes P&L", monthPnl: "Havi P&L", weekPnl: "Heti P&L",
+                winLossDays: "Zöld / Piros Napok", winRateDays: "Napi Nyerési Arány", winRateMonth: "Havi Nyerési Arány", winRateWeek: "Heti Nyerési Arány",
+                recordDay: "➕ Nap Rögzítése", date: "Dátum", netPnl: "Nettó P&L", tradesCount: "Kötések Száma",
+                notePsychology: "Jegyzet / Pszichológia", saveDay: "Nap Mentése", syncBackup: "💾 Szinkron / Mentés",
+                exportBackup: "📥 Mentési Fájl Letöltése", importBackup: "📤 Visszaállítás Fájlból",
+                dayTotalPnl: "Napi Összes P&L", tradesDetails: "Kötés Részletei:", addTrade: "+ Kötés Hozzáadása",
+                saveChanges: "Módosítások Mentése", deleteDay: "Nap Törlése", equityCurveTitle: "📊 Egyenleg Görbe",
+                tradesHistoryTitle: "📜 Kereskedési Előzmények",
+                tfDays: "Napok Szerint", tfWeeks: "Hetek Szerint", tfMonths: "Hónapok Szerint",
+                viewMonth: "Hónap", viewWeek: "Hét",
+                weekDays: ["Hét", "Kedd", "Szer", "Csüt", "Pént", "Szo", "Vas"],
+                fullWeekDays: ["Hétfő", "Kedd", "Szerda", "Csütörtök", "Péntek", "Szombat", "Vasárnap"],
+                m0: "Január", m1: "Február", m2: "Március", m3: "Április", m4: "Május", m5: "Június",
+                m6: "Július", m7: "Augusztus", m8: "Szeptember", m9: "Október", m10: "November", m11: "December"
+            },
+            ro: {
+                title: "Calendar Trading Pro", equityCurve: "Curba de Capital", tradesHistory: "Istoric Tranzacții", balance: "Sold",
+                currBalance: "Sold Curent", totalPnl: "P&L Total", monthPnl: "P&L Lunar", weekPnl: "P&L Săptămânal",
+                winLossDays: "Zile Verzi / Roșii", winRateDays: "Rată de Câștig", winRateMonth: "Rată Lunară", winRateWeek: "Rată Săptămânală",
+                recordDay: "➕ Înregistrează Ziua", date: "Dată", netPnl: "P&L Net", tradesCount: "Număr Tranzacții",
+                notePsychology: "Notă / Psihologie", saveDay: "Salvează Ziua", syncBackup: "💾 Sincronizare / Backup",
+                exportBackup: "📥 Salvează Backup", importBackup: "📤 Restaurează",
+                dayTotalPnl: "P&L Total al Zilei", tradesDetails: "Detalii Tranzacții:", addTrade: "+ Adaugă Tranzacție",
+                saveChanges: "Salvează Modificările", deleteDay: "Șterge Ziua", equityCurveTitle: "📊 Curba de Capital",
+                tradesHistoryTitle: "📜 Istoric Tranzacții",
+                tfDays: "Pe Zile", tfWeeks: "Pe Săptămâni", tfMonths: "Pe Luni",
+                viewMonth: "Lună", viewWeek: "Săptămână",
+                weekDays: ["Lun", "Mar", "Mie", "Joi", "Vin", "Sâm", "Dum"],
+                fullWeekDays: ["Luni", "Marți", "Miercuri", "Joi", "Vineri", "Sâmbătă", "Duminică"],
+                m0: "Ianuarie", m1: "Februarie", m2: "Martie", m3: "Aprilie", m4: "Mai", m5: "Iunie",
+                m6: "Iulie", m7: "August", m8: "Septembrie", m9: "Octombrie", m10: "Noiembrie", m11: "Decembrie"
+            },
+            sv: {
+                title: "Calendar Trading Pro", equityCurve: "Kapitalkurva", tradesHistory: "Handelshistorik", balance: "Saldo",
+                currBalance: "Aktuellt Saldo", totalPnl: "Total P&L", monthPnl: "Månads P&L", weekPnl: "Vecko P&L",
+                winLossDays: "Gröna / Röda Dagar", winRateDays: "Vinstprocent Dagar", winRateMonth: "Vinstprocent Månad", winRateWeek: "Vinstprocent Vecka",
+                recordDay: "➕ Logga Dag", date: "Datum", netPnl: "Netto P&L", tradesCount: "Antal Trades",
+                notePsychology: "Anteckning / Psykologi", saveDay: "Spara Dag", syncBackup: "💾 Synk / Backup",
+                exportBackup: "📥 Spara Backupfil", importBackup: "📤 Återställ från Fil",
+                dayTotalPnl: "Dagens Totala P&L", tradesDetails: "Tradedetaljer:", addTrade: "+ Lägg till Trade",
+                saveChanges: "Spara Ändringar", deleteDay: "Ta bort Dag", equityCurveTitle: "📊 Kapitalkurva",
+                tradesHistoryTitle: "📜 Handelshistorik",
+                tfDays: "Per Dag", tfWeeks: "Per Vecka", tfMonths: "Per Månad",
+                viewMonth: "Månad", viewWeek: "Vecka",
+                weekDays: ["Mån", "Tis", "Ons", "Tor", "Fre", "Lör", "Sön"],
+                fullWeekDays: ["Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag", "Lördag", "Söndag"],
+                m0: "Januari", m1: "Februari", m2: "Mars", m3: "April", m4: "Maj", m5: "Juni",
+                m6: "Juli", m7: "Augusti", m8: "September", m9: "Oktober", m10: "November", m11: "December"
+            },
+            bg: {
+                title: "Calendar Trading Pro", equityCurve: "Крива на Капитала", tradesHistory: "История на Сделките", balance: "Баланс",
+                currBalance: "Текущ Баланс", totalPnl: "Общ P&L", monthPnl: "Месечен P&L", weekPnl: "Седмичен P&L",
+                winLossDays: "Зелени / Червени Дни", winRateDays: "Процент Победи Дни", winRateMonth: "Процент Победи Месец", winRateWeek: "Процент Победи Седмица",
+                recordDay: "➕ Запиши Ден", date: "Дата", netPnl: "Чист P&L", tradesCount: "Брой Сделки",
+                notePsychology: "Бележка / Психология", saveDay: "Запази Ден", syncBackup: "💾 Синхронизация / Бекап",
+                exportBackup: "📥 Запази Бекап Файл", importBackup: "📤 Възстанови от Файл",
+                dayTotalPnl: "Дневен Общ P&L", tradesDetails: "Детайли за Сделката:", addTrade: "+ Добави Сделка",
+                saveChanges: "Запази Промените", deleteDay: "Изтрий Ден", equityCurveTitle: "📊 Крива на Капитала",
+                tradesHistoryTitle: "📜 История на Сделките",
+                tfDays: "По Дни", tfWeeks: "По Седмици", tfMonths: "По Месеци",
+                viewMonth: "Месец", viewWeek: "Седмица",
+                weekDays: ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Нд"],
+                fullWeekDays: ["Понеделник", "Вторник", "Сряда", "Четвъртък", "Петък", "Събота", "Неделя"],
+                m0: "Януари", m1: "Февруари", m2: "Март", m3: "Април", m4: "Май", m5: "Юни",
+                m6: "Юли", m7: "Август", m8: "Септември", m9: "Октомври", m10: "Ноември", m11: "Декември"
+            },
+            da: {
+                title: "Calendar Trading Pro", equityCurve: "Kaptitalkurve", tradesHistory: "Handelshistorik", balance: "Saldo",
+                currBalance: "Nuværende Saldo", totalPnl: "Samlet P&L", monthPnl: "Månedlig P&L", weekPnl: "Ugentlig P&L",
+                winLossDays: "Grønne / Røde Dage", winRateDays: "Sejrsrate Dage", winRateMonth: "Sejrsrate Måned", winRateWeek: "Sejrsrate Uge",
+                recordDay: "➕ Gem Dag", date: "Dato", netPnl: "Netto P&L", tradesCount: "Antal Trades",
+                notePsychology: "Note / Psykologi", saveDay: "Gem Dag", syncBackup: "💾 Sync / Backup",
+                exportBackup: "📥 Gem Backupfil", importBackup: "📤 Genopret fra Fil",
+                dayTotalPnl: "Dagens Samlede P&L", tradesDetails: "Trade Detaljer:", addTrade: "+ Tilføj Trade",
+                saveChanges: "Gem Ændringer", deleteDay: "Slet Dag", equityCurveTitle: "📊 Kapitalkurve",
+                tradesHistoryTitle: "📜 Handelshistorik",
+                tfDays: "Pr. Dag", tfWeeks: "Pr. Uge", tfMonths: "Pr. Måned",
+                viewMonth: "Måned", viewWeek: "Uge",
+                weekDays: ["Man", "Tir", "Ons", "Tor", "Fre", "Lør", "Søn"],
+                fullWeekDays: ["Mandag", "Tirsdag", "Onsdag", "Torsdag", "Fredag", "Lørdag", "Søndag"],
+                m0: "Januar", m1: "Februar", m2: "Marts", m3: "April", m4: "Maj", m5: "Juni",
+                m6: "Juli", m7: "August", m8: "September", m9: "Oktober", m10: "November", m11: "December"
+            },
+            fi: {
+                title: "Calendar Trading Pro", equityCurve: "Pääomakäyrä", tradesHistory: "Kauppahistoria", balance: "Saldo",
+                currBalance: "Nykyinen Saldo", totalPnl: "Kokonais P&L", monthPnl: "Kuukauden P&L", weekPnl: "Viikon P&L",
+                winLossDays: "Vihreät / Punaiset Päivät", winRateDays: "Voittoprosentti Päivät", winRateMonth: "Voittoprosentti Kuukausi", winRateWeek: "Voittoprosentti Viikko",
+                recordDay: "➕ Tallenna Päivä", date: "Päivämäärä", netPnl: "Netto P&L", tradesCount: "Kauppojen Määrä",
+                notePsychology: "Muistiinpano / Psykologia", saveDay: "Tallenna Päivä", syncBackup: "💾 Varmuuskopiointi",
+                exportBackup: "📥 Lataa Varmuuskopio", importBackup: "📤 Palauta Tiedostosta",
+                dayTotalPnl: "Päivän Kokonais P&L", tradesDetails: "Kaupan Tiedot:", addTrade: "+ Lisää Kauppa",
+                saveChanges: "Tallenna Muutokset", deleteDay: "Poista Päivä", equityCurveTitle: "📊 Pääomakäyrä",
+                tradesHistoryTitle: "📜 Kauppahistoria",
+                tfDays: "Päivittäin", tfWeeks: "Viikoittain", tfMonths: "Kuukausittain",
+                viewMonth: "Kuukausi", viewWeek: "Viikko",
+                weekDays: ["Ma", "Ti", "Ke", "To", "Pe", "La", "Su"],
+                fullWeekDays: ["Maanantai", "Tiistai", "Keskiviikko", "Torstai", "Perjantai", "Lauantai", "Sunnuntai"],
+                m0: "Tammikuu", m1: "Helmikuu", m2: "Maaliskuu", m3: "Huhtikuu", m4: "Toukokuu", m5: "Kesäkuu",
+                m6: "Heinäkuu", m7: "Elokuu", m8: "Syyskuu", m9: "Lokakuu", m10: "Marraskuu", m11: "Joulukuu"
+            },
+            hr: {
+                title: "Calendar Trading Pro", equityCurve: "Krivulja Kapitala", tradesHistory: "Povijest Trgovanja", balance: "Saldo",
+                currBalance: "Trenutni Saldo", totalPnl: "Ukupni P&L", monthPnl: "Mjesečni P&L", weekPnl: "Tjedni P&L",
+                winLossDays: "Zeleni / Crveni Dani", winRateDays: "Postotak Pobjeda Dani", winRateMonth: "Postotak Mjesec", winRateWeek: "Postotak Tjedan",
+                recordDay: "➕ Zabiježi Dan", date: "Datum", netPnl: "Neto P&L", tradesCount: "Broj Trgovina",
+                notePsychology: "Bilješka / Psihologija", saveDay: "Spremi Dan", syncBackup: "💾 Sinkronizacija / Sigurnosna Kopija",
+                exportBackup: "📥 Spremi Kopiju", importBackup: "📤 Vrati iz Datoteke",
+                dayTotalPnl: "Ukupni Dnevni P&L", tradesDetails: "Detalji Trgovine:", addTrade: "+ Dodaj Trgovinu",
+                saveChanges: "Spremi Promjene", deleteDay: "Obriši Dan", equityCurveTitle: "📊 Krivulja Kapitala",
+                tradesHistoryTitle: "📜 Povijest Trgovanja",
+                tfDays: "Po Danima", tfWeeks: "Po Tjednima", tfMonths: "Po Mjesecima",
+                viewMonth: "Mjesec", viewWeek: "Tjedan",
+                weekDays: ["Pon", "Uto", "Sri", "Čet", "Pet", "Sub", "Ned"],
+                fullWeekDays: ["Ponedjeljak", "Utorak", "Srijeda", "Četvrtak", "Petak", "Subota", "Nedjelja"],
+                m0: "Siječanj", m1: "Veljača", m2: "Ožujak", m3: "Travanj", m4: "Svibanj", m5: "Lipanj",
+                m6: "Srpanj", m7: "Kolovoz", m8: "Rujan", m9: "Listopad", m10: "Studeni", m11: "Prosinac"
+            },
+            sk: {
+                title: "Calendar Trading Pro", equityCurve: "Krivka Kapitálu", tradesHistory: "História Obchodov", balance: "Zostatok",
+                currBalance: "Aktuálny Zostatok", totalPnl: "Celkový P&L", monthPnl: "Mesačný P&L", weekPnl: "Týždenný P&L",
+                winLossDays: "Zelené / Červené Dni", winRateDays: "Úspešnosť Dní", winRateMonth: "Mesačná Úspešnosť", winRateWeek: "Týždenná Úspešnosť",
+                recordDay: "➕ Zapísať Deň", date: "Dátum", netPnl: "Čistý P&L", tradesCount: "Počet Obchodov",
+                notePsychology: "Poznámka / Psychológia", saveDay: "Uložiť Deň", syncBackup: "💾 Synch / Záloha",
+                exportBackup: "📥 Uložiť Zálohu", importBackup: "📤 Obnoviť zo Súboru",
+                dayTotalPnl: "Celkový P&L Dňa", tradesDetails: "Detail Obchodov:", addTrade: "+ Pridať Obchod",
+                saveChanges: "Uložiť Zmeny", deleteDay: "Zmazať Deň", equityCurveTitle: "📊 Krivka Kapitálu",
+                tradesHistoryTitle: "📜 História Obchodov",
+                tfDays: "Po Dňoch", tfWeeks: "Po Týždňoch", tfMonths: "Po Mesiacoch",
+                viewMonth: "Mesiac", viewWeek: "Týždeň",
+                weekDays: ["Po", "Ut", "St", "Št", "Pi", "So", "Ne"],
+                fullWeekDays: ["Pondelok", "Utorok", "Streda", "Štvrtok", "Piatok", "Sobota", "Nedeľa"],
+                m0: "Január", m1: "Február", m2: "Marec", m3: "Apríl", m4: "Máj", m5: "Jún",
+                m6: "Júl", m7: "August", m8: "September", m9: "Október", m10: "November", m11: "December"
+            },
+            sl: {
+                title: "Calendar Trading Pro", equityCurve: "Krivulja Kapitala", tradesHistory: "Zgodovina Trgovanja", balance: "Stanje",
+                currBalance: "Trenutno Stanje", totalPnl: "Skupni P&L", monthPnl: "Mesečni P&L", weekPnl: "Tedenski P&L",
+                winLossDays: "Zeleni / Rdeči Dni", winRateDays: "Odstotek Zmag Dnevi", winRateMonth: "Odstotek Mesec", winRateWeek: "Odstotek Teden",
+                recordDay: "➕ Zabeleži Dan", date: "Datum", netPnl: "Neto P&L", tradesCount: "Število Trgovanj",
+                notePsychology: "Opomba / Psihologija", saveDay: "Shrani Dan", syncBackup: "💾 Sinhronizacija / Varnostna Kopija",
+                exportBackup: "📥 Shrani Kopijo", importBackup: "📤 Obnovi iz Datoteke",
+                dayTotalPnl: "Skupni Dnevni P&L", tradesDetails: "Podrobnosti Trgovanja:", addTrade: "+ Dodaj Trgovanje",
+                saveChanges: "Shrani Spremembe", deleteDay: "Izbriši Dan", equityCurveTitle: "📊 Krivulja Kapitala",
+                tradesHistoryTitle: "📜 Zgodovina Trgovanja",
+                tfDays: "Po Dnevih", tfWeeks: "Po Tednih", tfMonths: "Po Mesecih",
+                viewMonth: "Mesec", viewWeek: "Teden",
+                weekDays: ["Pon", "Tor", "Sre", "Čet", "Pet", "Sob", "Ned"],
+                fullWeekDays: ["Ponedeljek", "Torek", "Sreda", "Četrtek", "Petek", "Sobota", "Nedelja"],
+                m0: "Januar", m1: "Februar", m2: "Marec", m3: "April", m4: "Maj", m5: "Junij",
+                m6: "Julij", m7: "Avgust", m8: "September", m9: "Oktober", m10: "November", m11: "December"
+            },
+            tr: {
+                title: "Calendar Trading Pro", equityCurve: "Sermaye Eğrisi", tradesHistory: "İşlem Geçmişi", balance: "Bakiye",
+                currBalance: "Mevcut Bakiye", totalPnl: "Toplam P&L", monthPnl: "Aylık P&L", weekPnl: "Haftalık P&L",
+                winLossDays: "Yeşil / Kırmızı Günler", winRateDays: "Kazanma Oranı (Gün)", winRateMonth: "Aylık Kazanma Oranı", winRateWeek: "Haftalık Kazanma Oranı",
+                recordDay: "➕ Günü Kaydet", date: "Tarih", netPnl: "Net P&L", tradesCount: "İşlem Sayısı",
+                notePsychology: "Not / Psikoloji", saveDay: "Günü Kaydet", syncBackup: "💾 Senkron / Yedek",
+                exportBackup: "📥 Yedek Dosyasını İndir", importBackup: "📤 Yedeği Yükle",
+                dayTotalPnl: "Günlük Toplam P&L", tradesDetails: "İşlem Detayları:", addTrade: "+ İşlem Ekle",
+                saveChanges: "Değişiklikleri Kaydet", deleteDay: "Günü Sil", equityCurveTitle: "📊 Sermaye Eğrisi",
+                tradesHistoryTitle: "📜 İşlem Geçmişi (Yeniden Eskiye)",
+                tfDays: "Günlük", tfWeeks: "Haftalık", tfMonths: "Aylık",
+                viewMonth: "Ay", viewWeek: "Hafta",
+                weekDays: ["Pzt", "Sal", "Çar", "Per", "Cum", "Cmt", "Paz"],
+                fullWeekDays: ["Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi", "Pazar"],
+                m0: "Ocak", m1: "Şubat", m2: "Mart", m3: "Nisan", m4: "Mayıs", m5: "Haziran",
+                m6: "Temmuz", m7: "Ağustos", m8: "Eylül", m9: "Ekim", m10: "Kasım", m11: "Aralık"
+            },
             zh: {
                 title: "交易日历专业版", equityCurve: "资金曲线", tradesHistory: "交易历史", balance: "余额",
                 currBalance: "当前余额", totalPnl: "总盈亏", monthPnl: "本月盈亏", weekPnl: "本周盈亏",
@@ -437,22 +726,30 @@
             }
         };
 
-        const supportedLangs = ['es','fr','it','pl','pt','nl','cs','el','hu','ro','sv','bg','da','fi','hr','sk','sl','et','lv','lt','no','sr','sq','hy','az','eu','be','bs','ka','ga','is','lb','mk','mt','tr','cy'];
-        supportedLangs.forEach(lang => {
-            if (!translations[lang]) translations[lang] = translations.en;
-        });
+        let currentLang = localStorage.getItem('currentLang') || 'uk';
+        document.getElementById('langSelect').value = currentLang;
 
-        let currentLang = 'uk';
         function changeLanguage(lang) {
             currentLang = translations[lang] ? lang : 'uk';
+            localStorage.setItem('currentLang', currentLang);
             const t = translations[currentLang];
+            
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
                 if (t[key]) el.textContent = t[key];
             });
+
+            // Оновлення назв днів тижня у сітці календаря
             const wd = t.weekDays || translations.uk.weekDays;
             const headers = document.querySelectorAll('#weekDaysHeader div');
             headers.forEach((div, i) => { if (wd[i]) div.textContent = wd[i]; });
+
+            // Оновлення назв місяців у випадаючому списку
+            const monthOptions = document.querySelectorAll('#monthSelect option');
+            monthOptions.forEach((opt, idx) => {
+                if (t[`m${idx}`]) opt.textContent = t[`m${idx}`];
+            });
+
             updateStatsLabels();
             renderCalendar();
         }
@@ -1287,7 +1584,7 @@
         }
 
         // Init
-        changeLanguage('uk');
+        changeLanguage(currentLang);
         updateCurrencySymbols();
         updateStatsLabels();
         renderCalendar();
