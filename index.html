@@ -21,7 +21,7 @@
             <h1 class="text-xl sm:text-2xl font-bold flex items-center gap-2">
                 📈 <span data-i18n="title">Calendar Trading Pro</span>
             </h1>
-            <div class="flex flex-wrap gap-2 sm:gap-4 items-center justify-center">
+            <div class="flex flex-wrap gap-2 sm:gap-3 items-center justify-center">
                 <!-- Вибір валюти / крипти -->
                 <select id="currencySelect" class="bg-slate-900 border border-slate-700 rounded px-2.5 py-1.5 text-xs sm:text-sm focus:outline-none focus:border-blue-500 text-emerald-400 font-medium">
                     <optgroup label="Fiat Currencies">
@@ -50,53 +50,21 @@
                     </optgroup>
                 </select>
 
-                <!-- Вибір європейських мов -->
+                <!-- Вибір мов -->
                 <select id="langSelect" class="bg-slate-900 border border-slate-700 rounded px-2.5 py-1.5 text-xs sm:text-sm focus:outline-none focus:border-blue-500 text-blue-400 font-medium max-h-48 overflow-y-auto">
                     <option value="en" selected>English (English)</option>
                     <option value="uk">Українська (Ukrainian)</option>
-                    <option value="sq">Shqip (Albanian)</option>
-                    <option value="hy">Հայերեն (Armenian)</option>
-                    <option value="az">Azərbaycan (Azerbaijani)</option>
-                    <option value="eu">Euskara (Basque)</option>
-                    <option value="be">Беларуская (Belarusian)</option>
-                    <option value="bs">Bosanski (Bosnian)</option>
-                    <option value="bg">Български (Bulgarian)</option>
-                    <option value="hr">Hrvatski (Croatian)</option>
-                    <option value="cs">Čeština (Czech)</option>
-                    <option value="da">Dansk (Danish)</option>
-                    <option value="nl">Nederlands (Dutch)</option>
-                    <option value="et">Eesti (Estonian)</option>
-                    <option value="fi">Suomi (Finnish)</option>
-                    <option value="fr">Français (French)</option>
-                    <option value="ka">ქართული (Georgian)</option>
                     <option value="de">Deutsch (German)</option>
-                    <option value="el">Ελληνικά (Greek)</option>
-                    <option value="hu">Magyar (Hungarian)</option>
-                    <option value="is">Íslenska (Icelandic)</option>
-                    <option value="ga">Gaeilge (Irish)</option>
-                    <option value="it">Italiano (Italian)</option>
-                    <option value="lv">Latviešu (Latvian)</option>
-                    <option value="lt">Lietuvių (Lithuanian)</option>
-                    <option value="lb">Lëtzebuergesch (Luxembourgish)</option>
-                    <option value="mk">Македонски (Macedonian)</option>
-                    <option value="mt">Malti (Maltese)</option>
-                    <option value="no">Norsk (Norwegian)</option>
-                    <option value="pl">Polski (Polish)</option>
-                    <option value="pt">Português (Portuguese)</option>
-                    <option value="ro">Română (Romanian)</option>
-                    <option value="ru">Русский (Russian)</option>
-                    <option value="sr">Српски (Serbian)</option>
-                    <option value="sk">Slovenčina (Slovak)</option>
-                    <option value="sl">Slovenščina (Slovenian)</option>
-                    <option value="es">Español (Spanish)</option>
-                    <option value="sv">Svenska (Swedish)</option>
-                    <option value="tr">Türkçe (Turkish)</option>
-                    <option value="cy">Cymraeg (Welsh)</option>
                 </select>
 
                 <button id="openChartBtn" class="bg-blue-600/30 hover:bg-blue-600/50 text-blue-300 border border-blue-500/50 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-colors flex items-center gap-1.5">
                     📊 <span data-i18n="equityCurve">Equity Curve</span>
                 </button>
+
+                <button id="openTradesHistoryBtn" class="bg-purple-600/30 hover:bg-purple-600/50 text-purple-300 border border-purple-500/50 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-colors flex items-center gap-1.5">
+                    📜 <span data-i18n="tradesHistory">Trades History</span>
+                </button>
+
                 <div class="flex items-center gap-1 bg-slate-900 border border-slate-700 rounded px-2.5 py-1 text-xs sm:text-sm">
                     <span class="text-slate-400"><span data-i18n="balance">Balance</span> (<span class="currSymbol">$</span>):</span>
                     <input type="number" id="startBalanceInput" value="1000" class="bg-transparent text-slate-100 font-bold w-20 text-right focus:outline-none">
@@ -259,10 +227,23 @@
         </div>
     </div>
 
+    <!-- Модальне вікно: Історія всіх угод (Trades History) -->
+    <div id="tradesHistoryModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden z-50 flex items-center justify-center p-2 sm:p-4">
+        <div class="bg-slate-900 border border-slate-800 w-full max-w-3xl rounded-2xl p-4 sm:p-6 shadow-2xl relative max-h-[90vh] flex flex-col">
+            <button id="closeTradesHistoryModal" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl font-bold">&times;</button>
+            <h3 class="text-base sm:text-lg font-bold text-purple-400 mb-4 flex items-center gap-2">
+                📜 <span data-i18n="tradesHistoryTitle">Trades History (Newest First)</span>
+            </h3>
+            <div id="allTradesListContainer" class="space-y-3 overflow-y-auto pr-1 flex-1">
+                <!-- Угоди генеруються динамічно -->
+            </div>
+        </div>
+    </div>
+
     <script>
         const translations = {
             en: {
-                title: "Calendar Trading Pro", equityCurve: "Equity Curve", balance: "Balance",
+                title: "Calendar Trading Pro", equityCurve: "Equity Curve", tradesHistory: "Trades History", balance: "Balance",
                 currBalance: "Current Balance", totalPnl: "Total P&L", monthPnl: "Month P&L", weekPnl: "Week P&L",
                 winLossDays: "Green / Red Days", winRateDays: "Winrate Days", winRateMonth: "Winrate Month", winRateWeek: "Winrate Week",
                 recordDay: "➕ Log Day", date: "Date", netPnl: "Net P&L", tradesCount: "Trades Count",
@@ -270,6 +251,7 @@
                 exportBackup: "📥 Save Backup File", importBackup: "📤 Restore from File",
                 dayTotalPnl: "Day Total P&L", tradesDetails: "Trades Details:", addTrade: "+ Add Trade",
                 saveChanges: "Save Changes", deleteDay: "Delete Day", equityCurveTitle: "📊 Equity Curve",
+                tradesHistoryTitle: "📜 Trades History (Newest First)",
                 tfDays: "By Days", tfWeeks: "By Weeks", tfMonths: "By Months",
                 viewMonth: "Month", viewWeek: "Week",
                 weekDays: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
@@ -278,7 +260,7 @@
                 m6: "July", m7: "August", m8: "September", m9: "October", m10: "November", m11: "December"
             },
             uk: {
-                title: "Calendar Trading Pro", equityCurve: "Крива балансу", balance: "Баланс",
+                title: "Calendar Trading Pro", equityCurve: "Крива балансу", tradesHistory: "Історія угод", balance: "Баланс",
                 currBalance: "Поточний баланс", totalPnl: "Загальний P&L", monthPnl: "P&L місяця", weekPnl: "P&L тижня",
                 winLossDays: "Зел / Черв дні", winRateDays: "Вінрейт днів", winRateMonth: "Вінрейт місяця", winRateWeek: "Вінрейт тижня",
                 recordDay: "➕ Записати день", date: "Дата", netPnl: "Чистий P&L", tradesCount: "Кількість угод",
@@ -286,6 +268,7 @@
                 exportBackup: "📥 Зберегти файл бекапу", importBackup: "📤 Відновити з файлу",
                 dayTotalPnl: "Загальний P&L дня", tradesDetails: "Деталі угод за день:", addTrade: "+ Додати угоду",
                 saveChanges: "Зберегти зміни", deleteDay: "Видалити день", equityCurveTitle: "📊 Крива балансу (Equity Curve)",
+                tradesHistoryTitle: "📜 Історія угод (Нові зверху)",
                 tfDays: "По днях", tfWeeks: "По тижнях", tfMonths: "По місяцях",
                 viewMonth: "Місяць", viewWeek: "Тиждень",
                 weekDays: ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Нд"],
@@ -294,7 +277,7 @@
                 m6: "Липень", m7: "Серпень", m8: "Вересень", m9: "Жовтень", m10: "Листопад", m11: "Грудень"
             },
             de: {
-                title: "Calendar Trading Pro", equityCurve: "Equity-Kurve", balance: "Kontostand",
+                title: "Calendar Trading Pro", equityCurve: "Equity-Kurve", tradesHistory: "Trade-Historie", balance: "Kontostand",
                 currBalance: "Aktuelles Guthaben", totalPnl: "Gesamt P&L", monthPnl: "Monat P&L", weekPnl: "Woche P&L",
                 winLossDays: "Grüne / Rote Tage", winRateDays: "Trefferquote", winRateMonth: "Trefferquote Monat", winRateWeek: "Trefferquote Woche",
                 recordDay: "➕ Tag eintragen", date: "Datum", netPnl: "Netto P&L", tradesCount: "Anzahl Trades",
@@ -302,6 +285,7 @@
                 exportBackup: "📥 Backup Speichern", importBackup: "📤 Wiederherstellen",
                 dayTotalPnl: "Tages P&L", tradesDetails: "Trade-Details:", addTrade: "+ Trade hinzufügen",
                 saveChanges: "Änderungen Speichern", deleteDay: "Tag Löschen", equityCurveTitle: "📊 Equity-Kurve",
+                tradesHistoryTitle: "📜 Trade-Historie (Neueste zuerst)",
                 tfDays: "Nach Tagen", tfWeeks: "Nach Wochen", tfMonths: "Nach Monaten",
                 viewMonth: "Monat", viewWeek: "Woche",
                 weekDays: ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"],
@@ -335,7 +319,7 @@
             changeLanguage(e.target.value);
         });
 
-        // Управління валютою / криптою
+        // Управління валютою
         let currentCurrency = localStorage.getItem('currentCurrency') || '$';
         const currencySelect = document.getElementById('currencySelect');
         currencySelect.value = currentCurrency;
@@ -662,6 +646,10 @@
             const lots = tradeData.lots !== undefined ? tradeData.lots : '0.01';
             const openPrice = tradeData.openPrice !== undefined ? tradeData.openPrice : '';
             const closePrice = tradeData.closePrice !== undefined ? tradeData.closePrice : '';
+            const stopLoss = tradeData.stopLoss !== undefined ? tradeData.stopLoss : '';
+            const takeProfit = tradeData.takeProfit !== undefined ? tradeData.takeProfit : '';
+            const isSlHit = tradeData.isSlHit || false;
+            const isTpHit = tradeData.isTpHit || false;
             const comm = tradeData.comm !== undefined ? tradeData.comm : '0';
             const pnl = tradeData.pnl !== undefined ? tradeData.pnl : '0.00';
 
@@ -699,7 +687,7 @@
                         <button type="button" class="text-rose-400 hover:text-rose-300 font-bold px-1.5 text-sm remove-row-btn">&times;</button>
                     </div>
                 </div>
-                <div class="grid grid-cols-4 gap-2 text-[10px] text-slate-400 pt-1">
+                <div class="grid grid-cols-3 sm:grid-cols-6 gap-2 text-[10px] text-slate-400 pt-1">
                     <div>
                         <span class="block mb-0.5">Lots</span>
                         <input type="number" step="0.01" class="modal-trade-lots w-full bg-slate-900 border border-slate-700 rounded p-1 text-xs text-slate-100" value="${lots}">
@@ -713,9 +701,27 @@
                         <input type="number" step="any" class="modal-trade-close w-full bg-slate-900 border border-slate-700 rounded p-1 text-xs text-slate-100" value="${closePrice}">
                     </div>
                     <div>
+                        <span class="block mb-0.5">Stop Loss</span>
+                        <input type="number" step="any" class="modal-trade-sl w-full bg-slate-900 border border-slate-700 rounded p-1 text-xs text-slate-100" value="${stopLoss}" placeholder="SL">
+                    </div>
+                    <div>
+                        <span class="block mb-0.5">Take Profit</span>
+                        <input type="number" step="any" class="modal-trade-tp w-full bg-slate-900 border border-slate-700 rounded p-1 text-xs text-slate-100" value="${takeProfit}" placeholder="TP">
+                    </div>
+                    <div>
                         <span class="block mb-0.5">Comm.</span>
                         <input type="number" step="0.01" class="modal-trade-comm w-full bg-slate-900 border border-slate-700 rounded p-1 text-xs text-slate-100" value="${comm}">
                     </div>
+                </div>
+                <div class="flex items-center gap-4 pt-1">
+                    <label class="flex items-center gap-1.5 text-[11px] text-rose-400 font-medium cursor-pointer">
+                        <input type="checkbox" class="modal-trade-sl-hit rounded bg-slate-900 border-slate-700 focus:ring-0" ${isSlHit ? 'checked' : ''}>
+                        Closed by SL
+                    </label>
+                    <label class="flex items-center gap-1.5 text-[11px] text-emerald-400 font-medium cursor-pointer">
+                        <input type="checkbox" class="modal-trade-tp-hit rounded bg-slate-900 border-slate-700 focus:ring-0" ${isTpHit ? 'checked' : ''}>
+                        Closed by TP
+                    </label>
                 </div>
             `;
 
@@ -754,6 +760,10 @@
                 const lots = parseFloat(r.querySelector('.modal-trade-lots').value) || 0;
                 const openPrice = parseFloat(r.querySelector('.modal-trade-open').value) || 0;
                 const closePrice = parseFloat(r.querySelector('.modal-trade-close').value) || 0;
+                const stopLoss = parseFloat(r.querySelector('.modal-trade-sl').value) || 0;
+                const takeProfit = parseFloat(r.querySelector('.modal-trade-tp').value) || 0;
+                const isSlHit = r.querySelector('.modal-trade-sl-hit').checked;
+                const isTpHit = r.querySelector('.modal-trade-tp-hit').checked;
                 const comm = parseFloat(r.querySelector('.modal-trade-comm').value) || 0;
                 
                 let p = 0;
@@ -762,7 +772,7 @@
                     p = diff * lots * 100 - comm;
                 }
 
-                trades.push({ type, symbol, leverage, lots, openPrice, closePrice, comm, pnl: p });
+                trades.push({ type, symbol, leverage, lots, openPrice, closePrice, stopLoss, takeProfit, isSlHit, isTpHit, comm, pnl: p });
                 totalPnl += p;
             });
 
@@ -822,7 +832,7 @@
             }
         });
 
-        // Chart Modal logic
+        // Chart Modal Logic
         const chartModal = document.getElementById('chartModal');
         let equityChartInstance = null;
         let currentChartTimeframe = 'days';
@@ -855,13 +865,16 @@
             
             let labels = [];
             let dataPoints = [];
+            let pointColors = [];
             let currentEquity = startBalance;
 
             if (timeframe === 'days') {
                 sortedDates.forEach(dateStr => {
-                    currentEquity += parseFloat(tradingData[dateStr].pnl || 0);
+                    const dayPnl = parseFloat(tradingData[dateStr].pnl || 0);
+                    currentEquity += dayPnl;
                     labels.push(dateStr);
                     dataPoints.push(currentEquity);
+                    pointColors.push(dayPnl >= 0 ? '#10b981' : '#f43f5e');
                 });
             } else if (timeframe === 'weeks') {
                 let groupedWeeks = {};
@@ -876,22 +889,26 @@
                 });
 
                 Object.keys(groupedWeeks).sort().forEach(weekKey => {
-                    currentEquity += groupedWeeks[weekKey];
+                    const weekPnl = groupedWeeks[weekKey];
+                    currentEquity += weekPnl;
                     labels.push(`Week: ${weekKey}`);
                     dataPoints.push(currentEquity);
+                    pointColors.push(weekPnl >= 0 ? '#10b981' : '#f43f5e');
                 });
             } else if (timeframe === 'months') {
                 let groupedMonths = {};
                 sortedDates.forEach(dateStr => {
-                    const monthKey = dateStr.substring(0, 7); // YYYY-MM
+                    const monthKey = dateStr.substring(0, 7);
                     if (!groupedMonths[monthKey]) groupedMonths[monthKey] = 0;
                     groupedMonths[monthKey] += parseFloat(tradingData[dateStr].pnl || 0);
                 });
 
                 Object.keys(groupedMonths).sort().forEach(monthKey => {
-                    currentEquity += groupedMonths[monthKey];
+                    const monthPnl = groupedMonths[monthKey];
+                    currentEquity += monthPnl;
                     labels.push(`Month: ${monthKey}`);
                     dataPoints.push(currentEquity);
+                    pointColors.push(monthPnl >= 0 ? '#10b981' : '#f43f5e');
                 });
             }
 
@@ -899,10 +916,8 @@
                 equityChartInstance.destroy();
             }
 
-            // Визначення кольору кривої (зелений при загальному прибутку, червоний при збитку)
             const isProfitable = dataPoints.length > 0 ? (dataPoints[dataPoints.length - 1] >= startBalance) : true;
-            const lineColor = isProfitable ? '#10b981' : '#f43f5e'; // Emerald-500 або Rose-500
-            const bgColor = isProfitable ? 'rgba(16, 185, 129, 0.1)' : 'rgba(244, 63, 94, 0.1)';
+            const lineColor = isProfitable ? '#3b82f6' : '#64748b';
 
             equityChartInstance = new Chart(ctx, {
                 type: 'line',
@@ -912,11 +927,14 @@
                         label: `Equity (${currentCurrency})`,
                         data: dataPoints.length > 0 ? dataPoints : [startBalance],
                         borderColor: lineColor,
-                        backgroundColor: bgColor,
-                        borderWidth: 2.5,
+                        backgroundColor: 'rgba(59, 130, 246, 0.08)',
+                        borderWidth: 2,
                         fill: true,
                         tension: 0.1,
-                        pointBackgroundColor: lineColor
+                        pointBackgroundColor: pointColors.length > 0 ? pointColors : ['#3b82f6'],
+                        pointBorderColor: pointColors.length > 0 ? pointColors : ['#3b82f6'],
+                        pointRadius: 5,
+                        pointHoverRadius: 7
                     }]
                 },
                 options: {
@@ -931,13 +949,97 @@
             });
         }
 
+        // Trades History Modal Logic
+        const tradesHistoryModal = document.getElementById('tradesHistoryModal');
+        const allTradesListContainer = document.getElementById('allTradesListContainer');
+
+        document.getElementById('openTradesHistoryBtn').addEventListener('click', () => {
+            renderTradesHistory();
+            tradesHistoryModal.classList.remove('hidden');
+        });
+
+        document.getElementById('closeTradesHistoryModal').addEventListener('click', () => {
+            tradesHistoryModal.classList.add('hidden');
+        });
+
+        function renderTradesHistory() {
+            allTradesListContainer.innerHTML = '';
+            
+            let allTrades = [];
+            Object.keys(tradingData).forEach(dateStr => {
+                const dayObj = tradingData[dateStr];
+                if (dayObj.trades && dayObj.trades.length > 0) {
+                    dayObj.trades.forEach(tr => {
+                        allTrades.push({ ...tr, date: dateStr, dayNote: dayObj.note });
+                    });
+                } else if (dayObj.pnl !== undefined && dayObj.pnl !== '') {
+                    allTrades.push({
+                        date: dateStr,
+                        pnl: parseFloat(dayObj.pnl),
+                        symbol: 'General Day Log',
+                        type: dayObj.pnl >= 0 ? 'Profit' : 'Loss',
+                        lots: '-',
+                        openPrice: '-',
+                        closePrice: '-',
+                        stopLoss: '-',
+                        takeProfit: '-',
+                        isSlHit: false,
+                        isTpHit: false,
+                        dayNote: dayObj.note
+                    });
+                }
+            });
+
+            // Сортування: новіші зверху
+            allTrades.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            if (allTrades.length === 0) {
+                allTradesListContainer.innerHTML = `<p class="text-center text-slate-500 py-8 italic">No trades recorded yet.</p>`;
+                return;
+            }
+
+            allTrades.forEach(tr => {
+                const isWin = tr.pnl >= 0;
+                const card = document.createElement('div');
+                card.className = `p-3.5 rounded-xl border ${isWin ? 'bg-emerald-950/20 border-emerald-800/40' : 'bg-rose-950/20 border-rose-800/40'} space-y-2`;
+                
+                let exitStatus = `<span class="font-medium text-emerald-400">Manual ✋</span>`;
+                if (tr.isTpHit) exitStatus = `<span class="font-bold text-emerald-400">Take Profit 🎯</span>`;
+                else if (tr.isSlHit) exitStatus = `<span class="font-bold text-rose-400">Stop Loss 🛑</span>`;
+
+                card.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-bold text-slate-300">${tr.date}</span>
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold ${tr.type === 'Long' ? 'bg-blue-600/30 text-blue-400 border border-blue-500/30' : tr.type === 'Short' ? 'bg-amber-600/30 text-amber-400 border border-amber-500/30' : 'bg-slate-800 text-slate-300'}">${tr.type}</span>
+                            <span class="text-xs font-bold text-slate-100">${tr.symbol || 'XAUUSD'}</span>
+                            ${tr.leverage ? `<span class="text-[10px] text-slate-400 bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">${tr.leverage}</span>` : ''}
+                        </div>
+                        <div class="text-right">
+                            <span class="text-sm font-bold ${isWin ? 'text-emerald-400' : 'text-rose-400'}">${isWin ? '+' : ''}${parseFloat(tr.pnl || 0).toFixed(2)} ${currentCurrency}</span>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-6 gap-2 text-[11px] bg-slate-950/60 p-2 rounded-lg border border-slate-800/55">
+                        <div><span class="text-slate-500 block">Lots:</span> <span class="font-medium text-slate-200">${tr.lots || '-'}</span></div>
+                        <div><span class="text-slate-500 block">Open:</span> <span class="font-medium text-slate-200">${tr.openPrice || '-'}</span></div>
+                        <div><span class="text-slate-500 block">Close:</span> <span class="font-medium text-slate-200">${tr.closePrice || '-'}</span></div>
+                        <div><span class="text-slate-500 block">SL:</span> <span class="font-medium text-slate-200">${tr.stopLoss || '-'}</span></div>
+                        <div><span class="text-slate-500 block">TP:</span> <span class="font-medium text-slate-200">${tr.takeProfit || '-'}</span></div>
+                        <div><span class="text-slate-500 block">Exit:</span> ${exitStatus}</div>
+                    </div>
+                    ${tr.dayNote ? `<div class="text-xs text-slate-400 italic">Note: ${tr.dayNote}</div>` : ''}
+                `;
+                allTradesListContainer.appendChild(card);
+            });
+        }
+
         // Init
         updateCurrencySymbols();
         updateStatsLabels();
         renderCalendar();
     </script>
 
-    <!-- Надійна реєстрація сервіс-воркера -->
+    <!-- Реєстрація сервіс-воркера -->
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
@@ -946,12 +1048,8 @@
                     : './sw.js';
 
                 navigator.serviceWorker.register(swUrl)
-                    .then(registration => {
-                        console.log('✅ ServiceWorker успішно зареєстровано з областю:', registration.scope);
-                    })
-                    .catch(error => {
-                        console.error('❌ Помилка реєстрації ServiceWorker:', error);
-                    });
+                    .then(registration => console.log('✅ ServiceWorker registered:', registration.scope))
+                    .catch(error => console.error('❌ ServiceWorker error:', error));
             });
         }
     </script>
