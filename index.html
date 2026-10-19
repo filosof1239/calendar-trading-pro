@@ -454,7 +454,7 @@
                             <option value="Short" ${type === 'Short' ? 'selected' : ''}>Short</option>
                         </select>
                         
-                        <!-- Інструмент: можна вибрати зі списку або ввести свою назву -->
+                        <!-- Інструмент: можна вибрати зі списку або вписати свою назву -->
                         <input type="text" list="commonSymbols" class="modal-trade-symbol bg-slate-900 border border-slate-700 rounded p-1.5 text-xs text-slate-100 font-medium w-24 focus:outline-none" value="${symbol}" placeholder="Symbol">
                         <datalist id="commonSymbols">
                             <option value="XAUUSD">
@@ -534,7 +534,7 @@
 
             rows.forEach(r => {
                 const type = r.querySelector('.modal-trade-type').value;
-                const symbol = r.querySelector('.modal-trade-symbol').value || 'CUSTOM';
+                const symbol = r.querySelector('.modal-trade-symbol').value || 'XAUUSD';
                 const leverage = r.querySelector('.modal-trade-lev').value;
                 const lots = parseFloat(r.querySelector('.modal-trade-lots').value) || 0;
                 const openPrice = parseFloat(r.querySelector('.modal-trade-open').value) || 0;
@@ -679,10 +679,14 @@
         // Init
         renderCalendar();
     </script>
-   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/calendar-trading-pro/sw.js')
-        .then(() => console.log('Service Worker зареєстровано'))
-        .catch((err) => console.log('Помилка реєстрації SW:', err));
-}
+
+    <!-- Правильна реєстрація сервіс-воркера -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/calendar-trading-pro/sw.js')
+                .then(() => console.log('Service Worker зареєстровано'))
+                .catch((err) => console.log('Помилка реєстрації SW:', err));
+        }
+    </script>
 </body>
 </html>
