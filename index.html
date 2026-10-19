@@ -367,9 +367,9 @@
         const calendarGrid = document.getElementById('calendarGrid');
         const weekDaysHeader = document.getElementById('weekDaysHeader');
         
-        let currentViewMode = 'month'; // 'month' або 'week'
+        let currentViewMode = 'month';
         let currentWeekBaseDate = new Date(2026, 9, 1);
-        let activeWeekDatesList = []; // Зберігає дати поточного відображуваного тижня
+        let activeWeekDatesList = [];
         
         const viewMonthBtn = document.getElementById('viewMonthBtn');
         const viewWeekBtn = document.getElementById('viewWeekBtn');
@@ -541,7 +541,6 @@
             const month = parseInt(monthSelect.value);
 
             if (currentViewMode === 'month') {
-                // Статистика за вибраний місяць
                 const totalDaysInMonth = new Date(year, month + 1, 0).getDate();
                 for (let d = 1; d <= totalDaysInMonth; d++) {
                     const dateStr = `${year}-${pad(month + 1)}-${pad(d)}`;
@@ -554,7 +553,6 @@
                     }
                 }
             } else {
-                // Статистика за поточний тиждень
                 activeWeekDatesList.forEach(d => {
                     const dateStr = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
                     const dayData = tradingData[dateStr];
@@ -567,7 +565,6 @@
                 });
             }
 
-            // Розрахунок загального балансу по всій базі угод для правильного відображення в балансі
             let globalTotalPnl = 0;
             Object.values(tradingData).forEach(d => {
                 globalTotalPnl += parseFloat(d.pnl) || 0;
@@ -828,10 +825,11 @@
         // Chart Modal logic
         const chartModal = document.getElementById('chartModal');
         let equityChartInstance = null;
+        let currentChartTimeframe = 'days';
 
         document.getElementById('openChartBtn').addEventListener('click', () => {
             chartModal.classList.remove('hidden');
-            renderEquityChart('days');
+            renderEquityChart(currentChartTimeframe);
         });
 
         document.getElementById('closeChartModal').addEventListener('click', () => {
@@ -846,7 +844,8 @@
                 });
                 e.target.classList.add('bg-blue-600', 'text-white');
                 e.target.classList.remove('text-slate-400');
-                renderEquityChart(e.target.getAttribute('data-tf'));
+                currentChartTimeframe = e.target.getAttribute('data-tf');
+                renderEquityChart(currentChartTimeframe);
             });
         });
 
@@ -858,15 +857,52 @@
             let dataPoints = [];
             let currentEquity = startBalance;
 
-            sortedDates.forEach(dateStr => {
-                currentEquity += parseFloat(tradingData[dateStr].pnl || 0);
-                labels.push(dateStr);
-                dataPoints.push(currentEquity);
-            });
+            if (timeframe === 'days') {
+                sortedDates.forEach(dateStr => {
+                    currentEquity += parseFloat(tradingData[dateStr].pnl || 0);
+                    labels.push(dateStr);
+                    dataPoints.push(currentEquity);
+                });
+            } else if (timeframe === 'weeks') {
+                let groupedWeeks = {};
+                sortedDates.forEach(dateStr => {
+                    const d = new Date(dateStr);
+                    const dayOfWeek = (d.getDay() + 6) % 7;
+                    const weekStart = new Date(d.getTime() - (dayOfWeek * 24 * 60 * 60 * 1000));
+                    const weekKey = `${weekStart.getFullYear()}-${pad(weekStart.getMonth() + 1)}-${pad(weekStart.getDate())}`;
+                    
+                    if (!groupedWeeks[weekKey]) groupedWeeks[weekKey] = 0;
+                    groupedWeeks[weekKey] += parseFloat(tradingData[dateStr].pnl || 0);
+                });
+
+                Object.keys(groupedWeeks).sort().forEach(weekKey => {
+                    currentEquity += groupedWeeks[weekKey];
+                    labels.push(`Week: ${weekKey}`);
+                    dataPoints.push(currentEquity);
+                });
+            } else if (timeframe === 'months') {
+                let groupedMonths = {};
+                sortedDates.forEach(dateStr => {
+                    const monthKey = dateStr.substring(0, 7); // YYYY-MM
+                    if (!groupedMonths[monthKey]) groupedMonths[monthKey] = 0;
+                    groupedMonths[monthKey] += parseFloat(tradingData[dateStr].pnl || 0);
+                });
+
+                Object.keys(groupedMonths).sort().forEach(monthKey => {
+                    currentEquity += groupedMonths[monthKey];
+                    labels.push(`Month: ${monthKey}`);
+                    dataPoints.push(currentEquity);
+                });
+            }
 
             if (equityChartInstance) {
                 equityChartInstance.destroy();
             }
+
+            // Визначення кольору кривої (зелений при загальному прибутку, червоний при збитку)
+            const isProfitable = dataPoints.length > 0 ? (dataPoints[dataPoints.length - 1] >= startBalance) : true;
+            const lineColor = isProfitable ? '#10b981' : '#f43f5e'; // Emerald-500 або Rose-500
+            const bgColor = isProfitable ? 'rgba(16, 185, 129, 0.1)' : 'rgba(244, 63, 94, 0.1)';
 
             equityChartInstance = new Chart(ctx, {
                 type: 'line',
@@ -875,11 +911,12 @@
                     datasets: [{
                         label: `Equity (${currentCurrency})`,
                         data: dataPoints.length > 0 ? dataPoints : [startBalance],
-                        borderColor: '#3b82f6',
-                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                        borderWidth: 2,
+                        borderColor: lineColor,
+                        backgroundColor: bgColor,
+                        borderWidth: 2.5,
                         fill: true,
-                        tension: 0.1
+                        tension: 0.1,
+                        pointBackgroundColor: lineColor
                     }]
                 },
                 options: {
