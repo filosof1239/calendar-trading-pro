@@ -50,11 +50,50 @@
                     </optgroup>
                 </select>
 
-                <!-- Вибір мов -->
+                <!-- Вибір мов (Європейські + Китайська + Японська) -->
                 <select id="langSelect" class="bg-slate-900 border border-slate-700 rounded px-2.5 py-1.5 text-xs sm:text-sm focus:outline-none focus:border-blue-500 text-blue-400 font-medium max-h-48 overflow-y-auto">
                     <option value="en" selected>English (English)</option>
                     <option value="uk">Українська (Ukrainian)</option>
                     <option value="de">Deutsch (German)</option>
+                    <option value="es">Español (Spanish)</option>
+                    <option value="fr">Français (French)</option>
+                    <option value="it">Italiano (Italian)</option>
+                    <option value="pl">Polski (Polish)</option>
+                    <option value="pt">Português (Portuguese)</option>
+                    <option value="nl">Nederlands (Dutch)</option>
+                    <option value="ru">Русский (Russian)</option>
+                    <option value="cs">Čeština (Czech)</option>
+                    <option value="el">Ελληνικά (Greek)</option>
+                    <option value="hu">Magyar (Hungarian)</option>
+                    <option value="ro">Română (Romanian)</option>
+                    <option value="sv">Svenska (Swedish)</option>
+                    <option value="bg">Български (Bulgarian)</option>
+                    <option value="da">Dansk (Danish)</option>
+                    <option value="fi">Suomi (Finnish)</option>
+                    <option value="hr">Hrvatski (Croatian)</option>
+                    <option value="sk">Slovenčina (Slovak)</option>
+                    <option value="sl">Slovenščina (Slovenian)</option>
+                    <option value="et">Eesti (Estonian)</option>
+                    <option value="lv">Latviešu (Latvian)</option>
+                    <option value="lt">Lietuvių (Lithuanian)</option>
+                    <option value="no">Norsk (Norwegian)</option>
+                    <option value="sr">Српски (Serbian)</option>
+                    <option value="sq">Shqip (Albanian)</option>
+                    <option value="hy">Հայերեն (Armenian)</option>
+                    <option value="az">Azərbaycan (Azerbaijani)</option>
+                    <option value="eu">Euskara (Basque)</option>
+                    <option value="be">Беларуская (Belarusian)</option>
+                    <option value="bs">Bosanski (Bosnian)</option>
+                    <option value="ka">ქართული (Georgian)</option>
+                    <option value="ga">Gaeilge (Irish)</option>
+                    <option value="is">Íslenska (Icelandic)</option>
+                    <option value="lb">Lëtzebuergesch (Luxembourgish)</option>
+                    <option value="mk">Македонски (Macedonian)</option>
+                    <option value="mt">Malti (Maltese)</option>
+                    <option value="tr">Türkçe (Turkish)</option>
+                    <option value="cy">Cymraeg (Welsh)</option>
+                    <option value="zh">中文 (Chinese)</option>
+                    <option value="ja">日本語 (Japanese)</option>
                 </select>
 
                 <button id="openChartBtn" class="bg-blue-600/30 hover:bg-blue-600/50 text-blue-300 border border-blue-500/50 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-colors flex items-center gap-1.5">
@@ -362,10 +401,45 @@
                 fullWeekDays: ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"],
                 m0: "Januar", m1: "Februar", m2: "März", m3: "April", m4: "Mai", m5: "Juni",
                 m6: "Juli", m7: "August", m8: "September", m9: "Oktober", m10: "November", m11: "Dezember"
+            },
+            zh: {
+                title: "交易日历专业版", equityCurve: "资金曲线", tradesHistory: "交易历史", balance: "余额",
+                currBalance: "当前余额", totalPnl: "总盈亏", monthPnl: "本月盈亏", weekPnl: "本周盈亏",
+                winLossDays: "盈利/亏损天数", winRateDays: "天胜率", winRateMonth: "月胜率", winRateWeek: "周胜率",
+                recordDay: "➕ 记录交易日", date: "日期", netPnl: "净盈亏", tradesCount: "交易次数",
+                notePsychology: "笔记 / 心理", saveDay: "保存日期", syncBackup: "💾 同步 / 备份",
+                exportBackup: "📥 保存备份文件", importBackup: "📤 从文件恢复",
+                dayTotalPnl: "当日总盈亏", tradesDetails: "交易详情：", addTrade: "+ 添加交易",
+                saveChanges: "保存更改", deleteDay: "删除日期", equityCurveTitle: "📊 资金曲线",
+                tradesHistoryTitle: "📜 交易历史（最新的在前面）",
+                tfDays: "按天", tfWeeks: "按周", tfMonths: "按月",
+                viewMonth: "月", viewWeek: "周",
+                weekDays: ["周一", "周二", "周三", "周四", "周五", "周六", "周日"],
+                fullWeekDays: ["星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"],
+                m0: "一月", m1: "二月", m2: "三月", m3: "四月", m4: "五月", m5: "六月",
+                m6: "七月", m7: "八月", m8: "九月", m9: "十月", m10: "十一月", m11: "十二月"
+            },
+            ja: {
+                title: "カレンダー・トレーディング・プロ", equityCurve: "資産曲線", tradesHistory: "取引履歴", balance: "残高",
+                currBalance: "現在の残高", totalPnl: "総損益", monthPnl: "今月の損益", weekPnl: "今週の損益",
+                winLossDays: "勝ち/負け日数", winRateDays: "日別勝率", winRateMonth: "月別勝率", winRateWeek: "週別勝率",
+                recordDay: "➕ 日付を記録", date: "日付", netPnl: "純損益", tradesCount: "取引回数",
+                notePsychology: "メモ / 心理状態", saveDay: "日を保存", syncBackup: "💾 同期 / バックアップ",
+                exportBackup: "📥 バックアップを保存", importBackup: "📤 ファイルから復元",
+                dayTotalPnl: "本日の合計損益", tradesDetails: "取引詳細：", addTrade: "+ 取引を追加",
+                saveChanges: "変更を保存", deleteDay: "日を削除", equityCurveTitle: "📊 資産曲線",
+                tradesHistoryTitle: "📜 取引履歴（新しい順）",
+                tfDays: "日別", tfWeeks: "週別", tfMonths: "月別",
+                viewMonth: "月", viewWeek: "週",
+                weekDays: ["月", "火", "水", "木", "金", "土", "日"],
+                fullWeekDays: ["月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日", "日曜日"],
+                m0: "1月", m1: "2月", m2: "3月", m3: "4月", m4: "5月", m5: "6月",
+                m6: "7月", m7: "8月", m8: "9月", m9: "10月", m10: "11月", m11: "12月"
             }
         };
 
-        const supportedLangs = ['sq','hy','az','eu','be','bs','bg','hr','cs','da','nl','et','fi','fr','ka','el','hu','is','ga','it','lv','lt','lb','mk','mt','no','pl','pt','ro','ru','sr','sk','sl','es','sv','tr','cy'];
+        // Автозаповнення базових перекладів для решти європейських мов, якщо вони не задані окремо
+        const supportedLangs = ['es','fr','it','pl','pt','nl','ru','cs','el','hu','ro','sv','bg','da','fi','hr','sk','sl','et','lv','lt','no','sr','sq','hy','az','eu','be','bs','ka','ga','is','lb','mk','mt','tr','cy'];
         supportedLangs.forEach(lang => {
             if (!translations[lang]) translations[lang] = translations.en;
         });
@@ -902,7 +976,7 @@
             tpHitCheck.addEventListener('change', () => {
                 if (tpHitCheck.checked) {
                     slHitCheck.checked = false;
-                    if (tpInput.value !== '') {
+                    if (tpInput.value !== '' && parseFloat(tpInput.value) > 0) {
                         closeInput.value = tpInput.value;
                         calcPnl();
                     }
@@ -912,7 +986,7 @@
             slHitCheck.addEventListener('change', () => {
                 if (slHitCheck.checked) {
                     tpHitCheck.checked = false;
-                    if (slInput.value !== '') {
+                    if (slInput.value !== '' && parseFloat(slInput.value) > 0) {
                         closeInput.value = slInput.value;
                         calcPnl();
                     }
@@ -930,6 +1004,7 @@
             const rows = tradesListContainer.querySelectorAll('.trade-row');
             let trades = [];
             let totalPnl = 0;
+            let manualDayPnl = parseFloat(modalPnl.value);
 
             rows.forEach(r => {
                 const type = r.querySelector('.modal-trade-type').value;
@@ -957,12 +1032,12 @@
                 totalPnl += p;
             });
 
-            if (rows.length === 0) {
-                totalPnl = parseFloat(modalPnl.value) || 0;
-            }
+            let finalPnl = (!isNaN(manualDayPnl) && modalPnl.value !== '' && (rows.length === 0 || totalPnl === 0)) 
+                ? manualDayPnl 
+                : totalPnl;
 
             tradingData[activeDate] = {
-                pnl: totalPnl,
+                pnl: finalPnl,
                 tradesCount: trades.length > 0 ? trades.length : (tradingData[activeDate]?.tradesCount || 1),
                 note: modalNote.value,
                 trades: trades
